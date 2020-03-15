@@ -3,22 +3,24 @@
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
     
-    <title>Archive: 2020/3 | hinzer&#39;s Wiki</title>
+    <title>ctags基本用法 | hinzer&#39;s Wiki</title>
     
     
-        <meta name="keywords" content="hinzer&#39;s Wiki">
+        <meta name="keywords" content="ctags">
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="学习 思考 记录 反思">
-<meta property="og:type" content="website">
-<meta property="og:title" content="hinzer&#39;s Wiki">
-<meta property="og:url" content="http://wiki.benmoom.cn/archives/2020/03/index.html">
+    <meta name="description" content="ctags是方便阅读源代码的工具。开发者在linux平台下和vim编辑器配合使用,这种策略经常被用于linux源码阅读。  开发环境123Ubuntu18.04hinzer@ubuntu:~$ uname -aLinux ubuntu 5.3.0-40-generic #32~18.04.1-Ubuntu SMP Mon Feb 3 14:05:59 UTC 2020 x86_64 x86_64">
+<meta name="keywords" content="ctags">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ctags基本用法">
+<meta property="og:url" content="http://wiki.benmoom.cn/wiki/技术开发/Linux/ctags/index.html">
 <meta property="og:site_name" content="hinzer&#39;s Wiki">
-<meta property="og:description" content="学习 思考 记录 反思">
+<meta property="og:description" content="ctags是方便阅读源代码的工具。开发者在linux平台下和vim编辑器配合使用,这种策略经常被用于linux源码阅读。  开发环境123Ubuntu18.04hinzer@ubuntu:~$ uname -aLinux ubuntu 5.3.0-40-generic #32~18.04.1-Ubuntu SMP Mon Feb 3 14:05:59 UTC 2020 x86_64 x86_64">
 <meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-03-15T23:48:50.128Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="hinzer&#39;s Wiki">
-<meta name="twitter:description" content="学习 思考 记录 反思">
+<meta name="twitter:title" content="ctags基本用法">
+<meta name="twitter:description" content="ctags是方便阅读源代码的工具。开发者在linux平台下和vim编辑器配合使用,这种策略经常被用于linux源码阅读。  开发环境123Ubuntu18.04hinzer@ubuntu:~$ uname -aLinux ubuntu 5.3.0-40-generic #32~18.04.1-Ubuntu SMP Mon Feb 3 14:05:59 UTC 2020 x86_64 x86_64">
     
 
     
@@ -159,20 +161,20 @@
         
         
          <ul class="unstyled" id="tree"> 
-                    <li class="directory">
+                    <li class="directory open">
                         <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
+                            <i class="fa fa-folder-open"></i>
                             &nbsp;
                             技术开发
                         </a>
                          <ul class="unstyled" id="tree"> 
-                    <li class="directory">
+                    <li class="directory open">
                         <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
+                            <i class="fa fa-folder-open"></i>
                             &nbsp;
                             Linux
                         </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/Linux/ctags/">ctags基本用法</a></li>  </ul> 
+                         <ul class="unstyled" id="tree">  <li class="file active"><a href="/wiki/技术开发/Linux/ctags/">ctags基本用法</a></li>  </ul> 
                     </li> 
                      </ul> 
                     </li> 
@@ -277,31 +279,26 @@
     <div id="toTop" class="fa fa-angle-up"></div>
 </aside>
             
-            <section id="main"><div class="timeline timeline-wrap">
-    
-            <div class="timeline-row timeline-row-major">
-                <span class="node"><i class="fa fa-calendar-o"></i></span>
-                <h1 class="title"><a href="/archives/2020/">2020</a></h1>
-            </div>
-    
-            <div class="timeline-row timeline-row-major">
-                <span class="node"><i class="fa fa-calendar"></i></span>
-                <h1 class="title"><a href="/archives/2020/03/">2020-03</a><span class="archive-list-count">2</span></h1>
-            </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
+            <section id="main"><article id="post-技术开发/Linux/ctags" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
                 
-    
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/wiki/技术开发/Linux/ctags/">ctags基本用法</a>
-        </h1>
-    
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/技术开发/">技术开发</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/技术开发/Linux/">Linux</a>
+    </div>
 
-                
-                <div class="article-meta">
-                    
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/ctags/">ctags</a>
+    </div>
+
+                        
     <div class="article-date">
         <i class="fa fa-calendar"></i>
         <a href="/wiki/技术开发/Linux/ctags/">
@@ -310,52 +307,85 @@
     </div>
 
 
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/技术开发/">技术开发</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/技术开发/Linux/">Linux</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/ctags/">ctags</a>
-    </div>
-
-                </div>
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                    </div>
                 
-            </div>
-        </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
                 
     
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/wiki/index/">Welcome hinzer&#39;s Wiki Site</a>
+        <h1 class="article-title" itemprop="name">
+            ctags基本用法
         </h1>
     
 
-                
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/wiki/index/">
-            <time datetime="2020-03-14T17:55:57.000Z" itemprop="datePublished">2020-03-15</time>
-        </a>
-    </div>
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+        
+        
+            <blockquote>
+<p>ctags是方便阅读源代码的工具。开发者在linux平台下和vim编辑器配合使用,这种策略经常被用于linux源码阅读。</p>
+</blockquote>
+<h2 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Ubuntu18.04</span><br><span class="line">hinzer@ubuntu:~$ uname -a</span><br><span class="line">Linux ubuntu 5.3.0-40-generic <span class="comment">#32~18.04.1-Ubuntu SMP Mon Feb 3 14:05:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span></span><br></pre></td></tr></table></figure>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>sudo apt-get install ctags -y</p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><ol>
+<li><p>在当前目录下生成索引文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hinzer@ubuntu:<span class="built_in">source</span>$ <span class="built_in">cd</span> linux-2.6.11/</span><br><span class="line">hinzer@ubuntu:linux-2.6.11$ ctags -R .	<span class="comment">#生成索引tags</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>sudo vim /etc/vim/vimrc</code>配置vim</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#添加 set tags=/home/hinzer/source/linux-2.6.11/tags;</span></span><br><span class="line">hinzer@ubuntu:~$ sudo vim ~/.vimrc</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="使用演示"><a href="#使用演示" class="headerlink" title="使用演示"></a>使用演示</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#2.6.11版本的kernel源码下载</span></span><br><span class="line">hinzer@ubuntu:<span class="built_in">source</span>$ wget -O kernel https://mirrors.edge.kernel.org/pub/linux/kernel/v2.6/linux-2.6.11.tar.gz</span><br><span class="line">hinzer@ubuntu:<span class="built_in">source</span>$ tar -xzvf kernel.tar.gz</span><br></pre></td></tr></table></figure>
+<p># 1、命令行索引tag<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hinzer@ubuntu:linux-2.6.11$ ctags -R .	<span class="comment">#生成索引tags</span></span><br><span class="line">hinzer@ubuntu:linux-2.6.11$ ll tags</span><br><span class="line">hinzer@ubuntu:linux-2.6.11$ vim -t main  <span class="comment">#查找main函数</span></span><br></pre></td></tr></table></figure></p>
+<p># 2、vim中使用ctags命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">:ts  	<span class="comment">#tagslist,列出索引list</span></span><br><span class="line">:tp 	<span class="comment">#tagspreview 上一个tag</span></span><br><span class="line">:tn 	<span class="comment">#tagsnext 下一个tag</span></span><br><span class="line"></span><br><span class="line">Ctrl+ ] 	<span class="comment">#通过光标位置 跳转到定义处</span></span><br><span class="line">Ctrl+ T 	<span class="comment">#返回上一步的光标位置</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<ul>
+<li><a href="https://baike.baidu.com/item/ctags/3470337" rel="external nofollow noopener noreferrer" target="_blank">百度百科ctags</a></li>
+<li><a href="www.kernel.org">linux kernel</a></li>
+</ul>
+</blockquote>
 
-
-                    
-                    
-                </div>
-                
             </div>
-        </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
     
-</div>
+<nav id="article-nav">
+    
+    
+        <a href="/wiki/index/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Welcome hinzer&#39;s Wiki Site</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
 </section>
         </div>
         <footer id="footer">
