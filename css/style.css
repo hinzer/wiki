@@ -2352,3 +2352,6 @@ ol.toc {
 .highlight .code .selector-id {
   font-weight: bold;
 }
+#profile {
+  float: right;
+}
