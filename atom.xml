@@ -133,9 +133,9 @@
     <link href="http://wiki.benmoom.cn/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Git/github%E6%90%9C%E7%B4%A2%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/"/>
     <id>http://wiki.benmoom.cn/wiki/技术开发/Git/github搜索开源项目/</id>
     <published>2019-12-29T11:40:58.000Z</published>
-    <updated>2020-03-16T23:38:12.545Z</updated>
+    <updated>2020-03-17T00:27:34.136Z</updated>
     
-    <content type="html"><![CDATA[<p><strong>从名字中搜关键词</strong><br>in:name spring boot  </p><p><strong>描述中搜索关键词</strong><br>in:description 微服务 </p><p><strong>追加限定条件</strong><br>stars:&gt;3000  # 限定在stars数量大于3000的项目<br>fork:&gt;50        # fork 数量<br>language:java   # 限定语言<br>pushed:&gt;2019-09-10    # 最后一次push的时间</p><p><br></p><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote><ul><li>[github官方文档-搜索]<a href="https://help.github.com/cn/github/searching-for-information-on-github" rel="external nofollow noopener noreferrer" target="_blank">https://help.github.com/cn/github/searching-for-information-on-github</a></li><li><a href="https://www.bilibili.com/video/av75587104" rel="external nofollow noopener noreferrer" target="_blank">如何高效地在网上找开源项目做！在职程序员实际演示一波视频教程</a></li></ul></blockquote>]]></content>
+    <content type="html"><![CDATA[<p><strong>从名字中搜关键词</strong><br>in:name spring boot  </p><p><strong>描述中搜索关键词</strong><br>in:description 微服务 </p><p><strong>追加限定条件</strong><br>stars:&gt;3000  # 限定在stars数量大于3000的项目<br>fork:&gt;50        # fork 数量<br>language:java   # 限定语言<br>pushed:&gt;2019-09-10    # 最后一次push的时间</p><p><br></p><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote><ul><li><a href="https://help.github.com/cn/github/searching-for-information-on-github" rel="external nofollow noopener noreferrer" target="_blank">github官方文档-搜索</a></li><li><a href="https://www.bilibili.com/video/av75587104" rel="external nofollow noopener noreferrer" target="_blank">如何高效地在网上找开源项目做！在职程序员实际演示一波视频教程</a></li></ul></blockquote>]]></content>
     
     <summary type="html">
     
