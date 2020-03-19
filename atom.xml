@@ -18,8 +18,8 @@
   
   <entry>
     <title>git merge失败</title>
-    <link href="https://hinzer.github.io/wiki/wiki/bug-for-git/"/>
-    <id>https://hinzer.github.io/wiki/wiki/bug-for-git/</id>
+    <link href="https://hinzer.github.io/wiki/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91-%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86-2020-03-20-bug-for-git/"/>
+    <id>https://hinzer.github.io/wiki/wiki/技术开发-源码管理-2020-03-20-bug-for-git/</id>
     <published>2020-03-19T16:11:37.000Z</published>
     <updated>2020-03-19T16:19:55.023Z</updated>
     
@@ -35,6 +35,10 @@
       
     
     </summary>
+    
+      <category term="技术开发" scheme="https://hinzer.github.io/wiki/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+    
+      <category term="源码管理" scheme="https://hinzer.github.io/wiki/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86/"/>
     
     
       <category term="git" scheme="https://hinzer.github.io/wiki/tags/git/"/>
