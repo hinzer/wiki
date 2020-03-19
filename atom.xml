@@ -6,7 +6,7 @@
   <link href="/wiki/atom.xml" rel="self"/>
   
   <link href="http://hinzer.github.io/wiki/"/>
-  <updated>2020-03-16T23:43:58.987Z</updated>
+  <updated>2020-03-19T12:35:55.352Z</updated>
   <id>http://hinzer.github.io/wiki/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>test</title>
+    <link href="http://hinzer.github.io/wiki/wiki/test/"/>
+    <id>http://hinzer.github.io/wiki/wiki/test/</id>
+    <published>2020-03-19T12:35:55.000Z</published>
+    <updated>2020-03-19T12:35:55.352Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="参考资料">参考资料</h2><blockquote><ul><li><a href></a></li><li><a href></a></li></ul></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;参考资料&quot;&gt;参考资料&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>小狗钱钱阅读笔记</title>
