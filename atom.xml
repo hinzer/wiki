@@ -6,7 +6,7 @@
   <link href="/wiki/atom.xml" rel="self"/>
   
   <link href="https://hinzer.github.io/wiki/"/>
-  <updated>2020-03-16T23:43:58.987Z</updated>
+  <updated>2020-03-19T16:17:07.071Z</updated>
   <id>https://hinzer.github.io/wiki/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>git merge失败</title>
+    <link href="https://hinzer.github.io/wiki/wiki/bug-for-git/"/>
+    <id>https://hinzer.github.io/wiki/wiki/bug-for-git/</id>
+    <published>2020-03-19T16:11:37.000Z</published>
+    <updated>2020-03-19T16:17:07.071Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="问题描述">问题描述</h2><p>git merge本地分支出现报错 fatal: refusing to merge unrelated histories<br><img src="http://ww1.sinaimg.cn/large/0063ewMaly1gczozf2n8ij30vn0fognf.jpg" alt="git-merge.jpg"></p><h2 id="第一反应">第一反应</h2><p>我现在都是在本地操作还没有远程，我得理解master分支merge到slave分支，应该直接fast forward过去才对。<br>如果把master分支干掉，直接在slave分支那个位置创建一个master分支应该也没什么影响。就是特别像知道为啥会出错这个merge。</p><h2 id="问题分析">问题分析</h2><p>merge命令之后报错<code>fatal: refusing to merge unrelated histories。</code>，表示当前分支和slave分支不相关。有<a href="https://yq.aliyun.com/articles/614459" rel="external nofollow noopener noreferrer" target="_blank">对应的解决方案</a><br>加上<code>--allow-unrelated-histories</code>参数，忽略这个问题。<br>然而又报错，根据进一步提示，<code>git status</code>发现当前工作目录确实存在冲突。解决完冲突commit之后，再次merge就可以了。</p><p>不记得当时具体做了什么操作了，又重新做了几遍还是没能把当时的情景复现出来(merge直接fast forward了)。后来分析应该是某种原因导致了文件冲突，进而影响之后的merge操作。</p><h2 id="解决方法">解决方法</h2><p>如果是<code>git pull</code>或者<code>git push</code>报<code>fatal: refusing to merge unrelated histories</code>,直接在merge后加上<code>--allow-unrelated-histories</code>参数就ok了<br>如果是依然无效，不妨先<code>git status</code>查看一下当前版本库的状态有无问题(我这边是冲突引起的)。</p><h2 id="参考资料">参考资料</h2><blockquote><ul><li><a href="https://yq.aliyun.com/articles/614459" rel="external nofollow noopener noreferrer" target="_blank">解决Git中fatal: refusing to merge unrelated histories</a></li></ul></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;问题描述&quot;&gt;问题描述&lt;/h2&gt;
+&lt;p&gt;git merge本地分支出现报错 fatal: refusing to merge unrelated histories&lt;br&gt;
+&lt;img src=&quot;http://ww1.sinaimg.cn/large/0063ewMa
+      
+    
+    </summary>
+    
+    
+      <category term="git" scheme="https://hinzer.github.io/wiki/tags/git/"/>
+    
+      <category term="bug" scheme="https://hinzer.github.io/wiki/tags/bug/"/>
+    
+  </entry>
   
   <entry>
     <title>小狗钱钱阅读笔记</title>
