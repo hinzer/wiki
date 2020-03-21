@@ -18,8 +18,8 @@
   
   <entry>
     <title>git 调试</title>
-    <link href="https://hinzer.github.io/wiki/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91-%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86-git%E8%B0%83%E8%AF%95/"/>
-    <id>https://hinzer.github.io/wiki/wiki/技术开发-源码管理-git调试/</id>
+    <link href="https://hinzer.github.io/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86/git%E8%B0%83%E8%AF%95/"/>
+    <id>https://hinzer.github.io/wiki/技术开发/源码管理/git调试/</id>
     <published>2020-03-20T01:20:14.000Z</published>
     <updated>2020-03-21T01:48:43.681Z</updated>
     
@@ -47,8 +47,8 @@ mi@ubuntu:base$ git blame Android.bp -L 230,231  #查看Android.bp的230-231行�
   
   <entry>
     <title>git merge失败</title>
-    <link href="https://hinzer.github.io/wiki/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91-%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86-2020-03-20-bug-for-git/"/>
-    <id>https://hinzer.github.io/wiki/wiki/技术开发-源码管理-2020-03-20-bug-for-git/</id>
+    <link href="https://hinzer.github.io/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86/2020-03-20-bug-for-git/"/>
+    <id>https://hinzer.github.io/wiki/技术开发/源码管理/2020-03-20-bug-for-git/</id>
     <published>2020-03-19T16:11:37.000Z</published>
     <updated>2020-03-21T01:45:57.911Z</updated>
     
@@ -78,8 +78,8 @@ mi@ubuntu:base$ git blame Android.bp -L 230,231  #查看Android.bp的230-231行�
   
   <entry>
     <title>git log</title>
-    <link href="https://hinzer.github.io/wiki/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91-%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86-git-log/"/>
-    <id>https://hinzer.github.io/wiki/wiki/技术开发-源码管理-git-log/</id>
+    <link href="https://hinzer.github.io/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86/git-log/"/>
+    <id>https://hinzer.github.io/wiki/技术开发/源码管理/git-log/</id>
     <published>2020-03-18T16:11:37.000Z</published>
     <updated>2020-03-21T01:46:02.455Z</updated>
     
@@ -107,8 +107,8 @@ mi@ubuntu:base$ git blame Android.bp -L 230,231  #查看Android.bp的230-231行�
   
   <entry>
     <title>git log</title>
-    <link href="https://hinzer.github.io/wiki/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91-%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86-git-merge/"/>
-    <id>https://hinzer.github.io/wiki/wiki/技术开发-源码管理-git-merge/</id>
+    <link href="https://hinzer.github.io/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86/git-merge/"/>
+    <id>https://hinzer.github.io/wiki/技术开发/源码管理/git-merge/</id>
     <published>2020-03-18T16:11:37.000Z</published>
     <updated>2020-03-21T01:46:21.544Z</updated>
     
@@ -136,8 +136,8 @@ mi@ubuntu:base$ git blame Android.bp -L 230,231  #查看Android.bp的230-231行�
   
   <entry>
     <title>git rebase</title>
-    <link href="https://hinzer.github.io/wiki/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91-%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86-git-rebase/"/>
-    <id>https://hinzer.github.io/wiki/wiki/技术开发-源码管理-git-rebase/</id>
+    <link href="https://hinzer.github.io/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86/git-rebase/"/>
+    <id>https://hinzer.github.io/wiki/技术开发/源码管理/git-rebase/</id>
     <published>2020-03-18T16:11:37.000Z</published>
     <updated>2020-03-21T01:46:45.488Z</updated>
     
@@ -165,8 +165,8 @@ mi@ubuntu:base$ git blame Android.bp -L 230,231  #查看Android.bp的230-231行�
   
   <entry>
     <title>git reset、git checkout</title>
-    <link href="https://hinzer.github.io/wiki/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91-%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86-git-reset-git-checkout/"/>
-    <id>https://hinzer.github.io/wiki/wiki/技术开发-源码管理-git-reset-git-checkout/</id>
+    <link href="https://hinzer.github.io/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86/git-reset_git-checkout/"/>
+    <id>https://hinzer.github.io/wiki/技术开发/源码管理/git-reset_git-checkout/</id>
     <published>2020-03-18T16:11:37.000Z</published>
     <updated>2020-03-21T01:46:59.080Z</updated>
     
@@ -193,8 +193,8 @@ mi@ubuntu:base$ git blame Android.bp -L 230,231  #查看Android.bp的230-231行�
   
   <entry>
     <title>git stash、git clean</title>
-    <link href="https://hinzer.github.io/wiki/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91-%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86-git-stash-git-clean/"/>
-    <id>https://hinzer.github.io/wiki/wiki/技术开发-源码管理-git-stash-git-clean/</id>
+    <link href="https://hinzer.github.io/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86/git-stash_git-clean/"/>
+    <id>https://hinzer.github.io/wiki/技术开发/源码管理/git-stash_git-clean/</id>
     <published>2020-03-18T16:11:37.000Z</published>
     <updated>2020-03-21T01:47:29.208Z</updated>
     
@@ -222,8 +222,8 @@ mi@ubuntu:base$ git blame Android.bp -L 230,231  #查看Android.bp的230-231行�
   
   <entry>
     <title>git 引用</title>
-    <link href="https://hinzer.github.io/wiki/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91-%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86-git%E5%BC%95%E7%94%A8/"/>
-    <id>https://hinzer.github.io/wiki/wiki/技术开发-源码管理-git引用/</id>
+    <link href="https://hinzer.github.io/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86/git%E5%BC%95%E7%94%A8/"/>
+    <id>https://hinzer.github.io/wiki/技术开发/源码管理/git引用/</id>
     <published>2020-03-18T16:11:37.000Z</published>
     <updated>2020-03-21T01:47:53.809Z</updated>
     
@@ -251,8 +251,8 @@ mi@ubuntu:base$ git blame Android.bp -L 230,231  #查看Android.bp的230-231行�
   
   <entry>
     <title>git 对象</title>
-    <link href="https://hinzer.github.io/wiki/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91-%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86-git%E5%AF%B9%E8%B1%A1/"/>
-    <id>https://hinzer.github.io/wiki/wiki/技术开发-源码管理-git对象/</id>
+    <link href="https://hinzer.github.io/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86/git%E5%AF%B9%E8%B1%A1/"/>
+    <id>https://hinzer.github.io/wiki/技术开发/源码管理/git对象/</id>
     <published>2020-03-18T16:11:37.000Z</published>
     <updated>2020-03-21T01:47:40.712Z</updated>
     
@@ -280,8 +280,8 @@ mi@ubuntu:base$ git blame Android.bp -L 230,231  #查看Android.bp的230-231行�
   
   <entry>
     <title>git revert</title>
-    <link href="https://hinzer.github.io/wiki/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91-%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86-git-revert/"/>
-    <id>https://hinzer.github.io/wiki/wiki/技术开发-源码管理-git-revert/</id>
+    <link href="https://hinzer.github.io/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86/git-revert/"/>
+    <id>https://hinzer.github.io/wiki/技术开发/源码管理/git-revert/</id>
     <published>2020-03-18T16:11:37.000Z</published>
     <updated>2020-03-21T01:47:13.648Z</updated>
     
@@ -309,8 +309,8 @@ mi@ubuntu:base$ git blame Android.bp -L 230,231  #查看Android.bp的230-231行�
   
   <entry>
     <title>小狗钱钱阅读笔记</title>
-    <link href="https://hinzer.github.io/wiki/wiki/%E7%94%9F%E6%B4%BB%E5%AD%A6%E4%B9%A0-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E5%B0%8F%E7%8B%97%E9%92%B1%E9%92%B1/"/>
-    <id>https://hinzer.github.io/wiki/wiki/生活学习-读书笔记-小狗钱钱/</id>
+    <link href="https://hinzer.github.io/wiki/%E7%94%9F%E6%B4%BB%E5%AD%A6%E4%B9%A0/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E5%B0%8F%E7%8B%97%E9%92%B1%E9%92%B1/"/>
+    <id>https://hinzer.github.io/wiki/生活学习/读书笔记/小狗钱钱/</id>
     <published>2020-03-16T23:42:42.000Z</published>
     <updated>2020-03-16T23:43:58.987Z</updated>
     
@@ -342,8 +342,8 @@ mi@ubuntu:base$ git blame Android.bp -L 230,231  #查看Android.bp的230-231行�
   
   <entry>
     <title>ctags基本用法</title>
-    <link href="https://hinzer.github.io/wiki/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91-%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7-ctags/"/>
-    <id>https://hinzer.github.io/wiki/wiki/技术开发-开发工具-ctags/</id>
+    <link href="https://hinzer.github.io/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B/ctags/"/>
+    <id>https://hinzer.github.io/wiki/技术开发/开发流程/ctags/</id>
     <published>2020-03-15T23:46:33.000Z</published>
     <updated>2020-03-17T17:10:50.248Z</updated>
     
@@ -364,7 +364,7 @@ mi@ubuntu:base$ git blame Android.bp -L 230,231  #查看Android.bp的230-231行�
     
       <category term="技术开发" scheme="https://hinzer.github.io/wiki/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
     
-      <category term="开发工具" scheme="https://hinzer.github.io/wiki/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
+      <category term="开发流程" scheme="https://hinzer.github.io/wiki/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B/"/>
     
     
       <category term="ctags" scheme="https://hinzer.github.io/wiki/tags/ctags/"/>
@@ -373,8 +373,8 @@ mi@ubuntu:base$ git blame Android.bp -L 230,231  #查看Android.bp的230-231行�
   
   <entry>
     <title>Welcome hinzer&#39;s Wiki Site</title>
-    <link href="https://hinzer.github.io/wiki/wiki/index/"/>
-    <id>https://hinzer.github.io/wiki/wiki/index/</id>
+    <link href="https://hinzer.github.io/wiki/index/"/>
+    <id>https://hinzer.github.io/wiki/index/</id>
     <published>2020-03-14T17:55:57.000Z</published>
     <updated>2020-03-21T01:41:44.665Z</updated>
     
@@ -397,8 +397,8 @@ mi@ubuntu:base$ git blame Android.bp -L 230,231  #查看Android.bp的230-231行�
   
   <entry>
     <title>年度总结</title>
-    <link href="https://hinzer.github.io/wiki/wiki/%E7%94%9F%E6%B4%BB%E5%AD%A6%E4%B9%A0-%E9%9A%8F%E7%AC%94%E8%AE%B0%E5%BD%95-%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/"/>
-    <id>https://hinzer.github.io/wiki/wiki/生活学习-随笔记录-年度总结/</id>
+    <link href="https://hinzer.github.io/wiki/%E7%94%9F%E6%B4%BB%E5%AD%A6%E4%B9%A0/%E9%9A%8F%E7%AC%94%E8%AE%B0%E5%BD%95/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/"/>
+    <id>https://hinzer.github.io/wiki/生活学习/随笔记录/年度总结/</id>
     <published>2019-12-31T15:59:19.000Z</published>
     <updated>2020-03-16T23:21:23.485Z</updated>
     
@@ -427,8 +427,8 @@ mi@ubuntu:base$ git blame Android.bp -L 230,231  #查看Android.bp的230-231行�
   
   <entry>
     <title>github搜索开源项目</title>
-    <link href="https://hinzer.github.io/wiki/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91-%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86-github%E6%90%9C%E7%B4%A2%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/"/>
-    <id>https://hinzer.github.io/wiki/wiki/技术开发-源码管理-github搜索开源项目/</id>
+    <link href="https://hinzer.github.io/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86/github%E6%90%9C%E7%B4%A2%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/"/>
+    <id>https://hinzer.github.io/wiki/技术开发/源码管理/github搜索开源项目/</id>
     <published>2019-12-29T11:40:58.000Z</published>
     <updated>2020-03-21T01:48:37.905Z</updated>
     
@@ -458,8 +458,8 @@ in:readme example&lt;/p&gt;
   
   <entry>
     <title>问问题的姿势</title>
-    <link href="https://hinzer.github.io/wiki/wiki/%E7%94%9F%E6%B4%BB%E5%AD%A6%E4%B9%A0-%E6%96%B9%E6%B3%95%E4%B9%A0%E6%83%AF-2020-03-21-How-To-Ask-Questions-The-Smart-Way/"/>
-    <id>https://hinzer.github.io/wiki/wiki/生活学习-方法习惯-2020-03-21-How-To-Ask-Questions-The-Smart-Way/</id>
+    <link href="https://hinzer.github.io/wiki/%E7%94%9F%E6%B4%BB%E5%AD%A6%E4%B9%A0/%E6%96%B9%E6%B3%95%E4%B9%A0%E6%83%AF/2020-03-21-How-To-Ask-Questions-The-Smart-Way/"/>
+    <id>https://hinzer.github.io/wiki/生活学习/方法习惯/2020-03-21-How-To-Ask-Questions-The-Smart-Way/</id>
     <published>2019-12-10T01:10:12.000Z</published>
     <updated>2020-03-21T01:38:13.243Z</updated>
     
@@ -491,8 +491,8 @@ in:readme example&lt;/p&gt;
   
   <entry>
     <title>「转」详谈typedef的用法</title>
-    <link href="https://hinzer.github.io/wiki/wiki/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80-typedef%E7%90%86%E8%A7%A3/"/>
-    <id>https://hinzer.github.io/wiki/wiki/计算机基础知识-编程语言-typedef理解/</id>
+    <link href="https://hinzer.github.io/wiki/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/typedef%E7%90%86%E8%A7%A3/"/>
+    <id>https://hinzer.github.io/wiki/计算机基础/编程语言/typedef理解/</id>
     <published>2019-10-09T23:42:21.000Z</published>
     <updated>2020-03-17T15:13:32.679Z</updated>
     
@@ -511,9 +511,9 @@ in:readme example&lt;/p&gt;
     
     </summary>
     
-      <category term="计算机基础知识" scheme="https://hinzer.github.io/wiki/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
+      <category term="计算机基础" scheme="https://hinzer.github.io/wiki/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/"/>
     
-      <category term="编程语言" scheme="https://hinzer.github.io/wiki/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/"/>
+      <category term="编程语言" scheme="https://hinzer.github.io/wiki/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/"/>
     
     
       <category term="typedef" scheme="https://hinzer.github.io/wiki/tags/typedef/"/>
