@@ -166,23 +166,23 @@
   </entry>
   
   <entry>
-    <title>github收缩开源项目</title>
+    <title>github搜索开源项目</title>
     <link href="https://hinzer.github.io/wiki/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91-%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86-github%E6%90%9C%E7%B4%A2%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/"/>
     <id>https://hinzer.github.io/wiki/wiki/技术开发-源码管理-github搜索开源项目/</id>
     <published>2019-12-29T11:40:58.000Z</published>
-    <updated>2020-03-17T00:27:34.136Z</updated>
+    <updated>2020-03-20T13:59:14.808Z</updated>
     
-    <content type="html"><![CDATA[<p><strong>从名字中搜关键词</strong><br>in:name spring boot</p><p><strong>描述中搜索关键词</strong><br>in:description 微服务</p><p><strong>追加限定条件</strong><br>stars:&gt;3000  # 限定在stars数量大于3000的项目<br>fork:&gt;50# fork 数量<br>language:java   # 限定语言<br>pushed:&gt;2019-09-10# 最后一次push的时间</p><br><h2 id="参考资料">参考资料</h2><blockquote><ul><li><a href="https://help.github.com/cn/github/searching-for-information-on-github" rel="external nofollow noopener noreferrer" target="_blank">github官方文档-搜索</a></li><li><a href="https://www.bilibili.com/video/av75587104" rel="external nofollow noopener noreferrer" target="_blank">如何高效地在网上找开源项目做！在职程序员实际演示一波视频教程</a></li></ul></blockquote>]]></content>
+    <content type="html"><![CDATA[<p>1、<strong>从名字中搜关键词</strong><br>in:name example</p><p>2、<strong>搜索readme文件</strong><br>in:readme example</p><p>3、<strong>描述中搜索关键词</strong><br>in:description example</p><p>4、<strong>追加限定条件</strong><br>stars:&gt;3000  # 限定在stars数量大于3000的项目<br>fork:&gt;50# fork 数量<br>pushed:&gt;2019-09-10# 最后一次push的时间<br>language:java   # 限定语言</p><br><h2 id="参考资料">参考资料</h2><blockquote><ul><li><a href="https://help.github.com/cn/github/searching-for-information-on-github" rel="external nofollow noopener noreferrer" target="_blank">github官方文档-搜索</a></li><li><a href="https://www.bilibili.com/video/av75587104" rel="external nofollow noopener noreferrer" target="_blank">如何高效地在网上找开源项目做！在职程序员实际演示一波视频教程</a></li></ul></blockquote>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;&lt;strong&gt;从名字中搜关键词&lt;/strong&gt;&lt;br&gt;
-in:name spring boot&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;描述中搜索关键词&lt;/strong&gt;&lt;br&gt;
-in:description 微服务&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;追加限定条件&lt;/strong&gt;&lt;
+        &lt;p&gt;1、&lt;strong&gt;从名字中搜关键词&lt;/strong&gt;&lt;br&gt;
+in:name example&lt;/p&gt;
+&lt;p&gt;2、&lt;strong&gt;搜索readme文件&lt;/strong&gt;&lt;br&gt;
+in:readme example&lt;/p&gt;
+&lt;p&gt;3、&lt;strong&gt;描述中搜索关键词&lt;/str
       
     
     </summary>
