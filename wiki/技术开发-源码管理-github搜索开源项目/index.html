@@ -3,24 +3,24 @@
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
     
-    <title>ctags基本用法 | hinzer&#39;s Wiki</title>
+    <title>github搜索开源项目 | hinzer&#39;s Wiki</title>
     
     
-        <meta name="keywords" content="ctags">
+        <meta name="keywords" content="github">
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="ctags是方便阅读源代码的工具。开发者在linux平台下和vim编辑器配合使用,这种策略经常被用于linux源码阅读。  开发环境 123Ubuntu18.04hinzer@ubuntu:~$ uname -aLinux ubuntu 5.3.0-40-generic #32~18.04.1-Ubuntu SMP Mon Feb 3 14:05:59 UTC 2020 x86_64 x86_6">
-<meta name="keywords" content="ctags">
+    <meta name="description" content="1、从名字中搜关键词 in:name example 2、搜索readme文件 in:readme example 3、描述中搜索关键词 in:description example 4、追加限定条件 stars:&amp;gt;3000  # 限定在stars数量大于3000的项目 fork:&amp;gt;50		# fork 数量 pushed:&amp;gt;2019-09-10	# 最后一次push的时间 la">
+<meta name="keywords" content="github">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ctags基本用法">
-<meta property="og:url" content="https://hinzer.github.io/技术开发-开发工具-ctags/index.html">
+<meta property="og:title" content="github搜索开源项目">
+<meta property="og:url" content="https://hinzer.github.io/wiki/wiki/技术开发-源码管理-github搜索开源项目/index.html">
 <meta property="og:site_name" content="hinzer&#39;s Wiki">
-<meta property="og:description" content="ctags是方便阅读源代码的工具。开发者在linux平台下和vim编辑器配合使用,这种策略经常被用于linux源码阅读。  开发环境 123Ubuntu18.04hinzer@ubuntu:~$ uname -aLinux ubuntu 5.3.0-40-generic #32~18.04.1-Ubuntu SMP Mon Feb 3 14:05:59 UTC 2020 x86_64 x86_6">
+<meta property="og:description" content="1、从名字中搜关键词 in:name example 2、搜索readme文件 in:readme example 3、描述中搜索关键词 in:description example 4、追加限定条件 stars:&amp;gt;3000  # 限定在stars数量大于3000的项目 fork:&amp;gt;50		# fork 数量 pushed:&amp;gt;2019-09-10	# 最后一次push的时间 la">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-03-17T17:10:50.248Z">
+<meta property="og:updated_time" content="2020-03-20T13:59:14.808Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ctags基本用法">
-<meta name="twitter:description" content="ctags是方便阅读源代码的工具。开发者在linux平台下和vim编辑器配合使用,这种策略经常被用于linux源码阅读。  开发环境 123Ubuntu18.04hinzer@ubuntu:~$ uname -aLinux ubuntu 5.3.0-40-generic #32~18.04.1-Ubuntu SMP Mon Feb 3 14:05:59 UTC 2020 x86_64 x86_6">
+<meta name="twitter:title" content="github搜索开源项目">
+<meta name="twitter:description" content="1、从名字中搜关键词 in:name example 2、搜索readme文件 in:readme example 3、描述中搜索关键词 in:description example 4、追加限定条件 stars:&amp;gt;3000  # 限定在stars数量大于3000的项目 fork:&amp;gt;50		# fork 数量 pushed:&amp;gt;2019-09-10	# 最后一次push的时间 la">
     
 
     
@@ -28,22 +28,22 @@
     
 
     
-        <link rel="icon" href="/favicon.ico">
+        <link rel="icon" href="/wiki/favicon.ico">
     
 
-    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/libs/open-sans/styles.css">
-    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+    <link rel="stylesheet" href="/wiki/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/wiki/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/wiki/libs/source-code-pro/styles.css">
 
-    <link rel="stylesheet" href="/css/style.css">
-    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+    <link rel="stylesheet" href="/wiki/css/style.css">
+    <script src="/wiki/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/wiki/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
     
     
-        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+        <link rel="stylesheet" href="/wiki/libs/lightgallery/css/lightgallery.min.css">
     
     
-        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+        <link rel="stylesheet" href="/wiki/libs/justified-gallery/justifiedGallery.min.css">
     
     
     
@@ -60,21 +60,21 @@
         <header id="header">
     <div id="header-main" class="header-inner">
         <div class="outer">
-            <a href="/" id="logo">
+            <a href="/wiki/" id="logo">
                 <i class="logo"></i>
                 <span class="site-title">hinzer&#39;s Wiki</span>
             </a>
             <nav id="main-nav">
                 
-                    <a class="main-nav-link" href="/">首页</a>
+                    <a class="main-nav-link" href="/wiki/">首页</a>
                 
-                    <a class="main-nav-link" href="/archives">归档</a>
+                    <a class="main-nav-link" href="/wiki/archives">归档</a>
                 
-                    <a class="main-nav-link" href="/categories">分类</a>
+                    <a class="main-nav-link" href="/wiki/categories">分类</a>
                 
-                    <a class="main-nav-link" href="/tags">标签</a>
+                    <a class="main-nav-link" href="/wiki/tags">标签</a>
                 
-                    <a class="main-nav-link" href="/about">关于</a>
+                    <a class="main-nav-link" href="/wiki/about">关于</a>
                 
             </nav>
             
@@ -106,13 +106,13 @@
             TAGS: 'Tags',
             UNTITLED: '(Untitled)',
         },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
+        ROOT_URL: '/wiki/',
+        CONTENT_URL: '/wiki/content.json',
     };
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
 })(window);
 </script>
-<script src="/js/insight.js"></script>
+<script src="/wiki/js/insight.js"></script>
 
 </div>
         </div>
@@ -121,15 +121,15 @@
         <table class="menu outer">
             <tr>
                 
-                    <td><a class="main-nav-link" href="/">首页</a></td>
+                    <td><a class="main-nav-link" href="/wiki/">首页</a></td>
                 
-                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                    <td><a class="main-nav-link" href="/wiki/archives">归档</a></td>
                 
-                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                    <td><a class="main-nav-link" href="/wiki/categories">分类</a></td>
                 
-                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                    <td><a class="main-nav-link" href="/wiki/tags">标签</a></td>
                 
-                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                    <td><a class="main-nav-link" href="/wiki/about">关于</a></td>
                 
                 <td>
                     
@@ -168,22 +168,22 @@
                             技术开发
                         </a>
                          <ul class="unstyled" id="tree"> 
-                    <li class="directory open">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder-open"></i>
-                            &nbsp;
-                            开发工具
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file active"><a href="/技术开发-开发工具-ctags/">ctags基本用法</a></li>  </ul> 
-                    </li> 
-                    
                     <li class="directory">
                         <a href="#" data-role="directory">
                             <i class="fa fa-folder"></i>
                             &nbsp;
+                            开发工具
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/wiki/技术开发-开发工具-ctags/">ctags基本用法</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
                             源码管理
                         </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/技术开发-源码管理-2020-03-20-bug-for-git/">git merge失败</a></li>  <li class="file"><a href="/技术开发-源码管理-github搜索开源项目/">github搜索开源项目</a></li>  </ul> 
+                         <ul class="unstyled" id="tree">  <li class="file active"><a href="/wiki/wiki/技术开发-源码管理-github搜索开源项目/">github搜索开源项目</a></li>  <li class="file"><a href="/wiki/wiki/技术开发-源码管理-2020-03-20-bug-for-git/">git merge失败</a></li>  </ul> 
                     </li> 
                      </ul> 
                     </li> 
@@ -201,7 +201,7 @@
                             &nbsp;
                             读书笔记
                         </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/生活学习-读书笔记-小狗钱钱/">小狗钱钱阅读笔记</a></li>  </ul> 
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/wiki/生活学习-读书笔记-小狗钱钱/">小狗钱钱阅读笔记</a></li>  </ul> 
                     </li> 
                     
                     <li class="directory">
@@ -210,7 +210,7 @@
                             &nbsp;
                             随笔记录
                         </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/生活学习-随笔记录-年度总结/">年度总结</a></li>  </ul> 
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/wiki/生活学习-随笔记录-年度总结/">年度总结</a></li>  </ul> 
                     </li> 
                      </ul> 
                     </li> 
@@ -228,11 +228,11 @@
                             &nbsp;
                             编程语言
                         </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/计算机基础知识-编程语言-typedef理解/">「转」详谈typedef的用法</a></li>  </ul> 
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/wiki/计算机基础知识-编程语言-typedef理解/">「转」详谈typedef的用法</a></li>  </ul> 
                     </li> 
                      </ul> 
                     </li> 
-                     <li class="file"><a href="/index/">Welcome hinzer's Wiki Site</a></li>  </ul> 
+                     <li class="file"><a href="/wiki/wiki/index/">Welcome hinzer's Wiki Site</a></li>  </ul> 
     </div>
     <script>
         $(document).ready(function() {
@@ -304,7 +304,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title"><span>tag cloud</span></h3>
         <div class="widget tagcloud">
-            <a href="/tags/2019/" style="font-size: 10px;">2019</a> <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/book/" style="font-size: 10px;">book</a> <a href="/tags/bug/" style="font-size: 10px;">bug</a> <a href="/tags/ctags/" style="font-size: 10px;">ctags</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/typedef/" style="font-size: 10px;">typedef</a> <a href="/tags/wiki/" style="font-size: 10px;">wiki</a>
+            <a href="/wiki/tags/2019/" style="font-size: 10px;">2019</a> <a href="/wiki/tags/C/" style="font-size: 10px;">C</a> <a href="/wiki/tags/book/" style="font-size: 10px;">book</a> <a href="/wiki/tags/bug/" style="font-size: 10px;">bug</a> <a href="/wiki/tags/ctags/" style="font-size: 10px;">ctags</a> <a href="/wiki/tags/git/" style="font-size: 10px;">git</a> <a href="/wiki/tags/github/" style="font-size: 10px;">github</a> <a href="/wiki/tags/typedef/" style="font-size: 10px;">typedef</a> <a href="/wiki/tags/wiki/" style="font-size: 10px;">wiki</a>
         </div>
     </div>
 
@@ -312,7 +312,7 @@
     <div id="toTop" class="fa fa-angle-up"></div>
 </aside>
             
-            <section id="main"><article id="post-技术开发-开发工具-ctags" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-技术开发-源码管理-github搜索开源项目" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -322,20 +322,20 @@
                         
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/技术开发/">技术开发</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/技术开发/开发工具/">开发工具</a>
+        <a class="article-category-link" href="/wiki/categories/技术开发/">技术开发</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki/categories/技术开发/源码管理/">源码管理</a>
     </div>
 
                         
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/ctags/">ctags</a>
+        <a class="tag-link" href="/wiki/tags/github/">github</a>
     </div>
 
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/技术开发-开发工具-ctags/">
-            <time datetime="2020-03-15T23:46:33.000Z" itemprop="datePublished">2020-03-16</time>
+        <a href="/wiki/wiki/技术开发-源码管理-github搜索开源项目/">
+            <time datetime="2019-12-29T11:40:58.000Z" itemprop="datePublished">2019-12-29</time>
         </a>
     </div>
 
@@ -346,13 +346,13 @@
                         
                         
                             <div class="article-meta-button">
-                                <a href="https://github.com/hinzer/wiki/raw/master/source/_posts/技术开发/开发工具/ctags.md" rel="external nofollow noopener noreferrer" target="_blank"> Source </a>
+                                <a href="https://github.com/hinzer/wiki/raw/master/source/_posts/技术开发/源码管理/github搜索开源项目.md" rel="external nofollow noopener noreferrer" target="_blank"> Source </a>
                             </div>
                             <div class="article-meta-button">
-                                <a href="https://github.com/hinzer/wiki/edit/master/source/_posts/技术开发/开发工具/ctags.md" rel="external nofollow noopener noreferrer" target="_blank"> Edit </a>
+                                <a href="https://github.com/hinzer/wiki/edit/master/source/_posts/技术开发/源码管理/github搜索开源项目.md" rel="external nofollow noopener noreferrer" target="_blank"> Edit </a>
                             </div>
                             <div class="article-meta-button">
-                                <a href="https://github.com/hinzer/wiki/commits/master/source/_posts/技术开发/开发工具/ctags.md" rel="external nofollow noopener noreferrer" target="_blank"> History </a>
+                                <a href="https://github.com/hinzer/wiki/commits/master/source/_posts/技术开发/源码管理/github搜索开源项目.md" rel="external nofollow noopener noreferrer" target="_blank"> History </a>
                             </div>
                         
                     </div>
@@ -360,7 +360,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-            ctags基本用法
+            github搜索开源项目
         </h1>
     
 
@@ -373,39 +373,23 @@
             
         
         
-            <blockquote>
-<p>ctags是方便阅读源代码的工具。开发者在linux平台下和vim编辑器配合使用,这种策略经常被用于linux源码阅读。</p>
-</blockquote>
-<h2 id="开发环境">开发环境</h2>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Ubuntu18<span class="number">.04</span></span><br><span class="line"><span class="symbol">hinzer@</span>ubuntu:~$ uname -a</span><br><span class="line">Linux ubuntu <span class="number">5.3</span><span class="number">.0</span><span class="number">-40</span>-generic #<span class="number">32</span>~<span class="number">18.04</span><span class="number">.1</span>-Ubuntu SMP Mon Feb <span class="number">3</span> <span class="number">14</span>:<span class="number">05</span>:<span class="number">59</span> UTC <span class="number">2020</span> x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
-<p>关于2.6.11版本的kernel源码下载</p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:source</span><span class="variable">$ </span>wget -O kernel <span class="symbol">https:</span>/<span class="regexp">/mirrors.edge.kernel.org/pub</span><span class="regexp">/linux/kernel</span><span class="regexp">/v2.6/linux</span><span class="number">-2.6</span>.<span class="number">11</span>.tar.gz</span><br><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:source</span><span class="variable">$ </span>tar -xzvf kernel.tar.gz</span><br></pre></td></tr></table></figure>
-<h2 id="安装">安装</h2>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-<span class="builtin-name">get</span> install ctags -y</span><br></pre></td></tr></table></figure>
-<h2 id="配置">配置</h2>
-<ol>
-<li>在当前目录下生成索引文件</li>
-</ol>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:source</span><span class="variable">$ </span>cd linux<span class="number">-2.6</span>.<span class="number">11</span>/</span><br><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:linux-</span><span class="number">2.6</span>.<span class="number">11</span><span class="variable">$ </span>ctags -R .	<span class="comment">#生成索引tags</span></span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li><code>sudo vim /etc/vim/vimrc</code>配置vim</li>
-</ol>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:~</span><span class="variable">$ </span>sudo vim ~<span class="regexp">/.vimrc #添加 set tags=/home</span><span class="regexp">/hinzer/source</span><span class="regexp">/linux-2.6.11/tags</span>;</span><br></pre></td></tr></table></figure>
-<h2 id="使用演示">使用演示</h2>
-<ol>
-<li>命令行索引tag</li>
-</ol>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:linux-</span><span class="number">2.6</span>.<span class="number">11</span><span class="variable">$ </span>ctags -R .	<span class="comment">#生成索引tags</span></span><br><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:linux-</span><span class="number">2.6</span>.<span class="number">11</span><span class="variable">$ </span>ll tags</span><br><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:linux-</span><span class="number">2.6</span>.<span class="number">11</span><span class="variable">$ </span>vim -t main  <span class="comment">#查找main函数</span></span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>vim中使用ctags命令</li>
-</ol>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">:ts</span>  	<span class="comment">#tagslist,列出索引list</span></span><br><span class="line"><span class="symbol">:tp</span> 	<span class="comment">#tagspreview 上一个tag</span></span><br><span class="line"><span class="symbol">:tn</span> 	<span class="comment">#tagsnext 下一个tag</span></span><br><span class="line">Ctrl+ ] 	<span class="comment">#通过光标位置 跳转到定义处</span></span><br><span class="line">Ctrl+ T 	<span class="comment">#返回上一步的光标位置</span></span><br></pre></td></tr></table></figure>
+            <p>1、<strong>从名字中搜关键词</strong><br>
+in:name example</p>
+<p>2、<strong>搜索readme文件</strong><br>
+in:readme example</p>
+<p>3、<strong>描述中搜索关键词</strong><br>
+in:description example</p>
+<p>4、<strong>追加限定条件</strong><br>
+stars:&gt;3000  # 限定在stars数量大于3000的项目<br>
+fork:&gt;50		# fork 数量<br>
+pushed:&gt;2019-09-10	# 最后一次push的时间<br>
+language:java   # 限定语言</p>
 <br>
 <h2 id="参考资料">参考资料</h2>
 <blockquote>
 <ul>
-<li><a href="https://baike.baidu.com/item/ctags/3470337" rel="external nofollow noopener noreferrer" target="_blank">百度百科ctags</a></li>
-<li><a href="www.kernel.org">linux kernel</a></li>
+<li><a href="https://help.github.com/cn/github/searching-for-information-on-github" rel="external nofollow noopener noreferrer" target="_blank">github官方文档-搜索</a></li>
+<li><a href="https://www.bilibili.com/video/av75587104" rel="external nofollow noopener noreferrer" target="_blank">如何高效地在网上找开源项目做！在职程序员实际演示一波视频教程</a></li>
 </ul>
 </blockquote>
 
@@ -420,19 +404,19 @@
     
 <nav id="article-nav">
     
-        <a href="/生活学习-读书笔记-小狗钱钱/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/wiki/wiki/生活学习-随笔记录-年度总结/" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
-                    小狗钱钱阅读笔记
+                    年度总结
                 
             </div>
         </a>
     
     
-        <a href="/index/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/wiki/wiki/计算机基础知识-编程语言-typedef理解/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">Welcome hinzer&#39;s Wiki Site</div>
+            <div class="article-nav-title">「转」详谈typedef的用法</div>
         </a>
     
 </nav>
@@ -469,18 +453,18 @@
         
 
     
-        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-video.min.js"></script>
     
     
-        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+        <script src="/wiki/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
     
     
         <script type="text/x-mathjax-config">
@@ -508,7 +492,7 @@
 
 
 <!-- Custom Scripts -->
-<script src="/js/main.js"></script>
+<script src="/wiki/js/main.js"></script>
 
     </div>
 </body>
