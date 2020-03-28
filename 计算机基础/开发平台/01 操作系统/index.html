@@ -3,7 +3,7 @@
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
     
-    <title>把Linux内核当成一家软件外包公司的老板 | hinzer&#39;s Wiki</title>
+    <title>操作系统 | hinzer&#39;s Wiki</title>
     
     
         <meta name="keywords" content="note,Linux">
@@ -12,8 +12,8 @@
     <meta name="description" content="哪有什么岁月静好，只不过有人替你负重前行。而操作系统就扮演了这样一个负重前行的角色  计算机硬件组成 对于一台电脑，拆开来看，有鼠标键盘、显卡显示屏、CPU、内存、硬盘、网卡…  但仅有硬件组成的电脑，还不能直接使用。&amp;quot;硬件 + 操作系统&amp;quot;才算是我们通常说的电脑，以后的学习主要围绕linux系统，这个话题展开。我们首先必须承认操作系统的重要性。 想理解外包公司一样理解操作系统">
 <meta name="keywords" content="note,Linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="把Linux内核当成一家软件外包公司的老板">
-<meta property="og:url" content="https://hinzer.github.io/wiki/计算机基础/开发平台/操作系统综述01/index.html">
+<meta property="og:title" content="操作系统">
+<meta property="og:url" content="https://hinzer.github.io/wiki/计算机基础/开发平台/01 操作系统/index.html">
 <meta property="og:site_name" content="hinzer&#39;s Wiki">
 <meta property="og:description" content="哪有什么岁月静好，只不过有人替你负重前行。而操作系统就扮演了这样一个负重前行的角色  计算机硬件组成 对于一台电脑，拆开来看，有鼠标键盘、显卡显示屏、CPU、内存、硬盘、网卡…  但仅有硬件组成的电脑，还不能直接使用。&amp;quot;硬件 + 操作系统&amp;quot;才算是我们通常说的电脑，以后的学习主要围绕linux系统，这个话题展开。我们首先必须承认操作系统的重要性。 想理解外包公司一样理解操作系统">
 <meta property="og:locale" content="en">
@@ -21,9 +21,9 @@
 <meta property="og:image" content="http://qiniu.benmoom.cn/02%E5%AF%B9%E5%BA%94%E5%85%B3%E7%B3%BB.jpeg">
 <meta property="og:image" content="http://qiniu.benmoom.cn/03linux%E5%AD%90%E7%B3%BB%E7%BB%9F.jpeg">
 <meta property="og:image" content="http://qiniu.benmoom.cn/a%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%BB%BC%E8%BF%B0.png">
-<meta property="og:updated_time" content="2020-03-21T14:10:22.471Z">
+<meta property="og:updated_time" content="2020-03-28T09:32:40.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="把Linux内核当成一家软件外包公司的老板">
+<meta name="twitter:title" content="操作系统">
 <meta name="twitter:description" content="哪有什么岁月静好，只不过有人替你负重前行。而操作系统就扮演了这样一个负重前行的角色  计算机硬件组成 对于一台电脑，拆开来看，有鼠标键盘、显卡显示屏、CPU、内存、硬盘、网卡…  但仅有硬件组成的电脑，还不能直接使用。&amp;quot;硬件 + 操作系统&amp;quot;才算是我们通常说的电脑，以后的学习主要围绕linux系统，这个话题展开。我们首先必须承认操作系统的重要性。 想理解外包公司一样理解操作系统">
 <meta name="twitter:image" content="http://qiniu.benmoom.cn/01%E7%A1%AC%E4%BB%B6%E7%BB%84%E6%88%90.png">
     
@@ -251,7 +251,7 @@
                             &nbsp;
                             开发平台
                         </a>
-                         <ul class="unstyled" id="tree">  <li class="file active"><a href="/wiki/计算机基础/开发平台/操作系统综述01/">把Linux内核当成一家软件外包公司的老板</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/操作系统综述02/">使用Linux命令运行程序、安装软件</a></li>  </ul> 
+                         <ul class="unstyled" id="tree">  <li class="file active"><a href="/wiki/计算机基础/开发平台/01 操作系统/">操作系统</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/02 Linux命令/">Linux命令</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/03 系统调用/">系统调用</a></li>  </ul> 
                     </li> 
                     
                     <li class="directory">
@@ -336,7 +336,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title"><span>tag cloud</span></h3>
         <div class="widget tagcloud">
-            <a href="/wiki/tags/2019/" style="font-size: 10px;">2019</a> <a href="/wiki/tags/Android/" style="font-size: 15px;">Android</a> <a href="/wiki/tags/Bug/" style="font-size: 10px;">Bug</a> <a href="/wiki/tags/C/" style="font-size: 10px;">C</a> <a href="/wiki/tags/Git/" style="font-size: 20px;">Git</a> <a href="/wiki/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/wiki/tags/Log/" style="font-size: 15px;">Log</a> <a href="/wiki/tags/book/" style="font-size: 10px;">book</a> <a href="/wiki/tags/ctags/" style="font-size: 10px;">ctags</a> <a href="/wiki/tags/github/" style="font-size: 10px;">github</a> <a href="/wiki/tags/note/" style="font-size: 15px;">note</a> <a href="/wiki/tags/typedef/" style="font-size: 10px;">typedef</a> <a href="/wiki/tags/wiki/" style="font-size: 10px;">wiki</a> <a href="/wiki/tags/代码测试/" style="font-size: 15px;">代码测试</a> <a href="/wiki/tags/方法/" style="font-size: 10px;">方法</a> <a href="/wiki/tags/笔记/" style="font-size: 15px;">笔记</a> <a href="/wiki/tags/问题/" style="font-size: 10px;">问题</a>
+            <a href="/wiki/tags/2019/" style="font-size: 10px;">2019</a> <a href="/wiki/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/wiki/tags/Bug/" style="font-size: 10px;">Bug</a> <a href="/wiki/tags/C/" style="font-size: 10px;">C</a> <a href="/wiki/tags/Git/" style="font-size: 20px;">Git</a> <a href="/wiki/tags/Linux/" style="font-size: 16.67px;">Linux</a> <a href="/wiki/tags/Log/" style="font-size: 13.33px;">Log</a> <a href="/wiki/tags/book/" style="font-size: 10px;">book</a> <a href="/wiki/tags/ctags/" style="font-size: 10px;">ctags</a> <a href="/wiki/tags/github/" style="font-size: 10px;">github</a> <a href="/wiki/tags/note/" style="font-size: 16.67px;">note</a> <a href="/wiki/tags/typedef/" style="font-size: 10px;">typedef</a> <a href="/wiki/tags/wiki/" style="font-size: 10px;">wiki</a> <a href="/wiki/tags/代码测试/" style="font-size: 13.33px;">代码测试</a> <a href="/wiki/tags/方法/" style="font-size: 10px;">方法</a> <a href="/wiki/tags/笔记/" style="font-size: 13.33px;">笔记</a> <a href="/wiki/tags/问题/" style="font-size: 10px;">问题</a>
         </div>
     </div>
 
@@ -364,7 +364,7 @@
     <div id="toTop" class="fa fa-angle-up"></div>
 </aside>
             
-            <section id="main"><article id="post-计算机基础/开发平台/操作系统综述01" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-计算机基础/开发平台/01 操作系统" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -386,7 +386,7 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/wiki/计算机基础/开发平台/操作系统综述01/">
+        <a href="/wiki/计算机基础/开发平台/01 操作系统/">
             <time datetime="2020-03-21T12:33:10.000Z" itemprop="datePublished">2020-03-21</time>
         </a>
     </div>
@@ -398,13 +398,13 @@
                         
                         
                             <div class="article-meta-button">
-                                <a href="https://github.com/hinzer/wiki/raw/master/source/_posts/计算机基础/开发平台/操作系统综述01.md" rel="external nofollow noopener noreferrer" target="_blank"> Source </a>
+                                <a href="https://github.com/hinzer/wiki/raw/master/source/_posts/计算机基础/开发平台/01 操作系统.md" rel="external nofollow noopener noreferrer" target="_blank"> Source </a>
                             </div>
                             <div class="article-meta-button">
-                                <a href="https://github.com/hinzer/wiki/edit/master/source/_posts/计算机基础/开发平台/操作系统综述01.md" rel="external nofollow noopener noreferrer" target="_blank"> Edit </a>
+                                <a href="https://github.com/hinzer/wiki/edit/master/source/_posts/计算机基础/开发平台/01 操作系统.md" rel="external nofollow noopener noreferrer" target="_blank"> Edit </a>
                             </div>
                             <div class="article-meta-button">
-                                <a href="https://github.com/hinzer/wiki/commits/master/source/_posts/计算机基础/开发平台/操作系统综述01.md" rel="external nofollow noopener noreferrer" target="_blank"> History </a>
+                                <a href="https://github.com/hinzer/wiki/commits/master/source/_posts/计算机基础/开发平台/01 操作系统.md" rel="external nofollow noopener noreferrer" target="_blank"> History </a>
                             </div>
                         
                     </div>
@@ -412,7 +412,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-            把Linux内核当成一家软件外包公司的老板
+            操作系统
         </h1>
     
 
@@ -534,11 +534,11 @@
     
 <nav id="article-nav">
     
-        <a href="/wiki/计算机基础/开发平台/操作系统综述02/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/wiki/计算机基础/开发平台/02 Linux命令/" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
-                    使用Linux命令运行程序、安装软件
+                    Linux命令
                 
             </div>
         </a>
