@@ -9,18 +9,18 @@
         <meta name="keywords" content="Git">
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="文件标注 使用git blame能显示任何文件中每行最后一次修改的提交记录。 mi@ubuntu:base$ git blame Android.bp -L 230,231  #查看Android.bp的230-231行提交记录， #commit id   #提交者        #时间                      #行          #内容 7c469179ce2a (juny">
+    <meta name="description" content="概念理解 git blame和git bisect能帮助调试git项目，找到出bug的原因。 操作方法 1、文件标注 使用git blame能显示任何文件中每行最后一次修改的提交记录。git blame --help查看具体描述 1234mi@ubuntu:base$ git blame Android.bp -L 230,231  #查看Android.bp的230-231行提交记录，#comm">
 <meta name="keywords" content="Git">
 <meta property="og:type" content="article">
 <meta property="og:title" content="git 调试">
 <meta property="og:url" content="https://hinzer.github.io/wiki/技术开发/源码管理/git调试/index.html">
 <meta property="og:site_name" content="hinzer&#39;s Wiki">
-<meta property="og:description" content="文件标注 使用git blame能显示任何文件中每行最后一次修改的提交记录。 mi@ubuntu:base$ git blame Android.bp -L 230,231  #查看Android.bp的230-231行提交记录， #commit id   #提交者        #时间                      #行          #内容 7c469179ce2a (juny">
+<meta property="og:description" content="概念理解 git blame和git bisect能帮助调试git项目，找到出bug的原因。 操作方法 1、文件标注 使用git blame能显示任何文件中每行最后一次修改的提交记录。git blame --help查看具体描述 1234mi@ubuntu:base$ git blame Android.bp -L 230,231  #查看Android.bp的230-231行提交记录，#comm">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-03-21T01:48:43.681Z">
+<meta property="og:updated_time" content="2020-03-28T00:25:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="git 调试">
-<meta name="twitter:description" content="文件标注 使用git blame能显示任何文件中每行最后一次修改的提交记录。 mi@ubuntu:base$ git blame Android.bp -L 230,231  #查看Android.bp的230-231行提交记录， #commit id   #提交者        #时间                      #行          #内容 7c469179ce2a (juny">
+<meta name="twitter:description" content="概念理解 git blame和git bisect能帮助调试git项目，找到出bug的原因。 操作方法 1、文件标注 使用git blame能显示任何文件中每行最后一次修改的提交记录。git blame --help查看具体描述 1234mi@ubuntu:base$ git blame Android.bp -L 230,231  #查看Android.bp的230-231行提交记录，#comm">
     
 
     
@@ -177,13 +177,22 @@
                          <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/开发流程/ctags/">ctags基本用法</a></li>  </ul> 
                     </li> 
                     
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            测试方法
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/测试方法/bugreport/">bugreport</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/如何编写一个好的测试用例/">理解测试用例</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/logcat/">bugreport</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/理解单元测试/">理解单元测试</a></li>  </ul> 
+                    </li> 
+                    
                     <li class="directory open">
                         <a href="#" data-role="directory">
                             <i class="fa fa-folder-open"></i>
                             &nbsp;
                             源码管理
                         </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/源码管理/2020-03-20-bug-for-git/">git merge失败</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-log/">git log</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-merge/">git log</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-rebase/">git rebase</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-reset_git-checkout/">git reset、git checkout</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-revert/">git revert</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-stash_git-clean/">git stash、git clean</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/github搜索开源项目/">github搜索开源项目</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git对象/">git 对象</a></li>  <li class="file active"><a href="/wiki/技术开发/源码管理/git调试/">git 调试</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git引用/">git 引用</a></li>  </ul> 
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/源码管理/2020-03-20-bug-for-git/">git merge失败</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-fetch/">git fetch</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-log/">git log</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-merge/">git log</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-rebase/">git rebase</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-reset_git-checkout/">git reset、git checkout</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-revert/">git revert</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-stash_git-clean/">git stash、git clean</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/github搜索开源项目/">github搜索开源项目</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git对象/">git 对象</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git引用/">git 引用</a></li>  <li class="file active"><a href="/wiki/技术开发/源码管理/git调试/">git 调试</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/push代码/">push代码</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/打patch/">打patch</a></li>  </ul> 
                     </li> 
                      </ul> 
                     </li> 
@@ -322,7 +331,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title"><span>tag cloud</span></h3>
         <div class="widget tagcloud">
-            <a href="/wiki/tags/2019/" style="font-size: 10px;">2019</a> <a href="/wiki/tags/Bug/" style="font-size: 10px;">Bug</a> <a href="/wiki/tags/C/" style="font-size: 10px;">C</a> <a href="/wiki/tags/Git/" style="font-size: 20px;">Git</a> <a href="/wiki/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/wiki/tags/book/" style="font-size: 10px;">book</a> <a href="/wiki/tags/ctags/" style="font-size: 10px;">ctags</a> <a href="/wiki/tags/github/" style="font-size: 10px;">github</a> <a href="/wiki/tags/note/" style="font-size: 15px;">note</a> <a href="/wiki/tags/typedef/" style="font-size: 10px;">typedef</a> <a href="/wiki/tags/wiki/" style="font-size: 10px;">wiki</a> <a href="/wiki/tags/方法/" style="font-size: 10px;">方法</a> <a href="/wiki/tags/问题/" style="font-size: 10px;">问题</a>
+            <a href="/wiki/tags/2019/" style="font-size: 10px;">2019</a> <a href="/wiki/tags/Android/" style="font-size: 15px;">Android</a> <a href="/wiki/tags/Bug/" style="font-size: 10px;">Bug</a> <a href="/wiki/tags/C/" style="font-size: 10px;">C</a> <a href="/wiki/tags/Git/" style="font-size: 20px;">Git</a> <a href="/wiki/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/wiki/tags/Log/" style="font-size: 15px;">Log</a> <a href="/wiki/tags/book/" style="font-size: 10px;">book</a> <a href="/wiki/tags/ctags/" style="font-size: 10px;">ctags</a> <a href="/wiki/tags/github/" style="font-size: 10px;">github</a> <a href="/wiki/tags/note/" style="font-size: 15px;">note</a> <a href="/wiki/tags/typedef/" style="font-size: 10px;">typedef</a> <a href="/wiki/tags/wiki/" style="font-size: 10px;">wiki</a> <a href="/wiki/tags/代码测试/" style="font-size: 15px;">代码测试</a> <a href="/wiki/tags/方法/" style="font-size: 10px;">方法</a> <a href="/wiki/tags/笔记/" style="font-size: 15px;">笔记</a> <a href="/wiki/tags/问题/" style="font-size: 10px;">问题</a>
         </div>
     </div>
 
@@ -411,12 +420,17 @@
             
         
         
-            <p>文件标注<br>
-使用<code>git blame</code>能显示任何文件中每行最后一次修改的提交记录。<br>
-mi@ubuntu:base$ git blame Android.bp -L 230,231  #查看Android.bp的230-231行提交记录，<br>
-#commit id   #提交者        #时间                      #行          #内容<br>
-7c469179ce2a (junyulai      2019-01-16 20:23:34 +0800 230)         “core/java/android/net/ISocketKeepaliveCallback.aidl”,<br>
-e40eab608af2 (Benedict Wong 2018-11-14 17:50:13 -0800 231)         “core/java/android/net/ITestNetworkManager.aidl”,</p>
+            <h3 id="概念理解">概念理解</h3>
+<p><code>git blame</code>和<code>git bisect</code>能帮助调试git项目，找到出bug的原因。</p>
+<h3 id="操作方法">操作方法</h3>
+<p>1、文件标注<br>
+使用<code>git blame</code>能显示任何文件中每行最后一次修改的提交记录。<code>git blame --help</code>查看具体描述</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">mi@</span>ubuntu:base$ git blame Android.bp -L <span class="number">230</span>,<span class="number">231</span>  #查看Android.bp的<span class="number">230</span><span class="number">-231</span>行提交记录，</span><br><span class="line">#commit id   #提交者        #时间                      #行          #内容</span><br><span class="line"><span class="number">7</span>c469179ce2a (junyulai      <span class="number">2019</span><span class="number">-01</span><span class="number">-16</span> <span class="number">20</span>:<span class="number">23</span>:<span class="number">34</span> +<span class="number">0800</span> <span class="number">230</span>)         <span class="string">"core/java/android/net/ISocketKeepaliveCallback.aidl"</span>,</span><br><span class="line">e40eab608af2 (Benedict Wong <span class="number">2018</span><span class="number">-11</span><span class="number">-14</span> <span class="number">17</span>:<span class="number">50</span>:<span class="number">13</span> <span class="number">-0800</span> <span class="number">231</span>)         <span class="string">"core/java/android/net/ITestNetworkManager.aidl"</span>,</span><br></pre></td></tr></table></figure>
+<p>2、二分查找<br>
+<code>git bisect</code>能在commit区间中检出中间的patch，通过不断地二分查找，最终定位到带bug的patch</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 开始</span></span><br><span class="line">$ git <span class="keyword">bisect </span>start  <span class="comment"># 启动二分</span></span><br><span class="line">$ git <span class="keyword">bisect </span><span class="keyword">bad </span>	<span class="comment"># 当前提交有bug</span></span><br><span class="line">$ git <span class="keyword">bisect </span>good &lt;good_commit&gt;  <span class="comment">#指定已知的最后一次正常状态是哪次提交</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试 --&gt; 二分判断</span></span><br><span class="line">$ git <span class="keyword">bisect </span>good  <span class="comment"># 当前提交无bug</span></span><br><span class="line">$ git <span class="keyword">bisect </span><span class="keyword">bad </span>  <span class="comment"># 当前提交有bug</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 结束</span></span><br><span class="line">$ git <span class="keyword">bisect </span>reset</span><br></pre></td></tr></table></figure>
+<h3 id="参考">参考</h3>
+<p><a href="https://www.git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E4%BD%BF%E7%94%A8-Git-%E8%B0%83%E8%AF%95" rel="external nofollow noopener noreferrer" target="_blank">Git 工具 - 使用 Git 调试</a></p>
 
             </div>
         
