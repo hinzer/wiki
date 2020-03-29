@@ -3,26 +3,29 @@
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
     
-    <title>系统调用 | hinzer&#39;s Wiki</title>
+    <title>01 操作系统 | hinzer&#39;s Wiki</title>
     
     
         <meta name="keywords" content="note,Linux">
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="相关概念 1、程序vs进程vs命令 Linux系统上所有的操作由进程完成，进程的运行是动态的，在此之前是一个静态的程序。用户用一个程序来启动一个进程，这个程序可以是别人写好的(最终被编译成可执行文件)，比如ls、pwd、cat，也可以是我们自己写的。 2、系统调用 无论如何，程序最后运行起来都是进程，并且一个程序想要在系统上跑，要用到系统调用,这是系统给用户提供的API接口。 3、strace命令">
+    <meta name="description" content="哪有什么岁月静好，只不过有人替你负重前行。而操作系统就扮演了这样一个负重前行的角色  计算机硬件组成 对于一台电脑，拆开来看，有鼠标键盘、显卡显示屏、CPU、内存、硬盘、网卡…  但仅有硬件组成的电脑，还不能直接使用。&amp;quot;硬件 + 操作系统&amp;quot;才算是我们通常说的电脑，以后的学习主要围绕linux系统，这个话题展开。我们首先必须承认操作系统的重要性。 想理解外包公司一样理解操作系统">
 <meta name="keywords" content="note,Linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="系统调用">
-<meta property="og:url" content="https://hinzer.github.io/wiki/计算机基础/开发平台/03 系统调用/index.html">
+<meta property="og:title" content="01 操作系统">
+<meta property="og:url" content="https://hinzer.github.io/wiki/计算机基础/开发平台/Linux系统学习/01 操作系统/index.html">
 <meta property="og:site_name" content="hinzer&#39;s Wiki">
-<meta property="og:description" content="相关概念 1、程序vs进程vs命令 Linux系统上所有的操作由进程完成，进程的运行是动态的，在此之前是一个静态的程序。用户用一个程序来启动一个进程，这个程序可以是别人写好的(最终被编译成可执行文件)，比如ls、pwd、cat，也可以是我们自己写的。 2、系统调用 无论如何，程序最后运行起来都是进程，并且一个程序想要在系统上跑，要用到系统调用,这是系统给用户提供的API接口。 3、strace命令">
+<meta property="og:description" content="哪有什么岁月静好，只不过有人替你负重前行。而操作系统就扮演了这样一个负重前行的角色  计算机硬件组成 对于一台电脑，拆开来看，有鼠标键盘、显卡显示屏、CPU、内存、硬盘、网卡…  但仅有硬件组成的电脑，还不能直接使用。&amp;quot;硬件 + 操作系统&amp;quot;才算是我们通常说的电脑，以后的学习主要围绕linux系统，这个话题展开。我们首先必须承认操作系统的重要性。 想理解外包公司一样理解操作系统">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://static001.geekbang.org/resource/image/ff/f0/ffb6847b94cb0fd086095ac263ac4ff0.jpg">
-<meta property="og:updated_time" content="2020-03-28T09:40:01.037Z">
+<meta property="og:image" content="http://qiniu.benmoom.cn/01%E7%A1%AC%E4%BB%B6%E7%BB%84%E6%88%90.png">
+<meta property="og:image" content="http://qiniu.benmoom.cn/02%E5%AF%B9%E5%BA%94%E5%85%B3%E7%B3%BB.jpeg">
+<meta property="og:image" content="http://qiniu.benmoom.cn/03linux%E5%AD%90%E7%B3%BB%E7%BB%9F.jpeg">
+<meta property="og:image" content="http://qiniu.benmoom.cn/a%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%BB%BC%E8%BF%B0.png">
+<meta property="og:updated_time" content="2020-03-29T01:17:22.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="系统调用">
-<meta name="twitter:description" content="相关概念 1、程序vs进程vs命令 Linux系统上所有的操作由进程完成，进程的运行是动态的，在此之前是一个静态的程序。用户用一个程序来启动一个进程，这个程序可以是别人写好的(最终被编译成可执行文件)，比如ls、pwd、cat，也可以是我们自己写的。 2、系统调用 无论如何，程序最后运行起来都是进程，并且一个程序想要在系统上跑，要用到系统调用,这是系统给用户提供的API接口。 3、strace命令">
-<meta name="twitter:image" content="https://static001.geekbang.org/resource/image/ff/f0/ffb6847b94cb0fd086095ac263ac4ff0.jpg">
+<meta name="twitter:title" content="01 操作系统">
+<meta name="twitter:description" content="哪有什么岁月静好，只不过有人替你负重前行。而操作系统就扮演了这样一个负重前行的角色  计算机硬件组成 对于一台电脑，拆开来看，有鼠标键盘、显卡显示屏、CPU、内存、硬盘、网卡…  但仅有硬件组成的电脑，还不能直接使用。&amp;quot;硬件 + 操作系统&amp;quot;才算是我们通常说的电脑，以后的学习主要围绕linux系统，这个话题展开。我们首先必须承认操作系统的重要性。 想理解外包公司一样理解操作系统">
+<meta name="twitter:image" content="http://qiniu.benmoom.cn/01%E7%A1%AC%E4%BB%B6%E7%BB%84%E6%88%90.png">
     
 
     
@@ -174,18 +177,9 @@
                         <a href="#" data-role="directory">
                             <i class="fa fa-folder"></i>
                             &nbsp;
-                            开发流程
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/开发流程/ctags/">ctags基本用法</a></li>  </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
                             测试方法
                         </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/测试方法/bugreport/">bugreport</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/如何编写一个好的测试用例/">理解测试用例</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/logcat/">bugreport</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/理解单元测试/">理解单元测试</a></li>  </ul> 
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/测试方法/bugreport/">bugreport</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/ctags/">ctags基本用法</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/logcat/">bugreport</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/如何编写一个好的测试用例/">理解测试用例</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/理解单元测试/">理解单元测试</a></li>  </ul> 
                     </li> 
                     
                     <li class="directory">
@@ -194,7 +188,7 @@
                             &nbsp;
                             源码管理
                         </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/源码管理/2020-03-20-bug-for-git/">git merge失败</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-fetch/">git fetch</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-log/">git log</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-merge/">git log</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-rebase/">git rebase</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-reset_git-checkout/">git reset、git checkout</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-revert/">git revert</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-stash_git-clean/">git stash、git clean</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/github搜索开源项目/">github搜索开源项目</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git对象/">git 对象</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git引用/">git 引用</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git调试/">git 调试</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/push代码/">push代码</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/打patch/">打patch</a></li>  </ul> 
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/源码管理/2020-03-20-bug-for-git/">git merge失败</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/android源码工具/">android源码管理工具</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-fetch/">git fetch</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-log/">git log</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-merge/">git log</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-rebase/">git rebase</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-reset_git-checkout/">git reset、git checkout</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-revert/">git revert</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-stash_git-clean/">git stash、git clean</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/github搜索开源项目/">github搜索开源项目</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git对象/">git 对象</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git引用/">git 引用</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git调试/">git 调试</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/push代码/">push代码</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/打patch/">打patch</a></li>  </ul> 
                     </li> 
                      </ul> 
                     </li> 
@@ -212,7 +206,7 @@
                             &nbsp;
                             方法习惯
                         </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/方法习惯/2020-03-21-How-To-Ask-Questions-The-Smart-Way/">问问题的姿势</a></li>  </ul> 
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/方法习惯/关于提问/">提问</a></li>  </ul> 
                     </li> 
                     
                     <li class="directory">
@@ -221,7 +215,7 @@
                             &nbsp;
                             读书笔记
                         </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/读书笔记/小狗钱钱/">小狗钱钱阅读笔记</a></li>  </ul> 
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/读书笔记/小狗钱钱/">《小狗钱钱》</a></li>  </ul> 
                     </li> 
                     
                     <li class="directory">
@@ -230,7 +224,7 @@
                             &nbsp;
                             随笔记录
                         </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/随笔记录/年度总结/">年度总结</a></li>  </ul> 
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/随笔记录/年度总结2019/">年度总结2019</a></li>  </ul> 
                     </li> 
                      </ul> 
                     </li> 
@@ -248,7 +242,25 @@
                             &nbsp;
                             开发平台
                         </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/计算机基础/开发平台/01 操作系统/">操作系统</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/02 Linux命令/">Linux命令</a></li>  <li class="file active"><a href="/wiki/计算机基础/开发平台/03 系统调用/">系统调用</a></li>  </ul> 
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Android系统开发
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/00 配置开发环境/">01 配置开发环境</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Linux系统学习
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file active"><a href="/wiki/计算机基础/开发平台/Linux系统学习/01 操作系统/">01 操作系统</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/02 Linux命令/">02 Linux命令</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/03 系统调用/">03 系统调用</a></li>  </ul> 
+                    </li> 
+                     </ul> 
                     </li> 
                     
                     <li class="directory">
@@ -333,7 +345,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title"><span>tag cloud</span></h3>
         <div class="widget tagcloud">
-            <a href="/wiki/tags/2019/" style="font-size: 10px;">2019</a> <a href="/wiki/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/wiki/tags/Bug/" style="font-size: 10px;">Bug</a> <a href="/wiki/tags/C/" style="font-size: 10px;">C</a> <a href="/wiki/tags/Git/" style="font-size: 20px;">Git</a> <a href="/wiki/tags/Linux/" style="font-size: 16.67px;">Linux</a> <a href="/wiki/tags/Log/" style="font-size: 13.33px;">Log</a> <a href="/wiki/tags/book/" style="font-size: 10px;">book</a> <a href="/wiki/tags/ctags/" style="font-size: 10px;">ctags</a> <a href="/wiki/tags/github/" style="font-size: 10px;">github</a> <a href="/wiki/tags/note/" style="font-size: 16.67px;">note</a> <a href="/wiki/tags/typedef/" style="font-size: 10px;">typedef</a> <a href="/wiki/tags/wiki/" style="font-size: 10px;">wiki</a> <a href="/wiki/tags/代码测试/" style="font-size: 13.33px;">代码测试</a> <a href="/wiki/tags/方法/" style="font-size: 10px;">方法</a> <a href="/wiki/tags/笔记/" style="font-size: 13.33px;">笔记</a> <a href="/wiki/tags/问题/" style="font-size: 10px;">问题</a>
+            <a href="/wiki/tags/2019/" style="font-size: 10px;">2019</a> <a href="/wiki/tags/Android/" style="font-size: 17.5px;">Android</a> <a href="/wiki/tags/Bug/" style="font-size: 10px;">Bug</a> <a href="/wiki/tags/C/" style="font-size: 10px;">C</a> <a href="/wiki/tags/Git/" style="font-size: 20px;">Git</a> <a href="/wiki/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/wiki/tags/Log/" style="font-size: 12.5px;">Log</a> <a href="/wiki/tags/Repo/" style="font-size: 10px;">Repo</a> <a href="/wiki/tags/book/" style="font-size: 10px;">book</a> <a href="/wiki/tags/ctags/" style="font-size: 10px;">ctags</a> <a href="/wiki/tags/github/" style="font-size: 10px;">github</a> <a href="/wiki/tags/note/" style="font-size: 15px;">note</a> <a href="/wiki/tags/record/" style="font-size: 12.5px;">record</a> <a href="/wiki/tags/typedef/" style="font-size: 10px;">typedef</a> <a href="/wiki/tags/wiki/" style="font-size: 10px;">wiki</a> <a href="/wiki/tags/代码测试/" style="font-size: 12.5px;">代码测试</a> <a href="/wiki/tags/方法/" style="font-size: 10px;">方法</a> <a href="/wiki/tags/笔记/" style="font-size: 12.5px;">笔记</a> <a href="/wiki/tags/问题/" style="font-size: 10px;">问题</a>
         </div>
     </div>
 
@@ -361,7 +373,7 @@
     <div id="toTop" class="fa fa-angle-up"></div>
 </aside>
             
-            <section id="main"><article id="post-计算机基础/开发平台/03 系统调用" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-计算机基础/开发平台/Linux系统学习/01 操作系统" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -371,7 +383,7 @@
                         
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/wiki/categories/计算机基础/">计算机基础</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki/categories/计算机基础/开发平台/">开发平台</a>
+        <a class="article-category-link" href="/wiki/categories/计算机基础/">计算机基础</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki/categories/计算机基础/开发平台/">开发平台</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki/categories/计算机基础/开发平台/Linux系统学习/">Linux系统学习</a>
     </div>
 
                         
@@ -383,8 +395,8 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/wiki/计算机基础/开发平台/03 系统调用/">
-            <time datetime="2020-03-28T09:31:02.000Z" itemprop="datePublished">2020-03-28</time>
+        <a href="/wiki/计算机基础/开发平台/Linux系统学习/01 操作系统/">
+            <time datetime="2020-03-21T12:33:10.000Z" itemprop="datePublished">2020-03-21</time>
         </a>
     </div>
 
@@ -395,13 +407,13 @@
                         
                         
                             <div class="article-meta-button">
-                                <a href="https://github.com/hinzer/wiki/raw/master/source/_posts/计算机基础/开发平台/03 系统调用.md" rel="external nofollow noopener noreferrer" target="_blank"> Source </a>
+                                <a href="https://github.com/hinzer/wiki/raw/master/source/_posts/计算机基础/开发平台/Linux系统学习/01 操作系统.md" rel="external nofollow noopener noreferrer" target="_blank"> Source </a>
                             </div>
                             <div class="article-meta-button">
-                                <a href="https://github.com/hinzer/wiki/edit/master/source/_posts/计算机基础/开发平台/03 系统调用.md" rel="external nofollow noopener noreferrer" target="_blank"> Edit </a>
+                                <a href="https://github.com/hinzer/wiki/edit/master/source/_posts/计算机基础/开发平台/Linux系统学习/01 操作系统.md" rel="external nofollow noopener noreferrer" target="_blank"> Edit </a>
                             </div>
                             <div class="article-meta-button">
-                                <a href="https://github.com/hinzer/wiki/commits/master/source/_posts/计算机基础/开发平台/03 系统调用.md" rel="external nofollow noopener noreferrer" target="_blank"> History </a>
+                                <a href="https://github.com/hinzer/wiki/commits/master/source/_posts/计算机基础/开发平台/Linux系统学习/01 操作系统.md" rel="external nofollow noopener noreferrer" target="_blank"> History </a>
                             </div>
                         
                     </div>
@@ -409,7 +421,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-            系统调用
+            01 操作系统
         </h1>
     
 
@@ -422,62 +434,103 @@
             
         
         
-            <h3 id="相关概念">相关概念</h3>
-<p>1、程序vs进程vs命令<br>
-Linux系统上所有的操作由<code>进程</code>完成，<code>进程</code>的运行是动态的，在此之前是一个静态的<code>程序</code>。用户用一个程序来启动一个进程，这个程序可以是别人写好的(最终被编译成可执行文件)，比如<code>ls</code>、<code>pwd</code>、<code>cat</code>，也可以是我们自己写的。</p>
-<p>2、系统调用<br>
-无论如何，程序最后运行起来都是进程，并且一个程序想要在系统上跑，要用到<code>系统调用</code>,这是系统给用户提供的API接口。</p>
-<p>3、strace命令<br>
-Linux有个命令strace，常用来跟踪进程执行时系统调用和所接收的信号。通过<code>manstrace</code>查看具体描述。</p>
-<p>4、Glibc<br>
-作为一个开发者，也许平时并没有直接使用系统调用，而是Glibc库。Glibc是Linux下使用的开源的标准C库它是GNU发布的libc库。<code>Glibc</code>即系统调用的封装。</p>
-<h3 id="介绍系统调用">介绍系统调用</h3>
-<p>然后本文开始介绍这些系统调用，先上图<br>
-<img src="https://static001.geekbang.org/resource/image/ff/f0/ffb6847b94cb0fd086095ac263ac4ff0.jpg" alt="系统调用"></p>
-<p>1、进程管理<br>
-linux操作系统使用叫<code>fork</code>的系统调用来创建进程，进程运行过程:</p>
-<blockquote>
-<p>当父进程调用fork创建进程的时候，子进程将各个子系统为父进程创建的数据结构也全部拷贝了一份，甚至连程序代码也是拷贝过来的。按理说，如果不进行特殊的处理，父进程和子进程都按相同的程序代码进行下去，这样就没有意义了。<br>
-所以，我们往往会这样处理：对于fork系统调用的返回值，如果当前进程是子进程，就返回0；如果当前进程是父进程，就返回子进程的进程号。这样首先在返回值这里就有了一个区分，然后通过if-else语句判断，如果是父进程，还接着做原来应该做的事情；如果是子进程，需要请求另一个系统调用execve来执行另一个程序，这个时候，子进程和父进程就彻底分道扬镳了，也就产生了一个分支（fork）了。</p>
+            <blockquote>
+<p>哪有什么岁月静好，只不过有人替你负重前行。而操作系统就扮演了这样一个负重前行的角色</p>
 </blockquote>
-<p>其他进程都是父进程fork出来的，对于操作系统而言，系统启动的时候先创建一个所有用户进程的“祖宗进程”。</p>
-<p>2、内存管理<br>
-在操作系统中，每个进程都有自己的<code>进程内存空间</code>。其中布局就有<code>代码段</code>、<code>数据段</code>、<code>堆</code>。<br>
-一个进程的内存空间是很大的，32位的是4G，64位的就更大了。物理空间是有限的，所以进程的空间不能事先分配好的，一定是需要的时候再分配。<br>
-<code>brk</code>和<code>mmap</code>是官员堆分配内存的系统调用，分配内存数量比较小的时候，使用<code>brk</code>会和原来的堆的数据连在一起。当分配的内存数量比较大的时候，使用mmap，会重新划分一块区域。</p>
-<p>3、文件管理<br>
-文件系统相当于公司的资料库，用于保存一些永久性质的数据。能做到长期保存，文件之所以能做到这一点，一方面是因为<code>介质</code>，另一方面是因为<code>格式</code>。<br>
-对于文件的操作，无非是<code>创建</code>、<code>打开</code>、<code>读</code>、<code>写</code>等等,对应的系统调用常有:</p>
-<blockquote>
-<p>对于已经有的文件，可以使用open打开这个文件，close关闭这个文件；<br>
-对于没有的文件，可以使用creat创建文件；<br>
-打开文件以后，可以使用lseek跳到文件的某个位置；<br>
-可以对文件的内容进行读写，读的系统调用是read，写是write。</p>
-</blockquote>
-<p><a href="https://static001.geekbang.org/resource/image/e4/df/e49b5c2a78ac09903d697126bfe6c5df.jpeg" rel="external nofollow noopener noreferrer" target="_blank">Linux中一切皆文件</a>,就包括<code>二进制文件</code>、<code>文本文件</code>、<code>stdout文件</code>、<code>Socket文件</code>、<code>设备文件</code>、<code>目录文件</code>，包括进程运行起来在<code>/proc</code>下生成的进程号也是文件。<br>
-对于每一个文件，Linux分配了<code>文件描述符</code>，这是一个整数。</p>
-<p>4、信号处理<br>
-信号是异步处理机制，用于紧急突发情况。常见信号有</p>
-<blockquote>
-<p>在执行一个程序的时候，在键盘输入“CTRL+C”，这就是中断的信号，正在执行的命令就会中止退出；<br>
-如果非法访问内存，例如你跑到别人的会议室，可能会看到不该看的东西；<br>
-硬件故障，设备出了问题，当然要通知项目组；<br>
-用户进程通过kill函数，将一个用户信号发送给另一个进程。<br>
-每一种信号都有默认动作，当然用户也能编写信号处理函数，通过<code>sigaction</code>系统调用进行处理。</p>
-</blockquote>
-<p>5、进程间通信<br>
-本地进程之间实现数据的互通，比较常见的处理机制有<code>消息队列</code>和<code>共享内存</code>。</p>
+<h3 id="计算机硬件组成">计算机硬件组成</h3>
+<p>对于一台电脑，拆开来看，有鼠标键盘、显卡显示屏、CPU、内存、硬盘、网卡…</p>
+<p><img src="http://qiniu.benmoom.cn/01%E7%A1%AC%E4%BB%B6%E7%BB%84%E6%88%90.png" alt="插入图片01"></p>
+<p>但仅有硬件组成的电脑，还不能直接使用。&quot;硬件 + 操作系统&quot;才算是我们通常说的电脑，以后的学习主要围绕linux系统，这个话题展开。我们首先必须承认操作系统的重要性。</p>
+<h3 id="想理解外包公司一样理解操作系统">想理解外包公司一样理解操作系统</h3>
+<p>刘超老师将操作系统类比成一家外包公司。确实很形象，加深了我对linux系统的理解。<br>
+内核对于操作系统，相当于公司的老板，老板是不轻易干活的(一般有很多部门)，所以linux系统中也有很多子系统。对应关系有：</p>
+<table>
+<thead>
+<tr>
+<th>linux系统</th>
+<th>外包公司</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>用户</td>
+<td>公司的客户</td>
+</tr>
+<tr>
+<td>内核</td>
+<td>公司的老板</td>
+</tr>
+<tr>
+<td>系统调用</td>
+<td>公司的办事大厅</td>
+</tr>
+<tr>
+<td>设备管理系统</td>
+<td>公司的客户对接和交付部门</td>
+</tr>
+<tr>
+<td>网络管理系统</td>
+<td>公司的对外合作部门</td>
+</tr>
+<tr>
+<td>进程管理系统</td>
+<td>公司的项目管理部门</td>
+</tr>
+<tr>
+<td>内存管理系统</td>
+<td>公司的会议室</td>
+</tr>
+<tr>
+<td>文件系统系统</td>
+<td>公司的档案室</td>
+</tr>
+</tbody>
+</table>
+<p>其他：<code>程序</code>相当于<code>项目计划书</code>，<code>进程</code>相当于<code>正在进行的项目</code>。</p>
+<p><img src="http://qiniu.benmoom.cn/02%E5%AF%B9%E5%BA%94%E5%85%B3%E7%B3%BB.jpeg" alt="插入图片02"></p>
+<h3 id="“点击QQ事件”">“点击QQ事件”</h3>
+<p>为了更好的理解linux的运作机制，老师分析了&quot;用户点击qq&quot;事件。分为如下几个阶段</p>
+<p><strong>阶段一：用户点击图标</strong><br>
+对于linux而言，驱动捕捉到用户点击事件，产生中断。cpu调用到驱动事先安排好的中断处理函数。</p>
+<p>对于外包公司而言，对接人员记录客户提出的需求，进行项目开发的计划。</p>
+<p><strong>阶段二：系统加载进程</strong><br>
+对于linux而言，将qq的程序文件从硬盘加载到内存，内存上以进程启动。这个阶段需要思考几个问题：<br>
+1. 硬盘上的文件如何管理？<br>
+2. 内存空间上的进程如何管理？<br>
+3. 多进程如何实现？<br>
+4. 进程自身如何实现功能？<br>
+硬件上的数据有<code>文件系统</code>进行统一管理；进程在内存空间上的映射由<code>内存管理系统</code>完成；多进程的实现通过<code>进程管理系统</code>；系统对进程提供统一的接口，实现核心功能。这层接口称为<code>系统调用层</code>。</p>
+<p>对于外包公司而言，从档案库中取出项目计划书，成立项目组，划分会议室，完成立项的过程。然后执行项目，通过办事大厅处理业务，和各个部门打交道。这些都是动态的过程。之后就比较好理解了。</p>
+<p><img src="http://qiniu.benmoom.cn/03linux%E5%AD%90%E7%B3%BB%E7%BB%9F.jpeg" alt="插入图片03"></p>
+<p><strong>阶段三：进程调出对话框</strong><br>
+对于linux而言，进程调出显示对话框，进程-&gt;显卡驱动-&gt;显示界面</p>
+<p>对于公司，这里显卡驱动相当于客户的交付人员，项目组通过交付人员将项目的成果交付给用户。</p>
+<p><strong>阶段四：用户操作输入框</strong><br>
+用户在输入框输入，字符立即显示，键盘驱动-&gt;进程-&gt;显卡驱动-&gt;显示界面</p>
+<p>对于公司，就是对接人员处理客户不断提出的需求–交付人员交付的过程</p>
+<p><strong>阶段五：用户按回车发送</strong><br>
+对于linux系统，用户按下回车键，网络发送到远程的另一个用户，键盘驱动-&gt;进程-&gt;网卡驱动</p>
+<p>对于公司，有时候为了实现需求，需要与其他公司的交互，通过对外合作部门。</p>
+<h3 id="总结">总结</h3>
+<p>以一张图片概括我对这篇文章的理解<br>
+<img src="http://qiniu.benmoom.cn/a%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%BB%BC%E8%BF%B0.png" alt="插入图片-综述"></p>
+<h3 id="课后作业">课后作业</h3>
+<p>对于<strong>课堂练习</strong>，找出linux源码中几个子系统所在的目录（参考同学给出的答案）</p>
+<p><strong>linux内核</strong>：<a href="https://www.kernel.org/" rel="external nofollow noopener noreferrer" target="_blank">https://www.kernel.org/</a></p>
 <ul>
-<li>通过<code>msgget</code>创建一个新的队列，<code>msgsnd</code>将消息发送到消息队列，而消息接收方可以使用<code>msgrcv</code>从队列中取消息</li>
-<li>我们可以通过<code>shmget</code>创建一个共享内存块，通过<code>shmat</code>将共享内存映射到自己的内存空间，然后就可以读写了。</li>
+<li>系统调用 kernel/</li>
+<li>进程管理 kernel/, arch/<arch>/kernel</arch></li>
+<li>内存管理 mm/, arch/<arch>/mm</arch></li>
+<li>文件系统 fs/</li>
+<li>设备系统 drivers/char, drivers/block</li>
+<li>网络系统 net/</li>
 </ul>
-<p>6、网络通信<br>
-内核中有TCP/IP网络协议栈的实现，可以通过socket来实现跨系统的进程间通信。</p>
-<h3 id="查看源码中的系统调用">查看源码中的系统调用</h3>
-<p><a href="https://www.kernel.org/" rel="external nofollow noopener noreferrer" target="_blank">下载内核源码</a>，找到<code>./include/asm-x86_64/unistd.h</code>文件，里面对于系统调用的定义</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">hinzer@ubuntu:linux<span class="number">-2.6</span><span class="number">.11</span>$ head ./include/<span class="keyword">asm</span>-x86_64/unistd.h</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _ASM_X86_64_UNISTD_H_</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _ASM_X86_64_UNISTD_H_</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> __SYSCALL</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __SYSCALL(a,b) </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * This file contains the system call numbers.</span></span><br><span class="line"><span class="comment"> *</span></span><br></pre></td></tr></table></figure>
-<h3 id="参考">参考</h3>
-<p><a href="https://time.geekbang.org/column/article/89251" rel="external nofollow noopener noreferrer" target="_blank">趣谈Linux操作系统 - 刘超</a></p>
+<h3 id="参考资料">参考资料</h3>
+<blockquote>
+<ul>
+<li><a href="https://time.geekbang.org/column/article/88060" rel="external nofollow noopener noreferrer" target="_blank">《趣谈Linux操作系统》03章</a></li>
+</ul>
+</blockquote>
 
             </div>
         
@@ -490,10 +543,19 @@ linux操作系统使用叫<code>fork</code>的系统调用来创建进程，进�
     
 <nav id="article-nav">
     
+        <a href="/wiki/计算机基础/开发平台/Linux系统学习/02 Linux命令/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    02 Linux命令
+                
+            </div>
+        </a>
     
-        <a href="/wiki/技术开发/测试方法/bugreport/" id="article-nav-older" class="article-nav-link-wrap">
+    
+        <a href="/wiki/技术开发/源码管理/git调试/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">bugreport</div>
+            <div class="article-nav-title">git 调试</div>
         </a>
     
 </nav>

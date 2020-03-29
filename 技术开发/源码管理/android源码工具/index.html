@@ -3,24 +3,24 @@
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
     
-    <title>年度总结 | hinzer&#39;s Wiki</title>
+    <title>android源码管理工具 | hinzer&#39;s Wiki</title>
     
     
-        <meta name="keywords" content="2019">
+        <meta name="keywords" content="Android,Git,Repo">
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="2019年又要到底了，有必要写一个总结，看看过去的一年时间了干了些什么。。另，不知怎么，发现最近变得有些懒散，希望能重拾写作这个习惯。不管怎样，这不是一篇对自我批判或者激励自我的文章，总结记录，仅此而已。  今年跨年在看罗胖演讲时间的朋友，最多听到的是网络、连接、点亮这些字眼，无论是个人、行业、国家，都在积极地对外输出自己的价值(连接)，塑造自己的品牌影响力(网络)。今后是网络化的时代。 对于我">
-<meta name="keywords" content="2019">
+    <meta name="description" content="Google使用git和repo管理AOSP源码。  概念区分 1、Git和git(https://source.android.com/setup/develop#git) Git是版本控制系统，我们使用git工具进行代码仓库和分支的管理。比如我可以使用git clone从远程仓库的一个分支下载代码到本地，可以git push将本地仓库的某一个分支推送到远程仓库的分支，关于git使用可以参考p">
+<meta name="keywords" content="Android,Git,Repo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="年度总结">
-<meta property="og:url" content="https://hinzer.github.io/wiki/生活学习/随笔记录/年度总结/index.html">
+<meta property="og:title" content="android源码管理工具">
+<meta property="og:url" content="https://hinzer.github.io/wiki/技术开发/源码管理/android源码工具/index.html">
 <meta property="og:site_name" content="hinzer&#39;s Wiki">
-<meta property="og:description" content="2019年又要到底了，有必要写一个总结，看看过去的一年时间了干了些什么。。另，不知怎么，发现最近变得有些懒散，希望能重拾写作这个习惯。不管怎样，这不是一篇对自我批判或者激励自我的文章，总结记录，仅此而已。  今年跨年在看罗胖演讲时间的朋友，最多听到的是网络、连接、点亮这些字眼，无论是个人、行业、国家，都在积极地对外输出自己的价值(连接)，塑造自己的品牌影响力(网络)。今后是网络化的时代。 对于我">
+<meta property="og:description" content="Google使用git和repo管理AOSP源码。  概念区分 1、Git和git(https://source.android.com/setup/develop#git) Git是版本控制系统，我们使用git工具进行代码仓库和分支的管理。比如我可以使用git clone从远程仓库的一个分支下载代码到本地，可以git push将本地仓库的某一个分支推送到远程仓库的分支，关于git使用可以参考p">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-03-16T23:21:23.485Z">
+<meta property="og:updated_time" content="2020-03-29T01:32:57.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="年度总结">
-<meta name="twitter:description" content="2019年又要到底了，有必要写一个总结，看看过去的一年时间了干了些什么。。另，不知怎么，发现最近变得有些懒散，希望能重拾写作这个习惯。不管怎样，这不是一篇对自我批判或者激励自我的文章，总结记录，仅此而已。  今年跨年在看罗胖演讲时间的朋友，最多听到的是网络、连接、点亮这些字眼，无论是个人、行业、国家，都在积极地对外输出自己的价值(连接)，塑造自己的品牌影响力(网络)。今后是网络化的时代。 对于我">
+<meta name="twitter:title" content="android源码管理工具">
+<meta name="twitter:description" content="Google使用git和repo管理AOSP源码。  概念区分 1、Git和git(https://source.android.com/setup/develop#git) Git是版本控制系统，我们使用git工具进行代码仓库和分支的管理。比如我可以使用git clone从远程仓库的一个分支下载代码到本地，可以git push将本地仓库的某一个分支推送到远程仓库的分支，关于git使用可以参考p">
     
 
     
@@ -161,9 +161,9 @@
         
         
          <ul class="unstyled" id="tree"> 
-                    <li class="directory">
+                    <li class="directory open">
                         <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
+                            <i class="fa fa-folder-open"></i>
                             &nbsp;
                             技术开发
                         </a>
@@ -172,34 +172,25 @@
                         <a href="#" data-role="directory">
                             <i class="fa fa-folder"></i>
                             &nbsp;
-                            开发流程
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/开发流程/ctags/">ctags基本用法</a></li>  </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
                             测试方法
                         </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/测试方法/bugreport/">bugreport</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/如何编写一个好的测试用例/">理解测试用例</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/logcat/">bugreport</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/理解单元测试/">理解单元测试</a></li>  </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            源码管理
-                        </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/源码管理/2020-03-20-bug-for-git/">git merge失败</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-fetch/">git fetch</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-log/">git log</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-merge/">git log</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-rebase/">git rebase</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-reset_git-checkout/">git reset、git checkout</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-revert/">git revert</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-stash_git-clean/">git stash、git clean</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/github搜索开源项目/">github搜索开源项目</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git对象/">git 对象</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git引用/">git 引用</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git调试/">git 调试</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/push代码/">push代码</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/打patch/">打patch</a></li>  </ul> 
-                    </li> 
-                     </ul> 
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/测试方法/bugreport/">bugreport</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/ctags/">ctags基本用法</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/logcat/">bugreport</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/如何编写一个好的测试用例/">理解测试用例</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/理解单元测试/">理解单元测试</a></li>  </ul> 
                     </li> 
                     
                     <li class="directory open">
                         <a href="#" data-role="directory">
                             <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            源码管理
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/源码管理/2020-03-20-bug-for-git/">git merge失败</a></li>  <li class="file active"><a href="/wiki/技术开发/源码管理/android源码工具/">android源码管理工具</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-fetch/">git fetch</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-log/">git log</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-merge/">git log</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-rebase/">git rebase</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-reset_git-checkout/">git reset、git checkout</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-revert/">git revert</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-stash_git-clean/">git stash、git clean</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/github搜索开源项目/">github搜索开源项目</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git对象/">git 对象</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git引用/">git 引用</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git调试/">git 调试</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/push代码/">push代码</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/打patch/">打patch</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
                             &nbsp;
                             生活学习
                         </a>
@@ -210,7 +201,7 @@
                             &nbsp;
                             方法习惯
                         </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/方法习惯/2020-03-21-How-To-Ask-Questions-The-Smart-Way/">问问题的姿势</a></li>  </ul> 
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/方法习惯/关于提问/">提问</a></li>  </ul> 
                     </li> 
                     
                     <li class="directory">
@@ -219,16 +210,16 @@
                             &nbsp;
                             读书笔记
                         </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/读书笔记/小狗钱钱/">小狗钱钱阅读笔记</a></li>  </ul> 
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/读书笔记/小狗钱钱/">《小狗钱钱》</a></li>  </ul> 
                     </li> 
                     
-                    <li class="directory open">
+                    <li class="directory">
                         <a href="#" data-role="directory">
-                            <i class="fa fa-folder-open"></i>
+                            <i class="fa fa-folder"></i>
                             &nbsp;
                             随笔记录
                         </a>
-                         <ul class="unstyled" id="tree">  <li class="file active"><a href="/wiki/生活学习/随笔记录/年度总结/">年度总结</a></li>  </ul> 
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/随笔记录/年度总结2019/">年度总结2019</a></li>  </ul> 
                     </li> 
                      </ul> 
                     </li> 
@@ -246,7 +237,25 @@
                             &nbsp;
                             开发平台
                         </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/计算机基础/开发平台/01 操作系统/">操作系统</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/02 Linux命令/">Linux命令</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/03 系统调用/">系统调用</a></li>  </ul> 
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Android系统开发
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/00 配置开发环境/">01 配置开发环境</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Linux系统学习
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/01 操作系统/">01 操作系统</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/02 Linux命令/">02 Linux命令</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/03 系统调用/">03 系统调用</a></li>  </ul> 
+                    </li> 
+                     </ul> 
                     </li> 
                     
                     <li class="directory">
@@ -331,7 +340,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title"><span>tag cloud</span></h3>
         <div class="widget tagcloud">
-            <a href="/wiki/tags/2019/" style="font-size: 10px;">2019</a> <a href="/wiki/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/wiki/tags/Bug/" style="font-size: 10px;">Bug</a> <a href="/wiki/tags/C/" style="font-size: 10px;">C</a> <a href="/wiki/tags/Git/" style="font-size: 20px;">Git</a> <a href="/wiki/tags/Linux/" style="font-size: 16.67px;">Linux</a> <a href="/wiki/tags/Log/" style="font-size: 13.33px;">Log</a> <a href="/wiki/tags/book/" style="font-size: 10px;">book</a> <a href="/wiki/tags/ctags/" style="font-size: 10px;">ctags</a> <a href="/wiki/tags/github/" style="font-size: 10px;">github</a> <a href="/wiki/tags/note/" style="font-size: 16.67px;">note</a> <a href="/wiki/tags/typedef/" style="font-size: 10px;">typedef</a> <a href="/wiki/tags/wiki/" style="font-size: 10px;">wiki</a> <a href="/wiki/tags/代码测试/" style="font-size: 13.33px;">代码测试</a> <a href="/wiki/tags/方法/" style="font-size: 10px;">方法</a> <a href="/wiki/tags/笔记/" style="font-size: 13.33px;">笔记</a> <a href="/wiki/tags/问题/" style="font-size: 10px;">问题</a>
+            <a href="/wiki/tags/2019/" style="font-size: 10px;">2019</a> <a href="/wiki/tags/Android/" style="font-size: 17.5px;">Android</a> <a href="/wiki/tags/Bug/" style="font-size: 10px;">Bug</a> <a href="/wiki/tags/C/" style="font-size: 10px;">C</a> <a href="/wiki/tags/Git/" style="font-size: 20px;">Git</a> <a href="/wiki/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/wiki/tags/Log/" style="font-size: 12.5px;">Log</a> <a href="/wiki/tags/Repo/" style="font-size: 10px;">Repo</a> <a href="/wiki/tags/book/" style="font-size: 10px;">book</a> <a href="/wiki/tags/ctags/" style="font-size: 10px;">ctags</a> <a href="/wiki/tags/github/" style="font-size: 10px;">github</a> <a href="/wiki/tags/note/" style="font-size: 15px;">note</a> <a href="/wiki/tags/record/" style="font-size: 12.5px;">record</a> <a href="/wiki/tags/typedef/" style="font-size: 10px;">typedef</a> <a href="/wiki/tags/wiki/" style="font-size: 10px;">wiki</a> <a href="/wiki/tags/代码测试/" style="font-size: 12.5px;">代码测试</a> <a href="/wiki/tags/方法/" style="font-size: 10px;">方法</a> <a href="/wiki/tags/笔记/" style="font-size: 12.5px;">笔记</a> <a href="/wiki/tags/问题/" style="font-size: 10px;">问题</a>
         </div>
     </div>
 
@@ -359,7 +368,7 @@
     <div id="toTop" class="fa fa-angle-up"></div>
 </aside>
             
-            <section id="main"><article id="post-生活学习/随笔记录/年度总结" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-技术开发/源码管理/android源码工具" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -369,20 +378,20 @@
                         
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/wiki/categories/生活学习/">生活学习</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki/categories/生活学习/随笔记录/">随笔记录</a>
+        <a class="article-category-link" href="/wiki/categories/技术开发/">技术开发</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki/categories/技术开发/源码管理/">源码管理</a>
     </div>
 
                         
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/wiki/tags/2019/">2019</a>
+        <a class="tag-link" href="/wiki/tags/Android/">Android</a>, <a class="tag-link" href="/wiki/tags/Git/">Git</a>, <a class="tag-link" href="/wiki/tags/Repo/">Repo</a>
     </div>
 
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/wiki/生活学习/随笔记录/年度总结/">
-            <time datetime="2019-12-31T15:59:19.000Z" itemprop="datePublished">2019-12-31</time>
+        <a href="/wiki/技术开发/源码管理/android源码工具/">
+            <time datetime="2020-03-27T16:11:37.000Z" itemprop="datePublished">2020-03-28</time>
         </a>
     </div>
 
@@ -393,13 +402,13 @@
                         
                         
                             <div class="article-meta-button">
-                                <a href="https://github.com/hinzer/wiki/raw/master/source/_posts/生活学习/随笔记录/年度总结.md" rel="external nofollow noopener noreferrer" target="_blank"> Source </a>
+                                <a href="https://github.com/hinzer/wiki/raw/master/source/_posts/技术开发/源码管理/android源码工具.md" rel="external nofollow noopener noreferrer" target="_blank"> Source </a>
                             </div>
                             <div class="article-meta-button">
-                                <a href="https://github.com/hinzer/wiki/edit/master/source/_posts/生活学习/随笔记录/年度总结.md" rel="external nofollow noopener noreferrer" target="_blank"> Edit </a>
+                                <a href="https://github.com/hinzer/wiki/edit/master/source/_posts/技术开发/源码管理/android源码工具.md" rel="external nofollow noopener noreferrer" target="_blank"> Edit </a>
                             </div>
                             <div class="article-meta-button">
-                                <a href="https://github.com/hinzer/wiki/commits/master/source/_posts/生活学习/随笔记录/年度总结.md" rel="external nofollow noopener noreferrer" target="_blank"> History </a>
+                                <a href="https://github.com/hinzer/wiki/commits/master/source/_posts/技术开发/源码管理/android源码工具.md" rel="external nofollow noopener noreferrer" target="_blank"> History </a>
                             </div>
                         
                     </div>
@@ -407,7 +416,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-            年度总结
+            android源码管理工具
         </h1>
     
 
@@ -421,87 +430,35 @@
         
         
             <blockquote>
-<p>2019年又要到底了，有必要写一个总结，看看过去的一年时间了干了些什么。。另，不知怎么，发现最近变得有些懒散，希望能重拾写作这个习惯。不管怎样，这不是一篇对自我批判或者激励自我的文章，总结记录，仅此而已。</p>
+<p>Google使用git和repo管理AOSP源码。</p>
 </blockquote>
-<p>今年跨年在看罗胖演讲时间的朋友，最多听到的是<code>网络</code>、<code>连接</code>、<code>点亮</code>这些字眼，无论是个人、行业、国家，都在积极地对外输出自己的价值(连接)，塑造自己的品牌影响力(网络)。今后是网络化的时代。<br>
-对于我而言，如何和别人建立好的<code>连接</code>，结出自己的<code>网络</code>，可能需要想搞清楚几个问题：</p>
+<h3 id="概念区分">概念区分</h3>
+<p>1、Git和git(<a href="https://source.android.com/setup/develop#git" rel="external nofollow noopener noreferrer" target="_blank">https://source.android.com/setup/develop#git</a>)<br>
+Git是版本控制系统，我们使用git工具进行代码仓库和分支的管理。比如我可以使用<code>git clone</code>从远程仓库的一个分支下载代码到本地，可以<code>git push</code>将本地仓库的某一个分支推送到远程仓库的分支，关于git使用可以参考<a href="https://www.git-scm.com/book/en/v2" rel="external nofollow noopener noreferrer" target="_blank">progit</a><br>
+Google将android源码拆分成许多个Git仓库，我们知道每一个git仓库下有<code>.git</code>文件</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">hinzer<span class="meta">@ubuntu</span>:android<span class="number">-10</span>$ find -name <span class="string">".git"</span></span><br><span class="line">.<span class="regexp">/developers/</span>demos/.git</span><br><span class="line">.<span class="regexp">/developers/</span>build/.git</span><br><span class="line">.<span class="regexp">/developers/</span>samples<span class="regexp">/android/</span>.git</span><br><span class="line">.<span class="regexp">/.repo/</span>repo/.git</span><br><span class="line">.<span class="regexp">/.repo/</span>manifests/.git</span><br><span class="line">.<span class="regexp">/cts/</span>.git</span><br><span class="line">.<span class="regexp">/platform_testing/</span>.git</span><br><span class="line">.<span class="regexp">/prebuilts/</span>go<span class="regexp">/linux-x86/</span>.git</span><br><span class="line">.<span class="regexp">/prebuilts/</span>go<span class="regexp">/darwin-x86/</span>.git</span><br><span class="line">.<span class="regexp">/prebuilts/</span>build-tools/.git</span><br><span class="line">.<span class="regexp">/prebuilts/</span>clang<span class="regexp">/host/</span>linux-x86/.git</span><br><span class="line">.<span class="regexp">/prebuilts/</span>clang<span class="regexp">/host/</span>darwin-x86/.git</span><br><span class="line">.<span class="regexp">/prebuilts/</span>checkcolor/.git</span><br><span class="line">.<span class="regexp">/prebuilts/</span>android-emulator/.git</span><br><span class="line">.<span class="regexp">/prebuilts/</span>asuite/.git</span><br><span class="line">.<span class="regexp">/prebuilts/</span>gradle-plugin/.git</span><br><span class="line">.<span class="regexp">/prebuilts/</span>manifest-merger/.git</span><br><span class="line">^C</span><br></pre></td></tr></table></figure>
+<p>2、Repo和repo(<a href="https://source.android.com/setup/develop#repo" rel="external nofollow noopener noreferrer" target="_blank">https://source.android.com/setup/develop#repo</a>)<br>
+然后使用一个Repo仓库对这些拆分开来的Git仓库集中起来进行管理，在源码根目录下有一个<code>.repo</code>文件，其中<code>manifest.xml</code>是一个清单文件，记录了<code>远程分支</code>、<code>本地分支</code>、<code>本地目录</code>之间对应关系。</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:android-</span><span class="number">10</span><span class="variable">$ </span>tree .repo -L <span class="number">1</span></span><br><span class="line">.repo</span><br><span class="line">├── manifests       <span class="comment"># 所有清单文件保存</span></span><br><span class="line">├── manifests.git</span><br><span class="line">├── manifest.xml     <span class="comment"># 重要，当前清单文件的指向！！</span></span><br><span class="line">├── project.list</span><br><span class="line">├── project-objects</span><br><span class="line">├── projects</span><br><span class="line">└── repo</span><br><span class="line"></span><br><span class="line"><span class="number">5</span> directories, <span class="number">2</span> files</span><br></pre></td></tr></table></figure>
+<p>在<code>.repo</code>目录之前，还有一个repo工具(通过它来初始化repo仓库)，这是一个python写的脚本，可以直接阅读源码(也就是可执行文件的位置)查看代码逻辑。</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:android-</span><span class="number">10</span><span class="variable">$ </span>whereis repo</span><br><span class="line"><span class="symbol">repo:</span> /home/hinzer/bin/repo</span><br><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:android-</span><span class="number">10</span><span class="variable">$ </span>cat /home/hinzer/bin/repo</span><br></pre></td></tr></table></figure>
+<p><em>PS: google将android源码拆分成许多个Git仓库，又通过Repo将这些拆分还原回一个android源码。像不像计算机原理中的<code>化整为零，还零为整</code>的思想？</em></p>
+<h3 id="平时使用">平时使用</h3>
+<p>1、Repo和Git<br>
+Repo 并非用来取代 Git，只是为了让您在 Android 环境中更轻松地使用 Git。一般我们使用<code>repo</code>命令建立Repo仓库，同步android源码；使用<code>git</code>命令对我们修改的其中一个模块提交。</p>
+<p>2、Gerrit仓库<br>
+一个网页系统，用于代码审核，也方便查看别人提交的patch。</p>
+<p>3、OpenGrok<br>
+网页系统，在线阅读源码的利器。</p>
+<p>4、Android Studio<br>
+用于开发 Android 应用的官方集成开发环境 (IDE)。</p>
+<h3 id="相关资料">相关资料</h3>
+<blockquote>
 <ul>
-<li>我是谁？</li>
-<li>我干啥？</li>
-<li>我为谁干？</li>
-<li>别人需要我么？</li>
-<li>社会更好了么？<br>
-这些问题我想留给下年，下一个年终总结。</li>
+<li><a href="https://git-scm.com/doc" rel="external nofollow noopener noreferrer" target="_blank">Git 文档</a></li>
+<li><a href="https://source.android.com/setup/develop/repo" rel="external nofollow noopener noreferrer" target="_blank">Repo 命令参考文档</a></li>
 </ul>
-<h2 id="过去的2019">过去的2019</h2>
-<p>过去一年里发生了很多&quot;第一次&quot;，第一次去了杭州合肥这些城市、第一次写年终总结、第一次找工作的过程，经历了社招和校招，也体验过电话面试、现场面试和网络面试，如今第一次实习。</p>
-<p><strong>求职</strong><br>
-这一年，我最大的期望就是找一份好的工作。在这个过程中，我发现有很多优秀的人、优秀的平台，通过他们的故事和分享，收获了很多实用的建议。</p>
-<ul>
-<li>经过2018年，我已经把之前报的嵌入式的课程学的差不多了，随后又补习了Python，3月份左右去考试拿了一个二级证书。</li>
-<li>有了找实习的意识，也经历过很多面试。最后有拿到几个实习offer，最后学校没给批，自己也没过于坚持，就没去成。</li>
-<li>通过博客认识了几个有意思的小伙伴，有职场人，也有在校同学，收获了很多有用的建议</li>
-<li>开始关注牛客网，后来认识了谱哥。这时大三也快结束了，后来找工作的打法也是从谱哥那里学习的。现在已签的offer也是在牛客上找的。</li>
-<li>好朋友强哥参加比赛，晋级北京总决赛，团队人员替换，我跟着强哥去北京待了一周，确实是长见识了。</li>
-<li>暑假留校学习，完善自己的技术栈。刷剑指offer、网上找内推、投简历，这样坚持一个月。可能感到这样闷头学习没有意思，想出去面试一下，想着以后也要在家乡发展，我订一张火车票就回安徽。在合肥、杭州这些地方转悠一圈，面了十多家公司，有大有小，大多给了offer。这是我今年最正确的决定，后来的面试也有了一定的底气。</li>
-<li>开学回到学校，这时发现我是班中唯一一个拿到offer的人，心中一阵窃喜。。后来参加一次网络面试，也就是我现在这家。再后来秋招正式开始也都没怎么参加。</li>
-<li>拿到满意offer后，报名了驾考，过了科目一和科目二。</li>
-</ul>
-<p><strong>生活</strong><br>
-其实在大多时间还是宅在屋里，时间久了，养成一个孤僻的性格，现在多多少少有些抵触与外界的接触。</p>
-<ul>
-<li>这一年记录了77篇博客，大多是技术相关的，生活记录有些少了。</li>
-<li>办了一张半年的健身卡，坚持每周4天，30min左右活动时间。每次健身之后可以获得身心愉悦，确实不错。</li>
-<li>寒假和暑假的时间挺长，真正在家里没过多久。感觉在家里闲不住，想着以后就没有寒暑假了，应该多陪陪家人。</li>
-<li>大学里的同学，同一专业的还认识一些。高中同学现在还能常保持联系的也就两个。很多以前关系还不错的朋友，不怎么联络，关系也就慢慢疏远了。</li>
-<li>来到东北之后也很少出去走走，对校园之外的世界接触太少。貌似从大三之后就比较宅了，现在实习了。</li>
-</ul>
-<h2 id="对现状的思考">对现状的思考</h2>
-<p>大四学生，目前在北京实习，内容是android系统适配，实习还算轻松，但职场上不能很好的适应，仍感到些许压力。</p>
-<p><strong>入职</strong><br>
-第一次走出校门，进入职场。那天正好是双11，有一个多月了。现在对工作上需要哪些技术，基本上有一个了解。当然还有诸多问题，对自己定位不清晰、目前还没有一个明确的职业规划、所在岗位注重哪些能力，如何针对性的培养等等</p>
-<p><strong>性格</strong><br>
-或许是出于小时候的成长环境的原因，养成了一个内向的性格。后来，进入大学后，也或许是内向的性格让我选择了学习技术(也可能因为兴趣，但那是之后的事情了),渐渐不与人交流，越来越不善表达了。我始终觉得自己和那些在大学里整天待在宿舍打游戏为了逃避学业，或者整天考研为了逃避就业没什么两样，多少有点逃避的意思。<br>
-幸运的是我在学习技术的过程中，有段时间真的体验到了乐趣；不幸的是，社交与沟通能力成为了我最大的短板，比较头疼。<br>
-求职找工作那段时间，我感觉比较&quot;充实&quot;,因为当时体会到以前学过的那些知识、技能给我带来的价值。后来进入职场，暴露出自己的社交能力的短板，确实比较难受。</p>
-<p><strong>反省</strong><br>
-人的本性是在成功时寻找内因，失败了寻找外因。特别是在没有什么可以值得炫耀的时候，总是拒绝面对现实，拒绝反省自己。<br>
-其实经历的每一件事都是一次成长的机会，通过总结记录的方式，反思和审视自己。<br>
-我是一个&quot;懒人&quot;，平时很少思考，更不愿意去主动总结。大概原因归纳如下：</p>
-<ol>
-<li>对事情的理解往往只流于表面，没有深入的理解，也常常感到没有什么值得去写的东西</li>
-<li>每次写作的过程中，往往&quot;咬文爵字&quot;，浪费很长时间，会感觉投入产出不成正比</li>
-<li>总想利用大块时间一次性写完，但往往没有这种时间，要么贪玩，或者去做别的事情了</li>
-</ol>
-<p>针对上面问题的反省，我需要：</p>
-<ol>
-<li>最重要的一点，不要搞错总结的目的。总结是给自己看的，每次总结都能提炼出一些有用的东西，这就是总结的价值。</li>
-<li>相信持续写下去，文字表述能力自然会提高上去。</li>
-<li>养成提问和记录的习惯之后，随时记录考虑的问题，形成主题列表。确定要写的主题，先立大纲，拆分每个部分到碎片时间去实现，利用周末时间拼接起来。</li>
-</ol>
-<h2 id="即将到来的2020">即将到来的2020</h2>
-<p>期望未来自己，可以协调好学习、工作、生活三者，让生活更加充实。</p>
-<p><strong>期望改掉的毛病</strong></p>
-<ul>
-<li>[ ] 熬夜</li>
-<li>[ ] 懒</li>
-<li>[ ] 不善于表达，通常显得冷静而无情</li>
-</ul>
-<p><strong>期望养成的习惯</strong></p>
-<ul>
-<li>[ ] 早睡早起</li>
-<li>[ ] 多进行思考总结，主要方式是记录，经常写日志进行日常总结、写博客进行工作总结</li>
-<li>[ ] 必须直接地表达出对他人的欣赏，而不是仅仅保留在内心</li>
-<li>[ ] 主动去联系老朋友，至少一个月联系一次嘛</li>
-</ul>
-<p><strong>期望达成的目标</strong></p>
-<ul>
-<li>[ ] 作息时间 5:10(早)~11:30(晚)</li>
-<li>[ ] 持续写博客 每周至少产出一篇</li>
-<li>[ ] 开始接触金融学 投资、理财、保险…</li>
-<li>[ ] 多读一些心理学的书，多了解自己</li>
-<li>[ ] 坚持健身(久坐生病，需要适当运动)</li>
-</ul>
+</blockquote>
 
             </div>
         
@@ -514,19 +471,19 @@
     
 <nav id="article-nav">
     
-        <a href="/wiki/index/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/wiki/技术开发/源码管理/打patch/" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
-                    Welcome hinzer&#39;s Wiki Site
+                    打patch
                 
             </div>
         </a>
     
     
-        <a href="/wiki/技术开发/源码管理/github搜索开源项目/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/wiki/计算机基础/开发平台/Linux系统学习/02 Linux命令/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">github搜索开源项目</div>
+            <div class="article-nav-title">02 Linux命令</div>
         </a>
     
 </nav>
