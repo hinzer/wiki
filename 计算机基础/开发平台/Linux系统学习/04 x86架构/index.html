@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    
+    <title>04 x8架构 | hinzer&#39;s Wiki</title>
+    
+    
+        <meta name="keywords" content="Linux,note">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="先了解计算机底层最基本的工作原理，以便于以后能理解Linux系统的运作模式!!  总体概要 原文中对于x86架构的总结图片，重点牢记这些寄存器的作用，以及段的工作模式  计算机的工作模式(了解一下) 1、 CPU、总线、内存  对于一个计算机来讲，所有功能看似是输入输出设备的功劳，实际干活的还是CPU。同时CPU通过内存不断的保存和取出中间数据，然后基于中间结果进行进一步的计算。总线是CPU和其">
+<meta name="keywords" content="Linux,note">
+<meta property="og:type" content="article">
+<meta property="og:title" content="04 x8架构">
+<meta property="og:url" content="https://hinzer.github.io/wiki/计算机基础/开发平台/Linux系统学习/04 x86架构/index.html">
+<meta property="og:site_name" content="hinzer&#39;s Wiki">
+<meta property="og:description" content="先了解计算机底层最基本的工作原理，以便于以后能理解Linux系统的运作模式!!  总体概要 原文中对于x86架构的总结图片，重点牢记这些寄存器的作用，以及段的工作模式  计算机的工作模式(了解一下) 1、 CPU、总线、内存  对于一个计算机来讲，所有功能看似是输入输出设备的功劳，实际干活的还是CPU。同时CPU通过内存不断的保存和取出中间数据，然后基于中间结果进行进一步的计算。总线是CPU和其">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://static001.geekbang.org/resource/image/e2/76/e2e92f2239fe9b4c024d300046536d76.jpeg">
+<meta property="og:image" content="https://static001.geekbang.org/resource/image/fa/9b/fa6c2b6166d02ac37637d7da4e4b579b.jpeg">
+<meta property="og:image" content="https://static001.geekbang.org/resource/image/3a/23/3afda18fc38e7e53604e9ebf9cb42023.jpeg">
+<meta property="og:image" content="https://static001.geekbang.org/resource/image/54/8a/548dfd163066d061d1e882c73e7c2b8a.jpg">
+<meta property="og:image" content="https://static001.geekbang.org/resource/image/2d/1c/2dc8237e996e699a0361a6b5ffd4871c.jpeg">
+<meta property="og:image" content="https://static001.geekbang.org/resource/image/e3/84/e3f4f64e6dfe5591b7d8ef346e8e8884.jpeg">
+<meta property="og:updated_time" content="2020-04-05T00:32:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="04 x8架构">
+<meta name="twitter:description" content="先了解计算机底层最基本的工作原理，以便于以后能理解Linux系统的运作模式!!  总体概要 原文中对于x86架构的总结图片，重点牢记这些寄存器的作用，以及段的工作模式  计算机的工作模式(了解一下) 1、 CPU、总线、内存  对于一个计算机来讲，所有功能看似是输入输出设备的功劳，实际干活的还是CPU。同时CPU通过内存不断的保存和取出中间数据，然后基于中间结果进行进一步的计算。总线是CPU和其">
+<meta name="twitter:image" content="https://static001.geekbang.org/resource/image/e2/76/e2e92f2239fe9b4c024d300046536d76.jpeg">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="hinzer&#39;s Wiki" type="application/atom+xml">
+    
+
+    
+        <link rel="icon" href="/wiki/favicon.ico">
+    
+
+    <link rel="stylesheet" href="/wiki/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/wiki/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/wiki/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/wiki/css/style.css">
+    <script src="/wiki/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/wiki/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+    
+    
+        <link rel="stylesheet" href="/wiki/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/wiki/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+    
+        <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+</head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/wiki/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">hinzer&#39;s Wiki</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/wiki/">首页</a>
+                
+                    <a class="main-nav-link" href="/wiki/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/wiki/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/wiki/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/wiki/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/wiki/',
+        CONTENT_URL: '/wiki/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/wiki/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/wiki/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id="categories">
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id="allExpand" href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            技术开发
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            测试方法
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/测试方法/ctags/">ctags</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/logcat/">bugreport</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/如何编写一个好的测试用例/">理解测试用例</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/bugreport/">bugreport</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/理解单元测试/">理解单元测试</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            源码管理
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/源码管理/2020-03-20-bug-for-git/">git merge失败</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-log/">git log</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/android源码工具/">android源码管理工具</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-merge/">git log</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-rebase/">git rebase</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-fetch/">git fetch</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-reset_git-checkout/">git reset、git checkout</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-stash_git-clean/">git stash、git clean</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-revert/">git revert</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/github搜索开源项目/">github搜索开源项目</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git对象/">git 对象</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git引用/">git 引用</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git调试/">git 调试</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/打patch/">打patch</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/push代码/">push代码</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            生活学习
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            方法习惯
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/方法习惯/关于提问/">提问</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            读书笔记
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/读书笔记/小狗钱钱/">《小狗钱钱》</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            随笔记录
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/随笔记录/年度总结2019/">年度总结2019</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            计算机基础
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            开发平台
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Android系统开发
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/00 配置开发环境/">00 配置开发环境</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/01 添加Product/">01 添加Product</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/03 添加自定义模块/">03 添加自定义模块</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/02 添加系统属性/">02 添加系统属性</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/04 添加预编译模块/">04 添加预定义模块</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/07 编译android goldfish内核(x86_64)/">07 编译android kernel</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/05 删除Android原生内置APK/">05 删除android内置apk</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/06 添加java层系统服务/">06 添加java层系统服务</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Linux系统学习
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/03 系统调用/">03 系统调用</a></li>  <li class="file active"><a href="/wiki/计算机基础/开发平台/Linux系统学习/04 x86架构/">04 x8架构</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/01 操作系统/">01 操作系统</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/02 Linux命令/">02 Linux命令</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            编程语言
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/计算机基础/编程语言/typedef理解/">「转」详谈typedef的用法</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/index/">Welcome hinzer's Wiki Site</a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-计算机基础/开发平台/Linux系统学习/04 x86架构" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/wiki/categories/计算机基础/">计算机基础</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki/categories/计算机基础/开发平台/">开发平台</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki/categories/计算机基础/开发平台/Linux系统学习/">Linux系统学习</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/wiki/tags/Linux/">Linux</a>, <a class="tag-link" href="/wiki/tags/note/">note</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/计算机基础/开发平台/Linux系统学习/04 x86架构/">
+            <time datetime="2020-04-05T00:32:02.000Z" itemprop="datePublished">2020-04-05</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a href="https://github.com/hinzer/wiki/raw/master/source/_posts/计算机基础/开发平台/Linux系统学习/04 x86架构.md" rel="external nofollow noopener noreferrer" target="_blank"> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/hinzer/wiki/edit/master/source/_posts/计算机基础/开发平台/Linux系统学习/04 x86架构.md" rel="external nofollow noopener noreferrer" target="_blank"> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/hinzer/wiki/commits/master/source/_posts/计算机基础/开发平台/Linux系统学习/04 x86架构.md" rel="external nofollow noopener noreferrer" target="_blank"> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            04 x8架构
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+        
+        
+            <blockquote>
+<p>先了解计算机底层最基本的工作原理，以便于以后能理解Linux系统的运作模式!!</p>
+</blockquote>
+<h3 id="总体概要">总体概要</h3>
+<p>原文中对于x86架构的总结图片，重点牢记这些寄存器的作用，以及段的工作模式<br>
+<img src="https://static001.geekbang.org/resource/image/e2/76/e2e92f2239fe9b4c024d300046536d76.jpeg" alt="总结概要"></p>
+<h3 id="计算机的工作模式-了解一下">计算机的工作模式(了解一下)</h3>
+<p><strong>1、 CPU、总线、内存</strong><br>
+<img src="https://static001.geekbang.org/resource/image/fa/9b/fa6c2b6166d02ac37637d7da4e4b579b.jpeg" alt="计算机的工作模式"><br>
+对于一个计算机来讲，所有功能看似是<code>输入输出设备</code>的功劳，实际干活的还是<code>CPU</code>。同时CPU通过内存不断的保存和取出中间数据，然后基于中间结果进行进一步的计算。<code>总线</code>是CPU和其他设备的高速通道。</p>
+<ul>
+<li><code>CPU</code>是这台计算机的大脑，所有的设备都围绕它展开。</li>
+<li><code>总线</code>其实就是主板上密密麻麻的集成电路，这些东西组成了 CPU 和其他设备的高速通道。</li>
+<li>最重要的是<code>内存</code>。因为单靠 CPU 是没办法完成计算任务的，很多复杂的计算任务都需要将中间结果保存下来，然后基于中间结果进行进一步的计算。</li>
+</ul>
+<p><strong>2、相互配合工作</strong><br>
+<img src="https://static001.geekbang.org/resource/image/3a/23/3afda18fc38e7e53604e9ebf9cb42023.jpeg" alt="CPU 和内存"><br>
+首先要了解几个概念的关系，其中</p>
+<ul>
+<li>CPU包括三个部分，<code>运算单元</code>、<code>数据单元</code>和<code>控制单元</code></li>
+<li>进程在内存上有独立的内存空间，相互隔离(但不连续)，每个进程简单的区分<code>代码段</code>和<code>数据段</code></li>
+<li>总线上主要有两类，<code>地址总线</code>操作地址数据，<code>数据总线</code>操作真正的数据</li>
+</ul>
+<blockquote>
+<p>那 CPU 怎么执行这些程序，操作这些数据，产生一些结果，并写入回内存呢?</p>
+</blockquote>
+<ol>
+<li>CPU 的控制单元里面，有一个指令指针寄存器，它里面存放的是下一条指令在内存中的地址。控制单元会不停地将代码段的指令拿进来，先放入指令寄存器。</li>
+<li>数据单元根据数据的地址，从数据段里读到数据寄存器里，就可以参与运算了。<code>指令 = 操作码(运算单元) + 操作数(数据单元)</code></li>
+<li>运算单元做完运算，产生的结果会暂存在数据单元的数据寄存器里。</li>
+<li>最终，会有指令将数据写回内存中的数据段。</li>
+</ol>
+<h3 id="x86平台特性-了解一下">x86平台特性(了解一下)</h3>
+<p>x86架构起源于IBM,开端于8086。由于<code>开放、统一、兼容</code>的特性逐渐成为标准，后来Intel的cpu也都基于这个架构<br>
+<img src="https://static001.geekbang.org/resource/image/54/8a/548dfd163066d061d1e882c73e7c2b8a.jpg" alt="x86架构cpu"></p>
+<h3 id="8086的原理-了解一下">8086的原理(了解一下)</h3>
+<p><img src="https://static001.geekbang.org/resource/image/2d/1c/2dc8237e996e699a0361a6b5ffd4871c.jpeg" alt="8086原理"><br>
+<strong>1、 数据单元</strong><br>
+8086处理器内部有 8 个 16 位的通用寄存器，有些寄存器还能掰开2个8位寄存器来使用。</p>
+<p><strong>2、 控制单元</strong><br>
+<code>IP寄存器</code>指向代码段中下一条指令的位置。CPU 会根据它来不断地将指令从内存的代码段中，加载到 CPU 的指令队列中，然后交给运算单元去执行。<br>
+每个进程都分代码段和数据段，为了指向不同进程的地址空间，有四个 16 位的段寄存器，分别是 CS代码段寄存器、DS数据段寄存器、SS栈寄存器、ES。</p>
+<p><strong>3、 访问地址模式</strong><br>
+这个时候内存是分段管理，CPU要访问内存地址通过<code>段启始地址 + 偏移量</code>的方式访问。其中，</p>
+<ul>
+<li>代码段的起始地址在CS寄存器，偏移量在 IP 寄存器中</li>
+<li>数据段的起始地址在DS寄存器，偏移量在通用寄存器中<br>
+由于是20位地址总线，而寄存器都是16位的。所以8086采用了<code>基地址 &lt;&lt; 4 + 偏移量</code>的方式，其中</li>
+<li>地址访问范围: 2^20 = 1M , 表示一个进程的最大访问空间</li>
+<li>偏移量大小: 2^16=64k ， 表示一个段的最大空间</li>
+</ul>
+<h3 id="32位处理器-重点理解">32位处理器(重点理解)</h3>
+<p>随着计算机的发展，32位总线已经足够应对4G内存。为了x86体系<code>开放、统一、兼容</code>的特性，要兼容原来的模式<br>
+<img src="https://static001.geekbang.org/resource/image/e3/84/e3f4f64e6dfe5591b7d8ef346e8e8884.jpeg" alt="32位处理器"></p>
+<ul>
+<li>对于通用寄存器和IP寄存器有原来的16位扩展到32位，兼容原来的模式。</li>
+<li>而改动比较大，有点不兼容的就是段寄存器(因为之前的20位总线设计太独特了)。其中有
+<ul>
+<li>段的起始地址从原来放在寄存器中，改为放在内存的某个地方，当然为了快速拿到段起始地址，段寄存器会从内存中拿到 CPU 的描述符高速缓存器中。</li>
+<li>cpu访问内存分位<code>实模式</code>和<code>保护模式</code>。其中<code>实模式</code>是对原来兼容的模式。</li>
+</ul>
+</li>
+</ul>
+<h3 id="参考资料">参考资料</h3>
+<blockquote>
+<ul>
+<li><a href="https://time.geekbang.org/column/article/89417" rel="external nofollow noopener noreferrer" target="_blank">极客时间 - x86架构</a></li>
+<li><a href="http://www.cs.virginia.edu/~evans/cs216/guides/x86.html" rel="external nofollow noopener noreferrer" target="_blank">x86 Assembly Guide</a></li>
+<li><a href="https://www.cnblogs.com/bindot/p/linux6.html" rel="external nofollow noopener noreferrer" target="_blank">Linux学习笔记《六》</a></li>
+</ul>
+</blockquote>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/计算机基础/开发平台/Android系统开发/07 编译android goldfish内核(x86_64)/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    07 编译android kernel
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/计算机基础/开发平台/Android系统开发/06 添加java层系统服务/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">06 添加java层系统服务</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            hinzer &copy; 2020 
+            <a rel="external nofollow noopener noreferrer" href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme - <a href="https://github.com/zthxxx/hexo-theme-Wikitten" rel="external nofollow noopener noreferrer" target="_blank">wikitten</a>
+            
+                <br><span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i><span id="busuanzi_value_site_pv"></span></span> | 
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"><span id="busuanzi_value_site_uv"></span></i></span>
+            
+        </div>
+    </div>
+</footer>
+        
+
+    
+        <script src="/wiki/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/wiki/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/wiki/js/main.js"></script>
+
+    </div>
+</body>

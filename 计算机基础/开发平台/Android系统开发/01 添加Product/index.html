@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    
+    <title>01 添加Product | hinzer&#39;s Wiki</title>
+    
+    
+        <meta name="keywords" content="Android,record">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="理解概念 1、Product 在android源码正式编译之前选择Product，使用lunch product-xxx，这一步操作理解为预先对要编译的源码进行一系列的配置。在android-10的源码中，将一个Product配置分成三个部分:  BoardConfig.mk: 芯片硬件相关配置，分区设置等 product.mk: 一个产品的软件相关的配置，比如内置哪些软件模块，由AndroidP">
+<meta name="keywords" content="Android,record">
+<meta property="og:type" content="article">
+<meta property="og:title" content="01 添加Product">
+<meta property="og:url" content="https://hinzer.github.io/wiki/计算机基础/开发平台/Android系统开发/01 添加Product/index.html">
+<meta property="og:site_name" content="hinzer&#39;s Wiki">
+<meta property="og:description" content="理解概念 1、Product 在android源码正式编译之前选择Product，使用lunch product-xxx，这一步操作理解为预先对要编译的源码进行一系列的配置。在android-10的源码中，将一个Product配置分成三个部分:  BoardConfig.mk: 芯片硬件相关配置，分区设置等 product.mk: 一个产品的软件相关的配置，比如内置哪些软件模块，由AndroidP">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-04-05T00:23:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="01 添加Product">
+<meta name="twitter:description" content="理解概念 1、Product 在android源码正式编译之前选择Product，使用lunch product-xxx，这一步操作理解为预先对要编译的源码进行一系列的配置。在android-10的源码中，将一个Product配置分成三个部分:  BoardConfig.mk: 芯片硬件相关配置，分区设置等 product.mk: 一个产品的软件相关的配置，比如内置哪些软件模块，由AndroidP">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="hinzer&#39;s Wiki" type="application/atom+xml">
+    
+
+    
+        <link rel="icon" href="/wiki/favicon.ico">
+    
+
+    <link rel="stylesheet" href="/wiki/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/wiki/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/wiki/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/wiki/css/style.css">
+    <script src="/wiki/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/wiki/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+    
+    
+        <link rel="stylesheet" href="/wiki/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/wiki/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+    
+        <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+</head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/wiki/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">hinzer&#39;s Wiki</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/wiki/">首页</a>
+                
+                    <a class="main-nav-link" href="/wiki/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/wiki/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/wiki/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/wiki/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/wiki/',
+        CONTENT_URL: '/wiki/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/wiki/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/wiki/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id="categories">
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id="allExpand" href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            技术开发
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            测试方法
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/测试方法/ctags/">ctags</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/logcat/">bugreport</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/如何编写一个好的测试用例/">理解测试用例</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/bugreport/">bugreport</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/理解单元测试/">理解单元测试</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            源码管理
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/源码管理/2020-03-20-bug-for-git/">git merge失败</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-log/">git log</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/android源码工具/">android源码管理工具</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-merge/">git log</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-rebase/">git rebase</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-fetch/">git fetch</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-reset_git-checkout/">git reset、git checkout</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-stash_git-clean/">git stash、git clean</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-revert/">git revert</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/github搜索开源项目/">github搜索开源项目</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git对象/">git 对象</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git引用/">git 引用</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git调试/">git 调试</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/打patch/">打patch</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/push代码/">push代码</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            生活学习
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            方法习惯
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/方法习惯/关于提问/">提问</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            读书笔记
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/读书笔记/小狗钱钱/">《小狗钱钱》</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            随笔记录
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/随笔记录/年度总结2019/">年度总结2019</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            计算机基础
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            开发平台
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Android系统开发
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/00 配置开发环境/">00 配置开发环境</a></li>  <li class="file active"><a href="/wiki/计算机基础/开发平台/Android系统开发/01 添加Product/">01 添加Product</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/03 添加自定义模块/">03 添加自定义模块</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/02 添加系统属性/">02 添加系统属性</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/04 添加预编译模块/">04 添加预定义模块</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/07 编译android goldfish内核(x86_64)/">07 编译android kernel</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/05 删除Android原生内置APK/">05 删除android内置apk</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/06 添加java层系统服务/">06 添加java层系统服务</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Linux系统学习
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/03 系统调用/">03 系统调用</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/04 x86架构/">04 x8架构</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/01 操作系统/">01 操作系统</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/02 Linux命令/">02 Linux命令</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            编程语言
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/计算机基础/编程语言/typedef理解/">「转」详谈typedef的用法</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/index/">Welcome hinzer's Wiki Site</a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-计算机基础/开发平台/Android系统开发/01 添加Product" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/wiki/categories/计算机基础/">计算机基础</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki/categories/计算机基础/开发平台/">开发平台</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki/categories/计算机基础/开发平台/Android系统开发/">Android系统开发</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/wiki/tags/Android/">Android</a>, <a class="tag-link" href="/wiki/tags/record/">record</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/计算机基础/开发平台/Android系统开发/01 添加Product/">
+            <time datetime="2020-04-05T00:03:10.000Z" itemprop="datePublished">2020-04-05</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a href="https://github.com/hinzer/wiki/raw/master/source/_posts/计算机基础/开发平台/Android系统开发/01 添加Product.md" rel="external nofollow noopener noreferrer" target="_blank"> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/hinzer/wiki/edit/master/source/_posts/计算机基础/开发平台/Android系统开发/01 添加Product.md" rel="external nofollow noopener noreferrer" target="_blank"> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/hinzer/wiki/commits/master/source/_posts/计算机基础/开发平台/Android系统开发/01 添加Product.md" rel="external nofollow noopener noreferrer" target="_blank"> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            01 添加Product
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+        
+        
+            <h3 id="理解概念">理解概念</h3>
+<p>1、Product<br>
+在android源码正式编译之前选择Product，使用<code>lunch product-xxx</code>，这一步操作理解为预先对要编译的源码进行一系列的配置。在android-10的源码中，将一个Product配置分成三个部分:</p>
+<ul>
+<li><a href="http://BoardConfig.mk" rel="external nofollow noopener noreferrer" target="_blank">BoardConfig.mk</a>: 芯片硬件相关配置，分区设置等</li>
+<li><a href="http://product.mk" rel="external nofollow noopener noreferrer" target="_blank">product.mk</a>: 一个产品的软件相关的配置，比如内置哪些软件模块，<a href="http://xn--AndroidProducts-ig40b.mk" rel="external nofollow noopener noreferrer" target="_blank">由AndroidProducts.mk</a> 中的PRODUCT_MAKEFILES指定</li>
+<li><a href="http://AndroidProducts.mk" rel="external nofollow noopener noreferrer" target="_blank">AndroidProducts.mk</a>: 指定 product 配置,并把 product 添加到 lunch 选择项中</li>
+</ul>
+<p>2、组织结构<br>
+Google为AOSP源码内置了Product配置，位于源码的<code>build/target</code>目录:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">hinzer@ubuntu:target$ pwd</span><br><span class="line">/home/hinzer/source/android-10/build/target</span><br><span class="line">hinzer@ubuntu:target$ tree -L 1</span><br><span class="line">.</span><br><span class="line">├── board</span><br><span class="line">├── OWNERS</span><br><span class="line">└── product</span><br><span class="line"></span><br><span class="line">2 directories, 1 file</span><br></pre></td></tr></table></figure>
+<p>同时也允许第三方定制Product配置，在源码<code>device</code>目录下。待会自定义Product在这个目录下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">hinzer@ubuntu:device$ tree mi </span><br><span class="line">mi 		# 公司名</span><br><span class="line">└── pure 	# device名(写为Product,与product区分),一个device可对应多个product</span><br><span class="line">    ├── AndroidProducts.mk  # 指定product配置，添加lunch选项</span><br><span class="line">    ├── BoardConfig.mk 		# 硬件配置 boardconfig</span><br><span class="line">    └── product01.mk 		# 软件配置 product</span><br><span class="line"></span><br><span class="line">1 directory, 3 files</span><br></pre></td></tr></table></figure>
+<h3 id="自定义product">自定义product</h3>
+<p>模仿aosp源码的Product配置,就引用了<code>build/target/board/generic_x86_64/BoardConfig.mk</code>和<code>build/target/board/generic_x86_64/BoardConfig.mk</code>的配置。然后进行自定义</p>
+<p>1、创建<code>device/[company]/[device]</code>目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hinzer@ubuntu:android-10$ mkdir -p ./device/mi/pure</span><br></pre></td></tr></table></figure>
+<p>2、分别添加<code>AndroidProducts.mk</code>、<code>product.mk</code>、<code>BoardConfig.mk</code>配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">hinzer@ubuntu:pure$ ls</span><br><span class="line">AndroidProducts.mk  BoardConfig.mk  product01.mk</span><br><span class="line"></span><br><span class="line"># 1.添加 AndroidProducts.mk</span><br><span class="line">hinzer@ubuntu:pure$ cat AndroidProducts.mk </span><br><span class="line">PRODUCT_MAKEFILES := \</span><br><span class="line">    $(LOCAL_DIR)/product01.mk   # 指定 product</span><br><span class="line"></span><br><span class="line">COMMON_LUNCH_CHOICES := \</span><br><span class="line">    product01-eng 				# 添加lunch选项</span><br><span class="line"></span><br><span class="line"># 2.添加 BoardConfig.mk </span><br><span class="line">hinzer@ubuntu:pure$ cat BoardConfig.mk </span><br><span class="line">include $(SRC_TARGET_DIR)/board/generic_x86_64/BoardConfig.mk  # 这里直接饮用</span><br><span class="line"></span><br><span class="line"># 3.添加 product01.mk </span><br><span class="line">hinzer@ubuntu:pure$ cat product01.mk </span><br><span class="line">$(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_x86_64.mk)</span><br><span class="line"></span><br><span class="line">PRODUCT_NAME   := product01 # product名(与文件保持一致)</span><br><span class="line">PRODUCT_DEVICE := pure      # device名，BoardConfig.mk相关</span><br></pre></td></tr></table></figure>
+<p>3、lunch刚才创建的product，编译</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hinzer@ubuntu:android-10$ <span class="built_in">source</span> ./build/envsetup.sh</span><br><span class="line">hinzer@ubuntu:android-10$ lunch product01-eng</span><br><span class="line">hinzer@ubuntu:android-10$ make -j4</span><br></pre></td></tr></table></figure>
+<p>4、验证</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 运行虚拟机</span></span><br><span class="line">hinzer@ubuntu:android-10$ emulator   <span class="comment"># 查看Android version信息，编译时间、产品名是否对应</span></span><br></pre></td></tr></table></figure>
+<h3 id="理论补充">理论补充</h3>
+<p>1、<code>build variants</code><br>
+aosp为build系统提供三种Product配置，文档里叫做<a href="https://source.android.com/setup/develop/new-device#build-variants" rel="external nofollow noopener noreferrer" target="_blank"><code>build variants</code></a>,分别是:</p>
+<ul>
+<li>eng : 对应到工程版。编译打包所有模块。表示adbd处于ROOT状态，所有调试开关打开</li>
+<li>userdebug : 对应到用户调试版。打开调试开关，但并没有放开ROOT权限</li>
+<li>user : 对应到用户版。关闭调试开关，关闭ROOT权限。最终发布到用户手上的版本，通常都是user版。</li>
+</ul>
+<h3 id="参考资料">参考资料</h3>
+<blockquote>
+<ul>
+<li><a href="https://source.android.com/setup/develop/new-device" rel="external nofollow noopener noreferrer" target="_blank">AOSP开发文档 - 添加新设备</a></li>
+<li><a href="http://qiushao.net/2019/11/19/Android%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E5%85%A5%E9%97%A8/2-%E6%B7%BB%E5%8A%A0product/" rel="external nofollow noopener noreferrer" target="_blank">Android系统开发入门-2.添加product</a></li>
+</ul>
+</blockquote>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/计算机基础/开发平台/Android系统开发/03 添加自定义模块/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    03 添加自定义模块
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/计算机基础/开发平台/Android系统开发/02 添加系统属性/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">02 添加系统属性</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            hinzer &copy; 2020 
+            <a rel="external nofollow noopener noreferrer" href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme - <a href="https://github.com/zthxxx/hexo-theme-Wikitten" rel="external nofollow noopener noreferrer" target="_blank">wikitten</a>
+            
+                <br><span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i><span id="busuanzi_value_site_pv"></span></span> | 
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"><span id="busuanzi_value_site_uv"></span></i></span>
+            
+        </div>
+    </div>
+</footer>
+        
+
+    
+        <script src="/wiki/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/wiki/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/wiki/js/main.js"></script>
+
+    </div>
+</body>

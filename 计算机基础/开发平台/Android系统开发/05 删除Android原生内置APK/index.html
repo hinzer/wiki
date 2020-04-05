@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    
+    <title>05 删除android内置apk | hinzer&#39;s Wiki</title>
+    
+    
+        <meta name="keywords" content="Android,record">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="两种方法 为了在编译阶段将内置apk给异常，下面提供2中方法。  直接找到添加这个apk的mk文件，从 PRODUCT_PACKAGES 中删除 通过添加模块，LOCAL_OVERRIDES_PACKAGES定义要覆盖的apk  目录结构 123456hinzer@ubuntu:android-10$ tree ./device/mi/pure/./device/mi/pure/├── Andro">
+<meta name="keywords" content="Android,record">
+<meta property="og:type" content="article">
+<meta property="og:title" content="05 删除android内置apk">
+<meta property="og:url" content="https://hinzer.github.io/wiki/计算机基础/开发平台/Android系统开发/05 删除Android原生内置APK/index.html">
+<meta property="og:site_name" content="hinzer&#39;s Wiki">
+<meta property="og:description" content="两种方法 为了在编译阶段将内置apk给异常，下面提供2中方法。  直接找到添加这个apk的mk文件，从 PRODUCT_PACKAGES 中删除 通过添加模块，LOCAL_OVERRIDES_PACKAGES定义要覆盖的apk  目录结构 123456hinzer@ubuntu:android-10$ tree ./device/mi/pure/./device/mi/pure/├── Andro">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-04-05T00:27:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="05 删除android内置apk">
+<meta name="twitter:description" content="两种方法 为了在编译阶段将内置apk给异常，下面提供2中方法。  直接找到添加这个apk的mk文件，从 PRODUCT_PACKAGES 中删除 通过添加模块，LOCAL_OVERRIDES_PACKAGES定义要覆盖的apk  目录结构 123456hinzer@ubuntu:android-10$ tree ./device/mi/pure/./device/mi/pure/├── Andro">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="hinzer&#39;s Wiki" type="application/atom+xml">
+    
+
+    
+        <link rel="icon" href="/wiki/favicon.ico">
+    
+
+    <link rel="stylesheet" href="/wiki/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/wiki/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/wiki/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/wiki/css/style.css">
+    <script src="/wiki/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/wiki/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+    
+    
+        <link rel="stylesheet" href="/wiki/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/wiki/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+    
+        <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+</head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/wiki/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">hinzer&#39;s Wiki</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/wiki/">首页</a>
+                
+                    <a class="main-nav-link" href="/wiki/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/wiki/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/wiki/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/wiki/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/wiki/',
+        CONTENT_URL: '/wiki/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/wiki/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/wiki/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id="categories">
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id="allExpand" href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            技术开发
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            测试方法
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/测试方法/ctags/">ctags</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/logcat/">bugreport</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/如何编写一个好的测试用例/">理解测试用例</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/bugreport/">bugreport</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/理解单元测试/">理解单元测试</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            源码管理
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/源码管理/2020-03-20-bug-for-git/">git merge失败</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-log/">git log</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/android源码工具/">android源码管理工具</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-merge/">git log</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-rebase/">git rebase</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-fetch/">git fetch</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-reset_git-checkout/">git reset、git checkout</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-stash_git-clean/">git stash、git clean</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-revert/">git revert</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/github搜索开源项目/">github搜索开源项目</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git对象/">git 对象</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git引用/">git 引用</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git调试/">git 调试</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/打patch/">打patch</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/push代码/">push代码</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            生活学习
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            方法习惯
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/方法习惯/关于提问/">提问</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            读书笔记
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/读书笔记/小狗钱钱/">《小狗钱钱》</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            随笔记录
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/随笔记录/年度总结2019/">年度总结2019</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            计算机基础
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            开发平台
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Android系统开发
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/00 配置开发环境/">00 配置开发环境</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/01 添加Product/">01 添加Product</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/03 添加自定义模块/">03 添加自定义模块</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/02 添加系统属性/">02 添加系统属性</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/04 添加预编译模块/">04 添加预定义模块</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/07 编译android goldfish内核(x86_64)/">07 编译android kernel</a></li>  <li class="file active"><a href="/wiki/计算机基础/开发平台/Android系统开发/05 删除Android原生内置APK/">05 删除android内置apk</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/06 添加java层系统服务/">06 添加java层系统服务</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Linux系统学习
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/03 系统调用/">03 系统调用</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/04 x86架构/">04 x8架构</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/01 操作系统/">01 操作系统</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/02 Linux命令/">02 Linux命令</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            编程语言
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/计算机基础/编程语言/typedef理解/">「转」详谈typedef的用法</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/index/">Welcome hinzer's Wiki Site</a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-计算机基础/开发平台/Android系统开发/05 删除Android原生内置APK" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/wiki/categories/计算机基础/">计算机基础</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki/categories/计算机基础/开发平台/">开发平台</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki/categories/计算机基础/开发平台/Android系统开发/">Android系统开发</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/wiki/tags/Android/">Android</a>, <a class="tag-link" href="/wiki/tags/record/">record</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/计算机基础/开发平台/Android系统开发/05 删除Android原生内置APK/">
+            <time datetime="2020-04-05T00:05:10.000Z" itemprop="datePublished">2020-04-05</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a href="https://github.com/hinzer/wiki/raw/master/source/_posts/计算机基础/开发平台/Android系统开发/05 删除Android原生内置APK.md" rel="external nofollow noopener noreferrer" target="_blank"> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/hinzer/wiki/edit/master/source/_posts/计算机基础/开发平台/Android系统开发/05 删除Android原生内置APK.md" rel="external nofollow noopener noreferrer" target="_blank"> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/hinzer/wiki/commits/master/source/_posts/计算机基础/开发平台/Android系统开发/05 删除Android原生内置APK.md" rel="external nofollow noopener noreferrer" target="_blank"> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            05 删除android内置apk
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+        
+        
+            <h3 id="两种方法">两种方法</h3>
+<p>为了在编译阶段将内置apk给异常，下面提供2中方法。</p>
+<ul>
+<li>直接找到添加这个apk的mk文件，从 PRODUCT_PACKAGES 中删除</li>
+<li>通过添加模块，<code>LOCAL_OVERRIDES_PACKAGES</code>定义要覆盖的apk</li>
+</ul>
+<h3 id="目录结构">目录结构</h3>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">hinzer@ubuntu:android-<span class="number">10</span>$ tree ./device/mi/pure/</span><br><span class="line">./device/mi/pure/</span><br><span class="line">├── <span class="module-access"><span class="module"><span class="identifier">Android</span>.</span></span>mk</span><br><span class="line">├── <span class="module-access"><span class="module"><span class="identifier">AndroidProducts</span>.</span></span>mk</span><br><span class="line">├── <span class="module-access"><span class="module"><span class="identifier">BoardConfig</span>.</span></span>mk</span><br><span class="line">├── product01.mk</span><br></pre></td></tr></table></figure>
+<h3 id="操作过程">操作过程</h3>
+<p><strong>1、 直接从 PRODUCT_PACKAGES 中删除</strong></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># step1 找到apk添加到 PRODUCT_PACKAGES 的那个mk文件</span></span><br><span class="line">$ mgrep Contacts</span><br><span class="line"></span><br><span class="line"><span class="comment"># step2 从改mk文件中移除配置项</span></span><br><span class="line"><span class="built_in">..</span><span class="built_in">..</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment"># step3 清理system目录，重新编译</span></span><br><span class="line">$ rm -rf out/target/product/pure/system</span><br><span class="line"></span><br><span class="line"><span class="comment"># step4 验证</span></span><br><span class="line">make -j4 &amp;&amp; emulator</span><br></pre></td></tr></table></figure>
+<p><strong>2、 通过 LOCAL_OVERRIDES_PACKAGES 删除</strong></p>
+<ol>
+<li>在Product下添加一个模块<code>remove_unused_module</code></li>
+</ol>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$ vim Android.mk</span><br><span class="line"></span><br><span class="line"><span class="keyword">include</span> <span class="variable">$(CLEAR_VARS)</span></span><br><span class="line">LOCAL_MODULE := remove_unused_module</span><br><span class="line">LOCAL_MODULE_TAGS := optional</span><br><span class="line"></span><br><span class="line">LOCAL_MODULE_CLASS := FAKE     <span class="comment"># 指定编译输出的目录为 $(PRODUCT_OUT)/fake_packages</span></span><br><span class="line">LOCAL_MODULE_SUFFIX := <span class="variable">$(COMMON_ANDROID_PACKAGE_SUFFIX)</span></span><br><span class="line"></span><br><span class="line">LOCAL_OVERRIDES_PACKAGES += \</span><br><span class="line">   Contacts \</span><br><span class="line">   Email  			<span class="comment">#这里添加要覆盖的apk</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">include</span> <span class="variable">$(BUILD_SYSTEM)</span>/base_rules.mk</span><br><span class="line"></span><br><span class="line"><span class="variable">$(LOCAL_BUILT_MODULE)</span>:</span><br><span class="line">	<span class="variable">$(hide)</span> echo <span class="string">"Fake: <span class="variable">$@</span>"</span></span><br><span class="line">	<span class="variable">$(hide)</span> mkdir -p <span class="variable">$(<span class="built_in">dir</span> <span class="variable">$@</span>)</span></span><br><span class="line">	<span class="variable">$(hide)</span> touch <span class="variable">$@</span></span><br><span class="line"></span><br><span class="line">PACKAGES.<span class="variable">$(LOCAL_MODULE)</span>.OVERRIDES := <span class="variable">$(<span class="built_in">strip</span> <span class="variable">$(LOCAL_OVERRIDES_PACKAGES)</span>)</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>将<code>remove_unused_module</code>添加到对应product文件的PRODUCT_PACKAGES配置</li>
+</ol>
+<figure class="highlight fix"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">PRODUCT_PACKAGES +</span>=<span class="string"> remove_unused_module</span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>清理<code>out/target/product/pure/system</code>目录，验证</li>
+</ol>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ rm -rf out/target/product/pure/system</span><br><span class="line">$ make -j4 &amp;&amp; emulator</span><br></pre></td></tr></table></figure>
+<h3 id="原理补充-PRODUCT-PACKAGES">原理补充(PRODUCT_PACKAGES)</h3>
+<p>对于第一种方法，通过<code>mgrep</code>命令能够搜索到这个mk文件定义了PRODUCT_PACKAGES，直接移除就ok。对于第二种方法，在 <a href="http://main.mk" rel="external nofollow noopener noreferrer" target="_blank">main.mk</a> 里面有对 <code>OVERRIDES_PACKAGES</code> 进行处理（在<a href="https://cs.android.com/android/platform/superproject/+/master:build/make/core/main.mk?q=_pif_overrides&amp;ss=android%2Fplatform%2Fsuperproject#1064" rel="external nofollow noopener noreferrer" target="_blank">android-10源码</a>中对这个关键词进行检索）</p>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"># Lists most of the files a particular product installs, including:</span><br><span class="line"># - PRODUCT_PACKAGES, and their LOCAL_REQUIRED_MODULES</span><br><span class="line"># - PRODUCT_COPY_FILES</span><br><span class="line"># The base list of modules to build <span class="keyword">for</span> this product is specified</span><br><span class="line"># by the appropriate product definition <span class="keyword">file</span>, which was included</span><br><span class="line"># by product_config.mk.</span><br><span class="line"># Name resolution <span class="keyword">for</span> PRODUCT_PACKAGES:</span><br><span class="line">#   foo:<span class="number">32</span> resolves to foo_32;</span><br><span class="line">#   foo:<span class="number">64</span> resolves to foo;</span><br><span class="line">#   foo resolves to both foo and foo_32 (<span class="keyword">if</span> foo_32 is defined).</span><br><span class="line">#</span><br><span class="line"># Name resolution <span class="keyword">for</span> LOCAL_REQUIRED_MODULES:</span><br><span class="line">#   If a module is built <span class="keyword">for</span> <span class="number">2</span>nd arch, its required module resolves to</span><br><span class="line">#   <span class="number">32</span>-bit variant, <span class="keyword">if</span> it exits. See the <span class="keyword">select</span>-bitness-of-required-modules definition.</span><br><span class="line"># $(<span class="number">1</span>): product makefile</span><br><span class="line">define product-installed-files</span><br><span class="line">  $(<span class="keyword">eval</span> _mk := $(<span class="keyword">strip</span> $(<span class="number">1</span>))) \</span><br><span class="line">  $(<span class="keyword">eval</span> _pif_modules := \</span><br><span class="line">    $(PRODUCTS.$(_mk).PRODUCT_PACKAGES) \</span><br><span class="line">    $(<span class="keyword">if</span> $(<span class="keyword">filter</span> eng,$(tags_to_install)),$(PRODUCTS.$(_mk).PRODUCT_PACKAGES_ENG)) \</span><br><span class="line">    $(<span class="keyword">if</span> $(<span class="keyword">filter</span> debug,$(tags_to_install)),$(PRODUCTS.$(_mk).PRODUCT_PACKAGES_DEBUG)) \</span><br><span class="line">    $(<span class="keyword">if</span> $(<span class="keyword">filter</span> tests,$(tags_to_install)),$(PRODUCTS.$(_mk).PRODUCT_PACKAGES_TESTS)) \</span><br><span class="line">    $(<span class="keyword">if</span> $(<span class="keyword">filter</span> asan,$(tags_to_install)),$(PRODUCTS.$(_mk).PRODUCT_PACKAGES_DEBUG_ASAN)) \</span><br><span class="line">    $(call auto-included-modules) \</span><br><span class="line">  ) \</span><br><span class="line">  $(<span class="keyword">eval</span> ### Filter out the overridden packages and executables before doing expansion) \</span><br><span class="line">  $(<span class="keyword">eval</span> _pif_overrides := $(call module-overrides,$(_pif_modules))) \</span><br><span class="line">  $(<span class="keyword">eval</span> _pif_modules := $(<span class="keyword">filter</span>-out $(_pif_overrides), $(_pif_modules))) \</span><br><span class="line">  $(<span class="keyword">eval</span> ### Resolve the :<span class="number">32</span> :<span class="number">64</span> module name) \</span><br><span class="line">  $(<span class="keyword">eval</span> _pif_modules_32 := $(patsubst %:<span class="number">32</span>,%,$(<span class="keyword">filter</span> %:<span class="number">32</span>, $(_pif_modules)))) \</span><br><span class="line">  $(<span class="keyword">eval</span> _pif_modules_64 := $(patsubst %:<span class="number">64</span>,%,$(<span class="keyword">filter</span> %:<span class="number">64</span>, $(_pif_modules)))) \</span><br><span class="line">  $(<span class="keyword">eval</span> _pif_modules_rest := $(<span class="keyword">filter</span>-out %:<span class="number">32</span> %:<span class="number">64</span>,$(_pif_modules))) \</span><br><span class="line">  $(<span class="keyword">eval</span> ### Note <span class="keyword">for</span> <span class="number">32</span>-bit product, <span class="number">32</span> and <span class="number">64</span> will be added as their original module names.) \</span><br><span class="line">  $(<span class="keyword">eval</span> _pif_modules := $(call get<span class="number">-32</span>-bit-modules-<span class="keyword">if</span>-we-can, $(_pif_modules_32))) \</span><br><span class="line">  $(<span class="keyword">eval</span> _pif_modules += $(_pif_modules_64)) \</span><br><span class="line">  $(<span class="keyword">eval</span> ### For the rest we add both) \</span><br><span class="line">  $(<span class="keyword">eval</span> _pif_modules += $(call get<span class="number">-32</span>-bit-modules, $(_pif_modules_rest))) \</span><br><span class="line">  $(<span class="keyword">eval</span> _pif_modules += $(_pif_modules_rest)) \</span><br><span class="line">  $(call expand-required-modules,_pif_modules,$(_pif_modules),$(_pif_overrides)) \</span><br><span class="line">  $(<span class="keyword">filter</span>-out $(HOST_OUT_ROOT)/%,$(call module-installed-files, $(_pif_modules))) \</span><br><span class="line">  $(call resolve-product-relative-paths,\</span><br><span class="line">    $(foreach cf,$(PRODUCTS.$(_mk).PRODUCT_COPY_FILES),$(call word-colon,<span class="number">2</span>,$(cf))))</span><br><span class="line">endef</span><br></pre></td></tr></table></figure>
+<p>有定义<br>
+<code>$(eval _pif_modules := $(filter-out $(_pif_overrides), $(_pif_modules)))</code><br>
+<a href="https://seisman.github.io/how-to-write-makefile/functions.html#filter-out" rel="external nofollow noopener noreferrer" target="_blank">filter-out</a>是Makefile语法支持的函数，从<code>$(_pif_modules)</code>中 反选过滤出<code>$(_pif_overrides)</code>之外的所有modules。</p>
+<blockquote>
+<p>涉及到android build系统，我现在也还没搞清楚逻辑链，有待补充。</p>
+</blockquote>
+<h3 id="参考资料">参考资料</h3>
+<blockquote>
+<ul>
+<li><a href="http://qiushao.net/2019/12/12/Android%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E5%85%A5%E9%97%A8/6-%E5%88%A0%E9%99%A4%E5%8E%9F%E7%94%9F%E5%86%85%E7%BD%AEAPK/" rel="external nofollow noopener noreferrer" target="_blank">Android系统开发入门-6.删除Android原生内置APK</a></li>
+</ul>
+</blockquote>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/计算机基础/开发平台/Android系统开发/04 添加预编译模块/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    04 添加预定义模块
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/计算机基础/开发平台/Android系统开发/03 添加自定义模块/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">03 添加自定义模块</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            hinzer &copy; 2020 
+            <a rel="external nofollow noopener noreferrer" href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme - <a href="https://github.com/zthxxx/hexo-theme-Wikitten" rel="external nofollow noopener noreferrer" target="_blank">wikitten</a>
+            
+                <br><span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i><span id="busuanzi_value_site_pv"></span></span> | 
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"><span id="busuanzi_value_site_uv"></span></i></span>
+            
+        </div>
+    </div>
+</footer>
+        
+
+    
+        <script src="/wiki/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/wiki/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/wiki/js/main.js"></script>
+
+    </div>
+</body>
