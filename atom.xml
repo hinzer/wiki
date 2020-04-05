@@ -77,9 +77,9 @@
       <category term="Linux系统学习" scheme="https://hinzer.github.io/wiki/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0/Linux%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0/"/>
     
     
-      <category term="Linux" scheme="https://hinzer.github.io/wiki/tags/Linux/"/>
-    
       <category term="note" scheme="https://hinzer.github.io/wiki/tags/note/"/>
+    
+      <category term="Linux" scheme="https://hinzer.github.io/wiki/tags/Linux/"/>
     
   </entry>
   
@@ -343,9 +343,41 @@ Linux系统上所有的操作由&lt;code&gt;进程&lt;/code&gt;完成，&lt;code
       <category term="Linux系统学习" scheme="https://hinzer.github.io/wiki/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0/Linux%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0/"/>
     
     
+      <category term="note" scheme="https://hinzer.github.io/wiki/tags/note/"/>
+    
       <category term="Linux" scheme="https://hinzer.github.io/wiki/tags/Linux/"/>
     
-      <category term="note" scheme="https://hinzer.github.io/wiki/tags/note/"/>
+  </entry>
+  
+  <entry>
+    <title>bugreport</title>
+    <link href="https://hinzer.github.io/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/bugreport/"/>
+    <id>https://hinzer.github.io/wiki/技术开发/测试方法/bugreport/</id>
+    <published>2020-03-28T00:28:37.000Z</published>
+    <updated>2020-03-29T03:37:01.471Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="理解">理解</h3><p>原生android系统支持<code>adb bugreport</code>命令，生成日志包含设备日志、堆栈轨迹和其他诊断信息，可以帮助您查找和修复应用中的错误</p><p>1、目录结构</p><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">mi@</span>ubuntu:bugreport$ tree -L <span class="number">1</span></span><br><span class="line">.</span><br><span class="line">├── bugreport-dipper_ru-QKQ1<span class="number">.190828</span><span class="number">.002</span><span class="number">-2020</span><span class="number">-03</span><span class="number">-26</span><span class="number">-16</span><span class="number">-15</span><span class="number">-04.</span>txt  #最重要的文件</span><br><span class="line">├── dumpstate_board.txt</span><br><span class="line">├── dumpstate_log.txt</span><br><span class="line">├── FS</span><br><span class="line">├── lshal-debug</span><br><span class="line">├── main_entry.txt</span><br><span class="line">├── outfile.log</span><br><span class="line">├── proto</span><br><span class="line">└── version.txt</span><br><span class="line"></span><br><span class="line"><span class="number">3</span> directories, <span class="number">6</span> files</span><br></pre></td></tr></table></figure><h3 id="常用操作">常用操作</h3><p>1、<a href="https://source.android.com/source/read-bug-reports.html?hl=zh-cn#anrs-deadlocks" rel="external nofollow noopener noreferrer" target="_blank">ANR和死锁</a></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 找出无响应的应用(系统会终止该进程并将堆栈转储到 /data/anr)</span><br><span class="line">grep &quot;am_anr&quot; bugreport-2015-10-01-18-13-48.txt  # 为二进制事件日志中的 am_anr 执行 grep 命令</span><br><span class="line">grep &quot;ANR in&quot; bugreport-2015-10-01-18-13-48.txt  # 为 logcat 日志（其中包含关于发生 ANR 时是什么在占用 CPU 的更多信息）中的 ANR in 执行 grep 命令</span><br><span class="line"></span><br><span class="line"># 查找堆栈跟踪( ANR 对应的堆栈跟踪 --&gt; 进程主线程)</span><br><span class="line">------ VM TRACES AT LAST ANR</span><br><span class="line">------ TRACES JUST NOW 和 </span><br><span class="line"></span><br><span class="line"># 查找死锁(系统服务器发生死锁，监控程序最终会将其终止)</span><br><span class="line">WATCHDOG KILLING SYSTEM PROCESS</span><br></pre></td></tr></table></figure><p>2、<a href="https://source.android.com/source/read-bug-reports.html?hl=zh-cn#activities" rel="external nofollow noopener noreferrer" target="_blank">Activity</a></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 查看聚焦状态的activity(崩溃期间处于聚焦状态的 Activity 表示当前用户操作)</span><br><span class="line">grep &quot;am_focused_activity&quot; bugreport-2015-10-01-18-13-48.txt</span><br><span class="line"></span><br><span class="line"># 查看进程启动事件</span><br><span class="line">grep &quot;Start proc&quot; bugreport-2015-10-01-18-13-48.txt</span><br><span class="line"></span><br><span class="line"># 设备是否发生系统颠簸</span><br><span class="line">grep -e &quot;am_proc_died&quot; -e &quot;am_proc_start&quot; bugreport-2015-10-01-18-13-48.txt</span><br></pre></td></tr></table></figure><p>3、<a href="https://source.android.com/source/read-bug-reports.html?hl=zh-cn#memory" rel="external nofollow noopener noreferrer" target="_blank">内存</a><br>4、<a href="https://source.android.com/source/read-bug-reports.html?hl=zh-cn#broadcasts" rel="external nofollow noopener noreferrer" target="_blank">广播</a><br>5、<a href="https://source.android.com/source/read-bug-reports.html?hl=zh-cn#monitor%20contention" rel="external nofollow noopener noreferrer" target="_blank">显示器争用</a><br>6、<a href="https://source.android.com/source/read-bug-reports.html?hl=zh-cn#background-compilation" rel="external nofollow noopener noreferrer" target="_blank">后台编译</a><br>7、<a href="https://source.android.com/source/read-bug-reports.html?hl=zh-cn#narrative" rel="external nofollow noopener noreferrer" target="_blank">叙述</a><br>8、<a href="https://source.android.com/source/read-bug-reports.html?hl=zh-cn#power" rel="external nofollow noopener noreferrer" target="_blank">电源</a><br>9、<a href="https://source.android.com/source/read-bug-reports.html?hl=zh-cn#packages" rel="external nofollow noopener noreferrer" target="_blank">程序包</a><br>10、<a href="https://source.android.com/source/read-bug-reports.html?hl=zh-cn#processes" rel="external nofollow noopener noreferrer" target="_blank">进程</a><br>11、<a href="https://source.android.com/source/read-bug-reports.html?hl=zh-cn#scans" rel="external nofollow noopener noreferrer" target="_blank">扫描</a></p><h3 id="参考链接">参考链接</h3><blockquote><ul><li><a href="https://developer.android.com/studio/debug/bug-report" rel="external nofollow noopener noreferrer" target="_blank">获取并阅读错误报告</a></li><li><a href="https://source.android.com/source/read-bug-reports.html?hl=zh-cn" rel="external nofollow noopener noreferrer" target="_blank">阅读错误报告</a></li><li><a href="https://wiki.n.miui.com/pages/viewpage.action?pageId=181967386" rel="external nofollow noopener noreferrer" target="_blank">Android Log机制、Logcat及MIUI 284日志介绍</a></li></ul></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;理解&quot;&gt;理解&lt;/h3&gt;
+&lt;p&gt;原生android系统支持&lt;code&gt;adb bugreport&lt;/code&gt;命令，生成日志包含设备日志、堆栈轨迹和其他诊断信息，可以帮助您查找和修复应用中的错误&lt;/p&gt;
+&lt;p&gt;1、目录结构&lt;/p&gt;
+&lt;figure class=&quot;hi
+      
+    
+    </summary>
+    
+      <category term="技术开发" scheme="https://hinzer.github.io/wiki/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+    
+      <category term="测试方法" scheme="https://hinzer.github.io/wiki/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/"/>
+    
+    
+      <category term="Android" scheme="https://hinzer.github.io/wiki/tags/Android/"/>
+    
+      <category term="Log" scheme="https://hinzer.github.io/wiki/tags/Log/"/>
     
   </entry>
   
@@ -413,38 +445,6 @@ Linux系统上所有的操作由&lt;code&gt;进程&lt;/code&gt;完成，&lt;code
   </entry>
   
   <entry>
-    <title>bugreport</title>
-    <link href="https://hinzer.github.io/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/bugreport/"/>
-    <id>https://hinzer.github.io/wiki/技术开发/测试方法/bugreport/</id>
-    <published>2020-03-28T00:28:37.000Z</published>
-    <updated>2020-03-29T03:37:01.471Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="理解">理解</h3><p>原生android系统支持<code>adb bugreport</code>命令，生成日志包含设备日志、堆栈轨迹和其他诊断信息，可以帮助您查找和修复应用中的错误</p><p>1、目录结构</p><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">mi@</span>ubuntu:bugreport$ tree -L <span class="number">1</span></span><br><span class="line">.</span><br><span class="line">├── bugreport-dipper_ru-QKQ1<span class="number">.190828</span><span class="number">.002</span><span class="number">-2020</span><span class="number">-03</span><span class="number">-26</span><span class="number">-16</span><span class="number">-15</span><span class="number">-04.</span>txt  #最重要的文件</span><br><span class="line">├── dumpstate_board.txt</span><br><span class="line">├── dumpstate_log.txt</span><br><span class="line">├── FS</span><br><span class="line">├── lshal-debug</span><br><span class="line">├── main_entry.txt</span><br><span class="line">├── outfile.log</span><br><span class="line">├── proto</span><br><span class="line">└── version.txt</span><br><span class="line"></span><br><span class="line"><span class="number">3</span> directories, <span class="number">6</span> files</span><br></pre></td></tr></table></figure><h3 id="常用操作">常用操作</h3><p>1、<a href="https://source.android.com/source/read-bug-reports.html?hl=zh-cn#anrs-deadlocks" rel="external nofollow noopener noreferrer" target="_blank">ANR和死锁</a></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 找出无响应的应用(系统会终止该进程并将堆栈转储到 /data/anr)</span><br><span class="line">grep &quot;am_anr&quot; bugreport-2015-10-01-18-13-48.txt  # 为二进制事件日志中的 am_anr 执行 grep 命令</span><br><span class="line">grep &quot;ANR in&quot; bugreport-2015-10-01-18-13-48.txt  # 为 logcat 日志（其中包含关于发生 ANR 时是什么在占用 CPU 的更多信息）中的 ANR in 执行 grep 命令</span><br><span class="line"></span><br><span class="line"># 查找堆栈跟踪( ANR 对应的堆栈跟踪 --&gt; 进程主线程)</span><br><span class="line">------ VM TRACES AT LAST ANR</span><br><span class="line">------ TRACES JUST NOW 和 </span><br><span class="line"></span><br><span class="line"># 查找死锁(系统服务器发生死锁，监控程序最终会将其终止)</span><br><span class="line">WATCHDOG KILLING SYSTEM PROCESS</span><br></pre></td></tr></table></figure><p>2、<a href="https://source.android.com/source/read-bug-reports.html?hl=zh-cn#activities" rel="external nofollow noopener noreferrer" target="_blank">Activity</a></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 查看聚焦状态的activity(崩溃期间处于聚焦状态的 Activity 表示当前用户操作)</span><br><span class="line">grep &quot;am_focused_activity&quot; bugreport-2015-10-01-18-13-48.txt</span><br><span class="line"></span><br><span class="line"># 查看进程启动事件</span><br><span class="line">grep &quot;Start proc&quot; bugreport-2015-10-01-18-13-48.txt</span><br><span class="line"></span><br><span class="line"># 设备是否发生系统颠簸</span><br><span class="line">grep -e &quot;am_proc_died&quot; -e &quot;am_proc_start&quot; bugreport-2015-10-01-18-13-48.txt</span><br></pre></td></tr></table></figure><p>3、<a href="https://source.android.com/source/read-bug-reports.html?hl=zh-cn#memory" rel="external nofollow noopener noreferrer" target="_blank">内存</a><br>4、<a href="https://source.android.com/source/read-bug-reports.html?hl=zh-cn#broadcasts" rel="external nofollow noopener noreferrer" target="_blank">广播</a><br>5、<a href="https://source.android.com/source/read-bug-reports.html?hl=zh-cn#monitor%20contention" rel="external nofollow noopener noreferrer" target="_blank">显示器争用</a><br>6、<a href="https://source.android.com/source/read-bug-reports.html?hl=zh-cn#background-compilation" rel="external nofollow noopener noreferrer" target="_blank">后台编译</a><br>7、<a href="https://source.android.com/source/read-bug-reports.html?hl=zh-cn#narrative" rel="external nofollow noopener noreferrer" target="_blank">叙述</a><br>8、<a href="https://source.android.com/source/read-bug-reports.html?hl=zh-cn#power" rel="external nofollow noopener noreferrer" target="_blank">电源</a><br>9、<a href="https://source.android.com/source/read-bug-reports.html?hl=zh-cn#packages" rel="external nofollow noopener noreferrer" target="_blank">程序包</a><br>10、<a href="https://source.android.com/source/read-bug-reports.html?hl=zh-cn#processes" rel="external nofollow noopener noreferrer" target="_blank">进程</a><br>11、<a href="https://source.android.com/source/read-bug-reports.html?hl=zh-cn#scans" rel="external nofollow noopener noreferrer" target="_blank">扫描</a></p><h3 id="参考链接">参考链接</h3><blockquote><ul><li><a href="https://developer.android.com/studio/debug/bug-report" rel="external nofollow noopener noreferrer" target="_blank">获取并阅读错误报告</a></li><li><a href="https://source.android.com/source/read-bug-reports.html?hl=zh-cn" rel="external nofollow noopener noreferrer" target="_blank">阅读错误报告</a></li><li><a href="https://wiki.n.miui.com/pages/viewpage.action?pageId=181967386" rel="external nofollow noopener noreferrer" target="_blank">Android Log机制、Logcat及MIUI 284日志介绍</a></li></ul></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;理解&quot;&gt;理解&lt;/h3&gt;
-&lt;p&gt;原生android系统支持&lt;code&gt;adb bugreport&lt;/code&gt;命令，生成日志包含设备日志、堆栈轨迹和其他诊断信息，可以帮助您查找和修复应用中的错误&lt;/p&gt;
-&lt;p&gt;1、目录结构&lt;/p&gt;
-&lt;figure class=&quot;hi
-      
-    
-    </summary>
-    
-      <category term="技术开发" scheme="https://hinzer.github.io/wiki/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
-    
-      <category term="测试方法" scheme="https://hinzer.github.io/wiki/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/"/>
-    
-    
-      <category term="Android" scheme="https://hinzer.github.io/wiki/tags/Android/"/>
-    
-      <category term="Log" scheme="https://hinzer.github.io/wiki/tags/Log/"/>
-    
-  </entry>
-  
-  <entry>
     <title>理解单元测试</title>
     <link href="https://hinzer.github.io/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/%E7%90%86%E8%A7%A3%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"/>
     <id>https://hinzer.github.io/wiki/技术开发/测试方法/理解单元测试/</id>
@@ -506,6 +506,34 @@ Linux系统上所有的操作由&lt;code&gt;进程&lt;/code&gt;完成，&lt;code
   </entry>
   
   <entry>
+    <title>push代码</title>
+    <link href="https://hinzer.github.io/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86/push%E4%BB%A3%E7%A0%81/"/>
+    <id>https://hinzer.github.io/wiki/技术开发/源码管理/push代码/</id>
+    <published>2020-03-28T00:24:37.000Z</published>
+    <updated>2020-03-28T00:27:15.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="用法">用法</h3><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">wjf@ubuntu:base$ pwd</span><br><span class="line">/home/wjf/miui/umi-q/frameworks/base</span><br><span class="line">wjf@ubuntu:base$ repo info .</span><br><span class="line">Manifest branch: miui-q-umi-stable</span><br><span class="line">Manifest merge branch: refs/heads/stable</span><br><span class="line">Manifest groups: all,-notdefault</span><br><span class="line">----------------------------</span><br><span class="line">Project: platform/frameworks/base</span><br><span class="line">Mount path: /home/wjf/miui/umi-q/frameworks/base</span><br><span class="line">Current revision: miui-q-umi-stable</span><br><span class="line">Local Branches: 0</span><br><span class="line">----------------------------</span><br><span class="line">wjf@ubuntu:base$ git push ssh://wangjianfeng1@gerrit.pt.miui.com:29418/platform/frameworks/base HEAD:refs/for/miui-q-umi-stable</span><br></pre></td></tr></table></figure><ul><li><code>git push</code> git语法表示远程推送,<code>git push help</code>查看详细情况</li><li><code>ssh://wangjianfeng1@gerrit.pt.miui.com:29418/platform/frameworks/base</code>表示使用ssh协议访问gerrit服务器的29418端口，通过url定位到frameworks/base这个目录，是要推送的目录</li><li><code>HEAD:refs/for/miui-q-umi-stable</code>,HEAD指向当前的本地分支，refs/for/miui-q-umi-stable表示远程分支名。</li></ul><p><em>ps: 在修改目录下，git remote -v命令查看代码服务器的git仓库的链接，repo info .获取gerrit仓库远程提交点（分支名）</em></p><h3 id="参考">参考</h3><blockquote><ul><li><a href="https://www.cnblogs.com/sparkdev/p/6071533.html" rel="external nofollow noopener noreferrer" target="_blank">SSH协议语法格式</a></li></ul></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;用法&quot;&gt;用法&lt;/h3&gt;
+&lt;figure class=&quot;highlight asciidoc&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;
+      
+    
+    </summary>
+    
+      <category term="技术开发" scheme="https://hinzer.github.io/wiki/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
+    
+      <category term="源码管理" scheme="https://hinzer.github.io/wiki/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86/"/>
+    
+    
+      <category term="Git" scheme="https://hinzer.github.io/wiki/tags/Git/"/>
+    
+  </entry>
+  
+  <entry>
     <title>打patch</title>
     <link href="https://hinzer.github.io/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86/%E6%89%93patch/"/>
     <id>https://hinzer.github.io/wiki/技术开发/源码管理/打patch/</id>
@@ -522,34 +550,6 @@ Linux系统上所有的操作由&lt;code&gt;进程&lt;/code&gt;完成，&lt;code
 &lt;p&gt;patch是某一次提交给文件内容的改变，打patch是将某一次改变的内容应用到当前的版本库。&lt;/p&gt;
 &lt;h3 id=&quot;常规操作&quot;&gt;常规操作&lt;/h3&gt;
 &lt;figure class=&quot;highlight jboss-cli&quot;&gt;&lt;table
-      
-    
-    </summary>
-    
-      <category term="技术开发" scheme="https://hinzer.github.io/wiki/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/"/>
-    
-      <category term="源码管理" scheme="https://hinzer.github.io/wiki/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86/"/>
-    
-    
-      <category term="Git" scheme="https://hinzer.github.io/wiki/tags/Git/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>push代码</title>
-    <link href="https://hinzer.github.io/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86/push%E4%BB%A3%E7%A0%81/"/>
-    <id>https://hinzer.github.io/wiki/技术开发/源码管理/push代码/</id>
-    <published>2020-03-28T00:24:37.000Z</published>
-    <updated>2020-03-28T00:27:15.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="用法">用法</h3><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">wjf@ubuntu:base$ pwd</span><br><span class="line">/home/wjf/miui/umi-q/frameworks/base</span><br><span class="line">wjf@ubuntu:base$ repo info .</span><br><span class="line">Manifest branch: miui-q-umi-stable</span><br><span class="line">Manifest merge branch: refs/heads/stable</span><br><span class="line">Manifest groups: all,-notdefault</span><br><span class="line">----------------------------</span><br><span class="line">Project: platform/frameworks/base</span><br><span class="line">Mount path: /home/wjf/miui/umi-q/frameworks/base</span><br><span class="line">Current revision: miui-q-umi-stable</span><br><span class="line">Local Branches: 0</span><br><span class="line">----------------------------</span><br><span class="line">wjf@ubuntu:base$ git push ssh://wangjianfeng1@gerrit.pt.miui.com:29418/platform/frameworks/base HEAD:refs/for/miui-q-umi-stable</span><br></pre></td></tr></table></figure><ul><li><code>git push</code> git语法表示远程推送,<code>git push help</code>查看详细情况</li><li><code>ssh://wangjianfeng1@gerrit.pt.miui.com:29418/platform/frameworks/base</code>表示使用ssh协议访问gerrit服务器的29418端口，通过url定位到frameworks/base这个目录，是要推送的目录</li><li><code>HEAD:refs/for/miui-q-umi-stable</code>,HEAD指向当前的本地分支，refs/for/miui-q-umi-stable表示远程分支名。</li></ul><p><em>ps: 在修改目录下，git remote -v命令查看代码服务器的git仓库的链接，repo info .获取gerrit仓库远程提交点（分支名）</em></p><h3 id="参考">参考</h3><blockquote><ul><li><a href="https://www.cnblogs.com/sparkdev/p/6071533.html" rel="external nofollow noopener noreferrer" target="_blank">SSH协议语法格式</a></li></ul></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;用法&quot;&gt;用法&lt;/h3&gt;
-&lt;figure class=&quot;highlight asciidoc&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;
       
     
     </summary>
@@ -590,11 +590,11 @@ Linux系统上所有的操作由&lt;code&gt;进程&lt;/code&gt;完成，&lt;code
       <category term="源码管理" scheme="https://hinzer.github.io/wiki/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86/"/>
     
     
+      <category term="Android" scheme="https://hinzer.github.io/wiki/tags/Android/"/>
+    
       <category term="Git" scheme="https://hinzer.github.io/wiki/tags/Git/"/>
     
       <category term="Repo" scheme="https://hinzer.github.io/wiki/tags/Repo/"/>
-    
-      <category term="Android" scheme="https://hinzer.github.io/wiki/tags/Android/"/>
     
   </entry>
   
@@ -625,9 +625,9 @@ Linux系统上所有的操作由&lt;code&gt;进程&lt;/code&gt;完成，&lt;code
       <category term="Linux系统学习" scheme="https://hinzer.github.io/wiki/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0/Linux%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0/"/>
     
     
-      <category term="Linux" scheme="https://hinzer.github.io/wiki/tags/Linux/"/>
-    
       <category term="note" scheme="https://hinzer.github.io/wiki/tags/note/"/>
+    
+      <category term="Linux" scheme="https://hinzer.github.io/wiki/tags/Linux/"/>
     
   </entry>
   
@@ -660,9 +660,9 @@ Linux系统上所有的操作由&lt;code&gt;进程&lt;/code&gt;完成，&lt;code
       <category term="Linux系统学习" scheme="https://hinzer.github.io/wiki/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0/Linux%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0/"/>
     
     
-      <category term="Linux" scheme="https://hinzer.github.io/wiki/tags/Linux/"/>
-    
       <category term="note" scheme="https://hinzer.github.io/wiki/tags/note/"/>
+    
+      <category term="Linux" scheme="https://hinzer.github.io/wiki/tags/Linux/"/>
     
   </entry>
   
