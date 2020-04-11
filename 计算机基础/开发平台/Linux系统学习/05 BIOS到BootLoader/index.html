@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    
+    <title>05 BIOS到BootLoader | hinzer&#39;s Wiki</title>
+    
+    
+        <meta name="keywords" content="note,Linux">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="初步了解 1、 回顾 之前理解了x86架构下的工作模式，计算机系统的核心是CPU、内存、总线来干活的。但是x86提供的是开放的硬件平台，需要配合对应的操作系统，才能发挥最大的作用。 另外随着计算机技术的衍变，32位系统之后的x86架构已经有实模式和保护模式两种模式。系统启动之前的BIOS阶段在实模式，之后工作在保护模式。  实模式，兼容原来16位系统设计出的模式。只能寻址1M，每个段最多64K 保">
+<meta name="keywords" content="note,Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="05 BIOS到BootLoader">
+<meta property="og:url" content="https://hinzer.github.io/wiki/计算机基础/开发平台/Linux系统学习/05 BIOS到BootLoader/index.html">
+<meta property="og:site_name" content="hinzer&#39;s Wiki">
+<meta property="og:description" content="初步了解 1、 回顾 之前理解了x86架构下的工作模式，计算机系统的核心是CPU、内存、总线来干活的。但是x86提供的是开放的硬件平台，需要配合对应的操作系统，才能发挥最大的作用。 另外随着计算机技术的衍变，32位系统之后的x86架构已经有实模式和保护模式两种模式。系统启动之前的BIOS阶段在实模式，之后工作在保护模式。  实模式，兼容原来16位系统设计出的模式。只能寻址1M，每个段最多64K 保">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zdGF0aWMwMDEuZ2Vla2Jhbmcub3JnL3Jlc291cmNlL2ltYWdlLzVmL2ZjLzVmMzY0ZWY1YzlkMWEzYjFkOWJiNzE1M2JkMTY2YmZjLmpwZWc?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zdGF0aWMwMDEuZ2Vla2Jhbmcub3JnL3Jlc291cmNlL2ltYWdlLzJiLzZhLzJiODU3M2JiYmYzMWZjMGNiMDQyMGUzMmQwN2IxOTZhLmpwZWc?x-oss-process=image/format,png">
+<meta property="og:updated_time" content="2020-04-11T00:22:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="05 BIOS到BootLoader">
+<meta name="twitter:description" content="初步了解 1、 回顾 之前理解了x86架构下的工作模式，计算机系统的核心是CPU、内存、总线来干活的。但是x86提供的是开放的硬件平台，需要配合对应的操作系统，才能发挥最大的作用。 另外随着计算机技术的衍变，32位系统之后的x86架构已经有实模式和保护模式两种模式。系统启动之前的BIOS阶段在实模式，之后工作在保护模式。  实模式，兼容原来16位系统设计出的模式。只能寻址1M，每个段最多64K 保">
+<meta name="twitter:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zdGF0aWMwMDEuZ2Vla2Jhbmcub3JnL3Jlc291cmNlL2ltYWdlLzVmL2ZjLzVmMzY0ZWY1YzlkMWEzYjFkOWJiNzE1M2JkMTY2YmZjLmpwZWc?x-oss-process=image/format,png">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="hinzer&#39;s Wiki" type="application/atom+xml">
+    
+
+    
+        <link rel="icon" href="/wiki/favicon.ico">
+    
+
+    <link rel="stylesheet" href="/wiki/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/wiki/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/wiki/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/wiki/css/style.css">
+    <script src="/wiki/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/wiki/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+    
+    
+        <link rel="stylesheet" href="/wiki/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/wiki/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+    
+        <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+</head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/wiki/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">hinzer&#39;s Wiki</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/wiki/">首页</a>
+                
+                    <a class="main-nav-link" href="/wiki/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/wiki/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/wiki/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/wiki/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/wiki/',
+        CONTENT_URL: '/wiki/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/wiki/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/wiki/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id="categories">
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id="allExpand" href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            技术开发
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            测试方法
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/测试方法/bugreport/">bugreport</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/ctags/">ctags</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/logcat/">bugreport</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/如何编写一个好的测试用例/">理解测试用例</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/理解单元测试/">理解单元测试</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            源码管理
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/源码管理/2020-03-20-bug-for-git/">git merge失败</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/android源码工具/">android源码管理工具</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-fetch/">git fetch</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-log/">git log</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-merge/">git log</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-rebase/">git rebase</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-reset_git-checkout/">git reset、git checkout</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-revert/">git revert</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/github搜索开源项目/">github搜索开源项目</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-stash_git-clean/">git stash、git clean</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git对象/">git 对象</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git引用/">git 引用</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git调试/">git 调试</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/push代码/">push代码</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/打patch/">打patch</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            生活学习
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            方法习惯
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/方法习惯/关于提问/">提问</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            读书笔记
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/读书笔记/小狗钱钱/">《小狗钱钱》</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            随笔记录
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/随笔记录/年度总结2019/">年度总结2019</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            计算机基础
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            开发平台
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Android系统开发
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/00 配置开发环境/">00 配置开发环境</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/01 添加Product/">01 添加Product</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/02 添加系统属性/">02 添加系统属性</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/03 添加自定义模块/">03 添加自定义模块</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/04 添加预编译模块/">04 添加预定义模块</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/05 删除Android原生内置APK/">05 删除android内置apk</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/06 添加java层系统服务/">06 添加java层系统服务</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/07 编译android goldfish内核(x86_64)/">07 编译android kernel</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/08 Android-bp条件编译/">08 Android-bp条件编译</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Linux系统学习
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/01 操作系统/">01 操作系统</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/02 Linux命令/">02 Linux命令</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/03 系统调用/">03 系统调用</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/04 x86架构/">04 x86架构</a></li>  <li class="file active"><a href="/wiki/计算机基础/开发平台/Linux系统学习/05 BIOS到BootLoader/">05 BIOS到BootLoader</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/06 kernel初始化/">06 kernel初始化</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/07 深入系统调用/">07 深入系统调用</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            编程语言
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/计算机基础/编程语言/typedef理解/">「转」详谈typedef的用法</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/index/">Welcome hinzer's Wiki Site</a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-计算机基础/开发平台/Linux系统学习/05 BIOS到BootLoader" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/wiki/categories/计算机基础/">计算机基础</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki/categories/计算机基础/开发平台/">开发平台</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki/categories/计算机基础/开发平台/Linux系统学习/">Linux系统学习</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/wiki/tags/Linux/">Linux</a>, <a class="tag-link" href="/wiki/tags/note/">note</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/计算机基础/开发平台/Linux系统学习/05 BIOS到BootLoader/">
+            <time datetime="2020-04-11T00:22:02.000Z" itemprop="datePublished">2020-04-11</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a href="https://github.com/hinzer/wiki/raw/master/source/_posts/计算机基础/开发平台/Linux系统学习/05 BIOS到BootLoader.md" rel="external nofollow noopener noreferrer" target="_blank"> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/hinzer/wiki/edit/master/source/_posts/计算机基础/开发平台/Linux系统学习/05 BIOS到BootLoader.md" rel="external nofollow noopener noreferrer" target="_blank"> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/hinzer/wiki/commits/master/source/_posts/计算机基础/开发平台/Linux系统学习/05 BIOS到BootLoader.md" rel="external nofollow noopener noreferrer" target="_blank"> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            05 BIOS到BootLoader
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+        
+        
+            <h3 id="初步了解">初步了解</h3>
+<p><strong>1、 回顾</strong><br>
+之前理解了x86架构下的工作模式，计算机系统的核心是<strong>CPU、内存、总线</strong>来干活的。但是x86提供的是开放的硬件平台，需要配合对应的操作系统，才能发挥最大的作用。<br>
+另外随着计算机技术的衍变，32位系统之后的x86架构已经有<strong>实模式</strong>和<strong>保护模式</strong>两种模式。系统启动之前的BIOS阶段在实模式，之后工作在保护模式。</p>
+<ul>
+<li>实模式，兼容原来16位系统设计出的模式。只能寻址1M，每个段最多64K</li>
+<li>保护模式，对于32位系统，能够寻址4G。</li>
+</ul>
+<p><strong>2、 目的</strong><br>
+学习目的: 操作系统不是在板子上电就直接运行的，中间一定有一个过程。学习了解linux系统启动之前cpu做了哪些准备，内核如何被加载到内存上运行。</p>
+<p><strong>3、 总结</strong><br>
+板子上电，先读取ROM中的固件代码，做出一个基本输入输出系统。这一阶段为<code>BIOS时期</code>。<br>
+BIOS从启动盘（一般是硬盘第一个扇区）开始加载引导代码，进一步初始化硬件，实模式升级为保护模式。这一阶段为<code>BootLoader时期</code>。<br>
+BootLoader将一系列工作做完了，最重要的一步就是加载系统内核kernel到内存运行了。控制权移交给内核之后，BootLoader时期结束，然后开始内核的部分了。</p>
+<br>
+<h3 id="BIOS阶段">BIOS阶段</h3>
+<blockquote>
+<p>BIOS是固化在ROM上的一段程序，如果你自己安装过操作系统，刚启动的时候，按某个组合键，显示器会弹出一个蓝色的界面。能够调整启动顺序的系统，就是我说的 BIOS，然后我们就可以先执行它。</p>
+</blockquote>
+<p><strong>1、 内存地址空间</strong><br>
+cpu工作模式是实模式，这时只有1M的内存地址空间<br>
+<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zdGF0aWMwMDEuZ2Vla2Jhbmcub3JnL3Jlc291cmNlL2ltYWdlLzVmL2ZjLzVmMzY0ZWY1YzlkMWEzYjFkOWJiNzE1M2JkMTY2YmZjLmpwZWc?x-oss-process=image/format,png" alt></p>
+<ol>
+<li>x86系统中，cpu将内存地址0xF0000 到 0xFFFFF 这 64K 映射给 ROM。</li>
+<li>主板上电，cpu将CS寄存器置为0xffff，ip寄存器置0x0000，所以第一条指令指向的地址是0xfff0(实模式下，cs&lt;&lt;4 + ip)。这里有一个jmp指令，跳转到rom中做初始化的代码。</li>
+</ol>
+<p><strong>2、 程序流程</strong><br>
+主板上电，CPU先从ROM中加载BIOS程序，BIOS进行硬件相关的初始化工作。主要有2件事情</p>
+<ol>
+<li>检查硬件环境</li>
+<li>是建立中断程序和中断向量表，同时把结果显示在显示器上</li>
+</ol>
+<br>
+<h3 id="BootLoader阶段">BootLoader阶段</h3>
+<blockquote>
+<p>光有BIOS还不够，还要从硬盘上搞到操作系统。引导操作系统这一阶段就是BootLoader。</p>
+</blockquote>
+<p><strong>1、 引导管理器grub2</strong><br>
+Linux一般通过grub来做系统引导程序。<br>
+系统上提供了grub2工具，grub2用户配置文件<code>/etc/default/grub</code>，系统会根据用户配置自动生成<code>/boot/grub/grub.cfg</code>。常用命令</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 重新生成配置文件</span></span><br><span class="line">grub-mkconfig -o <span class="string">/boot/grub/grub.cfg</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 将Grub 2安装到硬盘引导扇区</span></span><br><span class="line">grub-install <span class="params">--root-directory=/</span> <span class="string">/dev/sda</span></span><br></pre></td></tr></table></figure>
+<p><strong>2、 相关文件</strong><br>
+使用 grub2-install /dev/sda，可以将启动程序安装到相应的位置。其中有<code>boot.img</code>、<code>core.img</code><br>
+<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zdGF0aWMwMDEuZ2Vla2Jhbmcub3JnL3Jlc291cmNlL2ltYWdlLzJiLzZhLzJiODU3M2JiYmYzMWZjMGNiMDQyMGUzMmQwN2IxOTZhLmpwZWc?x-oss-process=image/format,png" alt><br>
+(1)boot.img</p>
+<p>在BIOS平台下，boot.img是grub启动的第一个img文件，它被写入到MBR中或分区的boot sector中，因为boot sector的大小是512字节，所以该img文件的大小也是512字节。</p>
+<p>boot.img唯一的作用是读取属于core.img的第一个扇区并跳转到它身上，将控制权交给该扇区的img。由于体积大小的限制，boot.img无法理解文件系统的结构，因此grub2-install将会把core.img的位置硬编码到boot.img中，这样就一定能找到core.img的位置。</p>
+<p><a href="https://www.cnblogs.com/f-ck-need-u/p/7094693.html#blog122" rel="external nofollow noopener noreferrer" target="_blank">此处参考</a></p>
+<p>(2)core.img</p>
+<p>core.img根据diskboot.img、kernel.img和一系列的模块被grub2-mkimage程序动态创建。core.img中嵌入了足够多的功能模块以保证grub能访问/boot/grub，并且可以加载相关的模块实现相关的功能，例如加载启动菜单、加载目标操作系统的信息等，由于grub2大量使用了动态功能模块，使得core.img体积变得足够小。</p>
+<p>core.img中包含了多个img文件的内容，包括diskboot.img/kernel.img等。</p>
+<p><a href="https://www.cnblogs.com/f-ck-need-u/p/7094693.html#blog122" rel="external nofollow noopener noreferrer" target="_blank">此处参考</a></p>
+<p><strong>3、 引导流程</strong><br>
+BIOS完成之后，先加载boot.img到内容中运行，boot.img 将控制权交给 diskboot.img 后，diskboot.img 的任务就是将 core.img 的其他部分加载进来，先是解压缩程序 lzma_decompress.img，再往下是 kernel.img，最后是各个模块 module 对应的映像。这里需要注意，它不是 Linux 的内核，而是 grub 的内核。<br>
+再kernel.img中选择加载真正的linux kernel(对应之前的grub用户配置文件)。</p>
+<br>
+<h3 id="补充知识">补充知识</h3>
+<p><strong>1、 从实模式切换到保护模式</strong><br>
+在bootloader过程中，lzma_decompress.img 做了一个重要的决定，就是调用 real_to_prot，cpu从实模式切换到保护模式.切换到保护模式要干很多工作，大部分工作都与内存的访问方式有关。</p>
+<ul>
+<li>第一项是启用分段，就是在内存里面建立段描述符表，将寄存器里面的段寄存器变成段选择子，指向某个段描述符，这样就能实现不同进程的切换了。</li>
+<li>第二项是启动分页。能够管理的内存变大了</li>
+<li>打开第21根地址线 Gate A20，cpu从20位总线到32位总线访问内存</li>
+</ul>
+<p><strong>2、 硬件基础(主引导扇区、分区引导扇区、分区表)</strong><br>
+一个硬盘实际上由一个个扇区组成，它起始的一部分扇区为主引导扇区，包括MBR（主引导纪录）和DPT（分区表）<br>
+硬盘可以有多个分区，每个分区起始的一部分扇区，为分区引导扇区。分区引导扇区之后的部分，为文件系统的索引，不同的文件系统采用不同的索引，文件系统通过它定位文件在硬盘上的位置。<br>
+对硬盘的读写操作，通过文件系统来完成；引导扇区中的内容，我们不能够在文件系统中进行操作，而需要专用软件，比如引导管理器。</p>
+<br>
+<h3 id="参考资料">参考资料</h3>
+<p><a href="https://zh.wikipedia.org/wiki/%E4%B8%BB%E5%BC%95%E5%AF%BC%E8%AE%B0%E5%BD%95" rel="external nofollow noopener noreferrer" target="_blank">主引导记录 - 百科</a><br>
+<a href="http://linux-wiki.cn/wiki/zh-hans/Grub2%E9%85%8D%E7%BD%AE" rel="external nofollow noopener noreferrer" target="_blank">Grub2配置</a><br>
+<a href="https://www.cnblogs.com/f-ck-need-u/p/7094693.html" rel="external nofollow noopener noreferrer" target="_blank">grub2详解(翻译和整理官方手册)</a><br>
+<a href="https://opensource.com/article/17/2/linux-boot-and-startup" rel="external nofollow noopener noreferrer" target="_blank">An introduction to the Linux boot and startup processes</a><br>
+<a href="https://opensource.com/article/17/3/introduction-grub2-configuration-linux" rel="external nofollow noopener noreferrer" target="_blank">An introduction to GRUB2 configuration for your Linux machine</a></p>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/计算机基础/开发平台/Linux系统学习/06 kernel初始化/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    06 kernel初始化
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/计算机基础/开发平台/Android系统开发/07 编译android goldfish内核(x86_64)/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">07 编译android kernel</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            hinzer &copy; 2020 
+            <a rel="external nofollow noopener noreferrer" href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme - <a href="https://github.com/zthxxx/hexo-theme-Wikitten" rel="external nofollow noopener noreferrer" target="_blank">wikitten</a>
+            
+                <br><span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i><span id="busuanzi_value_site_pv"></span></span> | 
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"><span id="busuanzi_value_site_uv"></span></i></span>
+            
+        </div>
+    </div>
+</footer>
+        
+
+    
+        <script src="/wiki/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/wiki/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/wiki/js/main.js"></script>
+
+    </div>
+</body>

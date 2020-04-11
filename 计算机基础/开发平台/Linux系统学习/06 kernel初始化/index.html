@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    
+    <title>06 kernel初始化 | hinzer&#39;s Wiki</title>
+    
+    
+        <meta name="keywords" content="note,Linux">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="初步了解 1、 回顾 经过了BootLoader阶段，此时cpu从实模式转换成保护模式，有了更强的寻址能力，kernel也已经加载到内存了。系统内核开始运行 在kernel源码init/main.c文件中，内核的启动从入口函数start_kernel() 。其中进行一系列的初始化XXXX_init 2、目的 结合源码，了解内核启动阶段开始都做了哪些初始化。 3、总结 一些关键的初始化函数，原文中已">
+<meta name="keywords" content="note,Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="06 kernel初始化">
+<meta property="og:url" content="https://hinzer.github.io/wiki/计算机基础/开发平台/Linux系统学习/06 kernel初始化/index.html">
+<meta property="og:site_name" content="hinzer&#39;s Wiki">
+<meta property="og:description" content="初步了解 1、 回顾 经过了BootLoader阶段，此时cpu从实模式转换成保护模式，有了更强的寻址能力，kernel也已经加载到内存了。系统内核开始运行 在kernel源码init/main.c文件中，内核的启动从入口函数start_kernel() 。其中进行一系列的初始化XXXX_init 2、目的 结合源码，了解内核启动阶段开始都做了哪些初始化。 3、总结 一些关键的初始化函数，原文中已">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://static001.geekbang.org/resource/image/cd/01/cdfc33db2fe1e07b6acf8faa3959cb01.jpeg">
+<meta property="og:image" content="https://static001.geekbang.org/resource/image/d2/14/d2fce8af88dd278670395ce1ca6d4d14.jpg">
+<meta property="og:updated_time" content="2020-04-11T00:23:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="06 kernel初始化">
+<meta name="twitter:description" content="初步了解 1、 回顾 经过了BootLoader阶段，此时cpu从实模式转换成保护模式，有了更强的寻址能力，kernel也已经加载到内存了。系统内核开始运行 在kernel源码init/main.c文件中，内核的启动从入口函数start_kernel() 。其中进行一系列的初始化XXXX_init 2、目的 结合源码，了解内核启动阶段开始都做了哪些初始化。 3、总结 一些关键的初始化函数，原文中已">
+<meta name="twitter:image" content="https://static001.geekbang.org/resource/image/cd/01/cdfc33db2fe1e07b6acf8faa3959cb01.jpeg">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="hinzer&#39;s Wiki" type="application/atom+xml">
+    
+
+    
+        <link rel="icon" href="/wiki/favicon.ico">
+    
+
+    <link rel="stylesheet" href="/wiki/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/wiki/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/wiki/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/wiki/css/style.css">
+    <script src="/wiki/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/wiki/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+    
+    
+        <link rel="stylesheet" href="/wiki/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/wiki/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+    
+        <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+</head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/wiki/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">hinzer&#39;s Wiki</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/wiki/">首页</a>
+                
+                    <a class="main-nav-link" href="/wiki/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/wiki/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/wiki/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/wiki/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/wiki/',
+        CONTENT_URL: '/wiki/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/wiki/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/wiki/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id="categories">
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id="allExpand" href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            技术开发
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            测试方法
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/测试方法/bugreport/">bugreport</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/ctags/">ctags</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/logcat/">bugreport</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/如何编写一个好的测试用例/">理解测试用例</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/理解单元测试/">理解单元测试</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            源码管理
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/源码管理/2020-03-20-bug-for-git/">git merge失败</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/android源码工具/">android源码管理工具</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-fetch/">git fetch</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-log/">git log</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-merge/">git log</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-rebase/">git rebase</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-reset_git-checkout/">git reset、git checkout</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-revert/">git revert</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/github搜索开源项目/">github搜索开源项目</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-stash_git-clean/">git stash、git clean</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git对象/">git 对象</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git引用/">git 引用</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git调试/">git 调试</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/push代码/">push代码</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/打patch/">打patch</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            生活学习
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            方法习惯
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/方法习惯/关于提问/">提问</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            读书笔记
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/读书笔记/小狗钱钱/">《小狗钱钱》</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            随笔记录
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/随笔记录/年度总结2019/">年度总结2019</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            计算机基础
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            开发平台
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Android系统开发
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/00 配置开发环境/">00 配置开发环境</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/01 添加Product/">01 添加Product</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/02 添加系统属性/">02 添加系统属性</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/03 添加自定义模块/">03 添加自定义模块</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/04 添加预编译模块/">04 添加预定义模块</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/05 删除Android原生内置APK/">05 删除android内置apk</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/06 添加java层系统服务/">06 添加java层系统服务</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/07 编译android goldfish内核(x86_64)/">07 编译android kernel</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/08 Android-bp条件编译/">08 Android-bp条件编译</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Linux系统学习
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/01 操作系统/">01 操作系统</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/02 Linux命令/">02 Linux命令</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/03 系统调用/">03 系统调用</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/04 x86架构/">04 x86架构</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/05 BIOS到BootLoader/">05 BIOS到BootLoader</a></li>  <li class="file active"><a href="/wiki/计算机基础/开发平台/Linux系统学习/06 kernel初始化/">06 kernel初始化</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/07 深入系统调用/">07 深入系统调用</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            编程语言
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/计算机基础/编程语言/typedef理解/">「转」详谈typedef的用法</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/index/">Welcome hinzer's Wiki Site</a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-计算机基础/开发平台/Linux系统学习/06 kernel初始化" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/wiki/categories/计算机基础/">计算机基础</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki/categories/计算机基础/开发平台/">开发平台</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki/categories/计算机基础/开发平台/Linux系统学习/">Linux系统学习</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/wiki/tags/Linux/">Linux</a>, <a class="tag-link" href="/wiki/tags/note/">note</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/计算机基础/开发平台/Linux系统学习/06 kernel初始化/">
+            <time datetime="2020-04-11T00:23:02.000Z" itemprop="datePublished">2020-04-11</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a href="https://github.com/hinzer/wiki/raw/master/source/_posts/计算机基础/开发平台/Linux系统学习/06 kernel初始化.md" rel="external nofollow noopener noreferrer" target="_blank"> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/hinzer/wiki/edit/master/source/_posts/计算机基础/开发平台/Linux系统学习/06 kernel初始化.md" rel="external nofollow noopener noreferrer" target="_blank"> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/hinzer/wiki/commits/master/source/_posts/计算机基础/开发平台/Linux系统学习/06 kernel初始化.md" rel="external nofollow noopener noreferrer" target="_blank"> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            06 kernel初始化
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+        
+        
+            <h3 id="初步了解">初步了解</h3>
+<p><strong>1、 回顾</strong><br>
+经过了BootLoader阶段，此时cpu从实模式转换成保护模式，有了更强的寻址能力，kernel也已经加载到内存了。系统内核开始运行<br>
+在kernel源码<code>init/main.c</code>文件中，内核的启动从入口函数<code>start_kernel() </code>。其中进行一系列的初始化<code>XXXX_init</code></p>
+<p><strong>2、目的</strong><br>
+结合源码，了解内核启动阶段开始都做了哪些初始化。</p>
+<p><strong>3、总结</strong><br>
+一些关键的初始化函数，原文中已经有总结好的图片<br>
+<img src="https://static001.geekbang.org/resource/image/cd/01/cdfc33db2fe1e07b6acf8faa3959cb01.jpeg" alt></p>
+<p>还有细心的同学总结了比较详细的笔记</p>
+<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby"> 内核初始化, 运行 <span class="string">`start_kernel()`</span> 函数(位于 init/main.c), 初始化做三件事</span></span><br><span class="line"><span class="ruby">    - 创建样板进程, 及各个模块初始化</span></span><br><span class="line"><span class="ruby">    - 创建管理/创建用户态进程的进程</span></span><br><span class="line"><span class="ruby">    - 创建管理/创建内核态进程的进程</span></span><br><span class="line"><span class="ruby">---</span></span><br><span class="line"><span class="ruby">- 创建样板进程,及各个模块初始化</span></span><br><span class="line"><span class="ruby">    - 创建第一个进程, <span class="number">0</span>号进程. <span class="string">`set_task_stack_end_magic(&amp;init_task)`</span> <span class="keyword">and</span> <span class="string">`struct task_struct init_task = INIT_TASK(init_task)`</span></span></span><br><span class="line"><span class="ruby">    - 初始化中断, <span class="string">`trap_init()`</span>. 系统调用也是通过发送中断进行, 由 <span class="string">`set_system_intr_gate()`</span> 完成.</span></span><br><span class="line"><span class="ruby">    - 初始化内存管理模块, <span class="string">`mm_init()`</span></span></span><br><span class="line"><span class="ruby">    - 初始化进程调度模块, <span class="string">`sched_init()`</span></span></span><br><span class="line"><span class="ruby">    - 初始化基于内存的文件系统 rootfs, <span class="string">`vfs_caches_init()`</span></span></span><br><span class="line"><span class="ruby">        - VFS(虚拟文件系统)将各种文件系统抽象成统一接口</span></span><br><span class="line"><span class="ruby">    - 调用 <span class="string">`rest_init()`</span> 完成其他初始化工作</span></span><br><span class="line"><span class="ruby">---</span></span><br><span class="line"><span class="ruby">- 创建管理/创建用户态进程的进程, <span class="number">1</span>号进程</span></span><br><span class="line"><span class="ruby">    - <span class="string">`rest_init()`</span> 通过 <span class="string">`kernel_thread(kernel_init,...)`</span> 创建 <span class="number">1</span>号进程(工作在用户态).</span></span><br><span class="line"><span class="ruby">    - 权限管理</span></span><br><span class="line"><span class="ruby">        - x86 提供 <span class="number">4</span>个 Ring 分层权限</span></span><br><span class="line"><span class="ruby">        - 操作系统利用: Ring<span class="number">0</span>-内核态(访问核心资源); Ring3-用户态(普通程序)</span></span><br><span class="line"><span class="ruby">    - 用户态调用系统调用: 用户态-系统调用-保存寄存器-内核态执行系统调用-恢复寄存器-返回用户态</span></span><br><span class="line"><span class="ruby">    - 新进程执行 kernel_init 函数, 先运行 ramdisk 的 /init 程序(位于内存中)</span></span><br><span class="line"><span class="ruby">        - 首先加载 ELF 文件</span></span><br><span class="line"><span class="ruby">        - 设置用于保存用户态寄存器的结构体</span></span><br><span class="line"><span class="ruby">        - 返回进入用户态</span></span><br><span class="line"><span class="ruby">        - <span class="regexp">/init 加载存储设备的驱动</span></span></span><br><span class="line"><span class="ruby">     - kernel_init 函数启动存储设备文件系统上的 init</span></span><br><span class="line"><span class="ruby">---</span></span><br><span class="line"><span class="ruby">- 创建管理/创建内核态进程的进程, <span class="number">2</span>号进程</span></span><br><span class="line"><span class="ruby">    - <span class="string">`rest_init()`</span> 通过 <span class="string">`kernel_thread(kthreadd,...)`</span> 创建 <span class="number">2</span>号进程(工作在内核态).</span></span><br><span class="line"><span class="ruby">    - <span class="string">`kthreadd`</span> 负责所有内核态线程的调度和管理</span></span><br></pre></td></tr></table></figure>
+<p>下面我会根据文章和这份笔记，结合代码捋一下流程。</p>
+<blockquote>
+<p>在线阅读linux内核源码: <a href="https://elixir.bootlin.com/linux/latest/source" rel="external nofollow noopener noreferrer" target="_blank">https://elixir.bootlin.com/linux/latest/source</a></p>
+</blockquote>
+<br>
+<h3 id="各个模块的初始化">各个模块的初始化</h3>
+<p><strong>1、 0号进程</strong><br>
+定位到入口函数<a href="https://elixir.bootlin.com/linux/latest/source/init/main.c#L785" rel="external nofollow noopener noreferrer" target="_blank">start_kernel(void)</a>，发现有一处调用<a href="https://elixir.bootlin.com/linux/latest/source/init/main.c#L790" rel="external nofollow noopener noreferrer" target="_blank">set_task_stack_end_magic(&amp;init_task);</a>。这里kernel刚启动创建的第一个进程，pid为0，唯一一个没有通过 fork 或者 kernel_thread 产生的进程。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set_task_stack_end_magic(&amp;init_task);</span><br></pre></td></tr></table></figure>
+<p><strong>2、 各个模块初始化</strong><br>
+同样在<a href="https://elixir.bootlin.com/linux/latest/source/init/main.c#L785" rel="external nofollow noopener noreferrer" target="_blank">start_kernel(void)</a>可以定位到其他的初始化调用，其中有关键的几个</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">trap_init(); <span class="comment">//系统调用相关 设置中断门</span></span><br><span class="line"></span><br><span class="line">mm_init();	<span class="comment">//内存管理</span></span><br><span class="line"></span><br><span class="line">sched_init();	<span class="comment">//调度模块</span></span><br><span class="line"></span><br><span class="line">vfs_caches_init();	<span class="comment">//rootfs文件系统</span></span><br><span class="line"></span><br><span class="line">rest_init(); 		<span class="comment">//其他方面的init</span></span><br></pre></td></tr></table></figure>
+<br>
+<h3 id="用户态祖先进程的创建">用户态祖先进程的创建</h3>
+<p>在rest_init()函数中有一处<a href="https://elixir.bootlin.com/linux/latest/source/init/main.c#L626" rel="external nofollow noopener noreferrer" target="_blank">kernel_thread(kernel_init, NULL, CLONE_FS)</a>,创建了pid为1的进程，这是第一个用户进程，是所有其他用户进程的鼻祖进程。</p>
+<p><strong>内核态到用户态</strong><br>
+这是一个用户进程，需要在用户态运行。一般用户程序是从<code>用户态--到内核态--返回用户态</code>的过程。当前执行 kernel_thread 这个函数的时候，就在内核态。如何直接从内核态到用户态呢？<br>
+在kernel_init()函数中有一处<code>kernel_init_freeable()</code>调用，查看<a href="https://elixir.bootlin.com/linux/latest/source/init/main.c#L1454" rel="external nofollow noopener noreferrer" target="_blank">定义处</a>有</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!ramdisk_execute_command)</span><br><span class="line">    ramdisk_execute_command = <span class="string">"/init"</span>;</span><br></pre></td></tr></table></figure>
+<p>回到kernel_init()函数，有对应的执行代码</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">  <span class="keyword">if</span> (ramdisk_execute_command) &#123;</span><br><span class="line">    ret = run_init_process(ramdisk_execute_command);</span><br><span class="line">......</span><br><span class="line">  &#125;</span><br><span class="line">......</span><br><span class="line">  <span class="keyword">if</span> (!try_to_run_init_process(<span class="string">"/sbin/init"</span>) ||</span><br><span class="line">      !try_to_run_init_process(<span class="string">"/etc/init"</span>) ||</span><br><span class="line">      !try_to_run_init_process(<span class="string">"/bin/init"</span>) ||</span><br><span class="line">      !try_to_run_init_process(<span class="string">"/bin/sh"</span>))</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+<p>如果我们打开 run_init_process 函数，会发现它调用的是 do_execve。<br>
+do_execve是一个内核系统调用，它的作用是运行一个执行文件。其中调用链为<code>do_execve-&gt;do_execveat_common-&gt;exec_binprm-&gt;search_binary_handler</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">search_binary_handler</span><span class="params">(struct linux_binprm *bprm)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  ......</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">linux_binfmt</span> *<span class="title">fmt</span>;</span></span><br><span class="line">  ......</span><br><span class="line">  retval = fmt-&gt;load_binary(bprm);</span><br><span class="line">  ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这里，它会尝试运行ramdisk 的<code>/init</code>，或者普通文件系统上的<code>/sbin/init</code>、<code>/etc/init</code>、<code>/bin/init</code>、<code>/bin/sh</code>。加载ELF文件，只要有一个启动起来就可以了。</p>
+<p>比较关心程序如何’恢复’到用户态的，其实最后内核空间中保存了用户态运行的上下文，最后只要切换上下文，恢复那些寄存器（CS、DS、IP、SP），然后下一条指令，就从用户态开始运行了。</p>
+<br>
+<h3 id="内核态祖先进程的创建">内核态祖先进程的创建</h3>
+<p>继续在rest_init()中查看有一处调用<a href="https://elixir.bootlin.com/linux/latest/source/init/main.c#L638" rel="external nofollow noopener noreferrer" target="_blank">kernel_thread(kthreadd, NULL, CLONE_FS | CLONE_FILES)</a>，这里创建了第三个进程，pid为2，是内核态所有task的祖先，作用是将内核态所有的task进行统一的调度和管理。</p>
+<br>
+<h3 id="补充知识">补充知识</h3>
+<p><strong>1、 用户态、内核态</strong><br>
+# 基本概念<br>
+进入保护模式后，为避免多进程对资源访问的混乱。使用x86提供的权限访问机制，有Ring0…Ring3 4种权限。<br>
+用户进程一般放在Ring3，我们称为<code>用户态</code><br>
+核心驱动代码一般放在Ring0，称为<code>内核态</code></p>
+<p># 系统调用<br>
+用户程序要访问核心资源，需要通过系统提供的系统调用接口，从用户态进入内核态。这个过程就是这样的：用户态 - 系统调用 - 保存寄存器 - 内核态执行系统调用 - 恢复寄存器 - 返回用户态，然后接着运行。<br>
+<img src="https://static001.geekbang.org/resource/image/d2/14/d2fce8af88dd278670395ce1ca6d4d14.jpg" alt></p>
+<p><strong>2、 ramdisk的作用</strong><br>
+kernel启动过程中，一开始到用户态的是ramdisk的init，后来会启动真正根文件系统上的init，成为所有用户态进程的祖先。<br>
+为什么没有直接从根文件系统上加载init，这是因为文件系统一定存在一个存储设备上。要对设备访问需要驱动程序，而对内存可以直接访问。所以想在内存上建立一个<code>假文件系统</code>，先运行要访问存储设备的驱动程序，有了驱动就能设置根文件系统，就能启动根文件系统上的init程序了。</p>
+<br>
+<h3 id="参考资料">参考资料</h3>
+<blockquote>
+<ul>
+<li><a href="https://time.geekbang.org/column/article/90109" rel="external nofollow noopener noreferrer" target="_blank">极客时间- 内核初始化</a></li>
+</ul>
+</blockquote>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/计算机基础/开发平台/Linux系统学习/07 深入系统调用/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    07 深入系统调用
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/计算机基础/开发平台/Linux系统学习/05 BIOS到BootLoader/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">05 BIOS到BootLoader</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            hinzer &copy; 2020 
+            <a rel="external nofollow noopener noreferrer" href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme - <a href="https://github.com/zthxxx/hexo-theme-Wikitten" rel="external nofollow noopener noreferrer" target="_blank">wikitten</a>
+            
+                <br><span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i><span id="busuanzi_value_site_pv"></span></span> | 
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"><span id="busuanzi_value_site_uv"></span></i></span>
+            
+        </div>
+    </div>
+</footer>
+        
+
+    
+        <script src="/wiki/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/wiki/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/wiki/js/main.js"></script>
+
+    </div>
+</body>
