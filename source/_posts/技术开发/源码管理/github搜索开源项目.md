@@ -6,22 +6,23 @@ date: 2019-12-29 19:40:58
 ---
 
 
+1、**从名字中搜关键词**
+in:name example
 
-**从名字中搜关键词**
-in:name spring boot  
+2、**搜索readme文件**
+in:readme example
 
-**描述中搜索关键词**
-in:description 微服务 
+3、**描述中搜索关键词**
+in:description example 
 
-**追加限定条件**
+4、**追加限定条件**
 stars:>3000  # 限定在stars数量大于3000的项目
 fork:>50		# fork 数量
-language:java   # 限定语言
 pushed:>2019-09-10	# 最后一次push的时间
-
-
+language:java   # 限定语言
 
 <br>
+
 
 ## 参考资料
 > - [github官方文档-搜索](https://help.github.com/cn/github/searching-for-information-on-github)

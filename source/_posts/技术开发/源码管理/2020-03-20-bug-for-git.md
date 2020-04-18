@@ -2,7 +2,7 @@
 title: git merge失败
 toc: false
 date: 2020-03-20 00:11:37
-tags: [git, bug]
+tags: [Git, Bug]
 ---
 
 ## 问题描述
