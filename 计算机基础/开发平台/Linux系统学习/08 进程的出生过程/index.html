@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    
+    <title>08 进程的出生过程 | hinzer&#39;s Wiki</title>
+    
+    
+        <meta name="keywords" content="note,Linux">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="目的 对于进程，可以通过别人写好的程序(比如Linux命令)或者自己写的程序(编译后生成可执行文件)，加载到内存后执行就视为一个进程。 这些我已经了解，OK，那么在学习一下代码到二进制文件的过程是什么、系统如何识别二进制文件、如何加载到内存并运行成一个进程，另外如何从代码中创建一个新进程？ 这次整理笔记的主要内容，也是本次学习的目的:  了解代码编译成二进制文件，生成库文件或者可执行文件的过程 了">
+<meta name="keywords" content="note,Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="08 进程的出生过程">
+<meta property="og:url" content="https://hinzer.github.io/wiki/计算机基础/开发平台/Linux系统学习/08 进程的出生过程/index.html">
+<meta property="og:site_name" content="hinzer&#39;s Wiki">
+<meta property="og:description" content="目的 对于进程，可以通过别人写好的程序(比如Linux命令)或者自己写的程序(编译后生成可执行文件)，加载到内存后执行就视为一个进程。 这些我已经了解，OK，那么在学习一下代码到二进制文件的过程是什么、系统如何识别二进制文件、如何加载到内存并运行成一个进程，另外如何从代码中创建一个新进程？ 这次整理笔记的主要内容，也是本次学习的目的:  了解代码编译成二进制文件，生成库文件或者可执行文件的过程 了">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zdGF0aWMwMDEuZ2Vla2Jhbmcub3JnL3Jlc291cmNlL2ltYWdlL2RiL2E5L2RiZDg3ODVkYTZjM2NlM2ZlMWFiYjdiYjU5MzRiN2E5LmpwZWc?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zdGF0aWMwMDEuZ2Vla2Jhbmcub3JnL3Jlc291cmNlL2ltYWdlLzg1L2RlLzg1MzIwMjQ1Y2Q4MGNlNjFlNjljODM5MTk1ODI0MGRlLmpwZWc?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zdGF0aWMwMDEuZ2Vla2Jhbmcub3JnL3Jlc291cmNlL2ltYWdlLzRkLzE2LzRkZTc0MGMxMDY3MGE5MmJiYWE1ODM0OGU2NmI3YjE2LmpwZWc?x-oss-process=image/format,png">
+<meta property="og:updated_time" content="2020-04-18T22:18:31.707Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="08 进程的出生过程">
+<meta name="twitter:description" content="目的 对于进程，可以通过别人写好的程序(比如Linux命令)或者自己写的程序(编译后生成可执行文件)，加载到内存后执行就视为一个进程。 这些我已经了解，OK，那么在学习一下代码到二进制文件的过程是什么、系统如何识别二进制文件、如何加载到内存并运行成一个进程，另外如何从代码中创建一个新进程？ 这次整理笔记的主要内容，也是本次学习的目的:  了解代码编译成二进制文件，生成库文件或者可执行文件的过程 了">
+<meta name="twitter:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zdGF0aWMwMDEuZ2Vla2Jhbmcub3JnL3Jlc291cmNlL2ltYWdlL2RiL2E5L2RiZDg3ODVkYTZjM2NlM2ZlMWFiYjdiYjU5MzRiN2E5LmpwZWc?x-oss-process=image/format,png">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="hinzer&#39;s Wiki" type="application/atom+xml">
+    
+
+    
+        <link rel="icon" href="/wiki/favicon.ico">
+    
+
+    <link rel="stylesheet" href="/wiki/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/wiki/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/wiki/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/wiki/css/style.css">
+    <script src="/wiki/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/wiki/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+    
+    
+        <link rel="stylesheet" href="/wiki/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/wiki/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+    
+        <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+</head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/wiki/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">hinzer&#39;s Wiki</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/wiki/">首页</a>
+                
+                    <a class="main-nav-link" href="/wiki/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/wiki/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/wiki/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/wiki/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/wiki/',
+        CONTENT_URL: '/wiki/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/wiki/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/wiki/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id="categories">
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id="allExpand" href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            技术开发
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            测试方法
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/测试方法/bugreport/">bugreport</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/ctags/">ctags</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/logcat/">bugreport</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/如何编写一个好的测试用例/">理解测试用例</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/理解单元测试/">理解单元测试</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            源码管理
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/源码管理/2020-03-20-bug-for-git/">git merge失败</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/android源码工具/">android源码管理工具</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-fetch/">git fetch</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-log/">git log</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-rebase/">git rebase</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-merge/">git log</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-reset_git-checkout/">git reset、git checkout</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-revert/">git revert</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-stash_git-clean/">git stash、git clean</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/github搜索开源项目/">github搜索开源项目</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git对象/">git 对象</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git引用/">git 引用</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git调试/">git 调试</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/push代码/">push代码</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/打patch/">打patch</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            生活学习
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            方法习惯
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/方法习惯/关于提问/">提问</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            读书笔记
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/读书笔记/小狗钱钱/">《小狗钱钱》</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            随笔记录
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/随笔记录/年度总结2019/">年度总结2019</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            计算机基础
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            开发平台
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Android系统开发
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/01 添加Product/">01 添加Product</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/00 配置开发环境/">00 配置开发环境</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/03 添加自定义模块/">03 添加自定义模块</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/02 添加系统属性/">02 添加系统属性</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/04 添加预编译模块/">04 添加预定义模块</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/05 删除Android原生内置APK/">05 删除android内置apk</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/07 编译android goldfish内核(x86_64)/">07 编译android kernel</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/08 Android-bp条件编译/">08 Android-bp条件编译</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/06 添加java层系统服务/">06 添加java层系统服务</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Linux系统学习
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/01 操作系统/">01 操作系统</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/02 Linux命令/">02 Linux命令</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/03 系统调用/">03 系统调用</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/04 x86架构/">04 x86架构</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/05 BIOS到BootLoader/">05 BIOS到BootLoader</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/06 kernel初始化/">06 kernel初始化</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/07 深入系统调用/">07 深入系统调用</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/09 了解与创建线程/">09 了解与创建线程</a></li>  <li class="file active"><a href="/wiki/计算机基础/开发平台/Linux系统学习/08 进程的出生过程/">08 进程的出生过程</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/11 进程用户栈和内核栈/">11 进程用户栈和内核栈</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/10 进程数据结构task_struct/">10 进程数据结构task_struct</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            编程语言
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/计算机基础/编程语言/typedef理解/">「转」详谈typedef的用法</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/index/">Welcome hinzer's Wiki Site</a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-计算机基础/开发平台/Linux系统学习/08 进程的出生过程" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/wiki/categories/计算机基础/">计算机基础</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki/categories/计算机基础/开发平台/">开发平台</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki/categories/计算机基础/开发平台/Linux系统学习/">Linux系统学习</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/wiki/tags/Linux/">Linux</a>, <a class="tag-link" href="/wiki/tags/note/">note</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/计算机基础/开发平台/Linux系统学习/08 进程的出生过程/">
+            <time datetime="2020-04-18T22:16:42.643Z" itemprop="datePublished">2020-04-19</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a href="https://github.com/hinzer/wiki/raw/master/source/_posts/计算机基础/开发平台/Linux系统学习/08 进程的出生过程.md" rel="external nofollow noopener noreferrer" target="_blank"> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/hinzer/wiki/edit/master/source/_posts/计算机基础/开发平台/Linux系统学习/08 进程的出生过程.md" rel="external nofollow noopener noreferrer" target="_blank"> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/hinzer/wiki/commits/master/source/_posts/计算机基础/开发平台/Linux系统学习/08 进程的出生过程.md" rel="external nofollow noopener noreferrer" target="_blank"> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            08 进程的出生过程
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+        
+        
+            <h3 id="目的">目的</h3>
+<p>对于进程，可以通过别人写好的程序(比如Linux命令)或者自己写的程序(编译后生成可执行文件)，加载到内存后执行就视为一个进程。<br>
+这些我已经了解，OK，那么在学习一下代码到二进制文件的过程是什么、系统如何识别二进制文件、如何加载到内存并运行成一个进程，另外如何从代码中创建一个新进程？</p>
+<p>这次整理笔记的主要内容，也是本次学习的目的:</p>
+<ul>
+<li>了解代码编译成二进制文件，生成库文件或者可执行文件的过程</li>
+<li>了解系统加载二进制文件的机制，如何产生一个进程</li>
+<li>了解如何调用fork创建一个进程</li>
+<li>相关知识补充(ELF文件格式、Linux系统进程树、查看文件格式工具)</li>
+</ul>
+<h3 id="代码示例">代码示例</h3>
+<p>运行一个demo，主要功能是主进程通过系统调用fork一个新的进程，子进程功能是加载二进制文件，运行ls命令。<br>
+<strong>1、 目录结构</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_16_8_centos test]# tree .</span><br><span class="line">.</span><br><span class="line">|-- createprocess.c</span><br><span class="line">`-- process.c</span><br><span class="line"></span><br><span class="line">0 directories, 2 files</span><br></pre></td></tr></table></figure>
+<p><strong>2、 编辑&amp;编译&amp;运行</strong><br>
+# process.c</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// process.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">extern</span> <span class="keyword">int</span> <span class="title">create_process</span> <span class="params">(<span class="keyword">char</span>* program, <span class="keyword">char</span>** arg_list)</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">create_process</span> <span class="params">(<span class="keyword">char</span>* program, <span class="keyword">char</span>** arg_list)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">        <span class="keyword">pid_t</span> child_pid;</span><br><span class="line">        child_pid = fork (); <span class="comment">// 1.创建子进程</span></span><br><span class="line">        <span class="keyword">if</span> (child_pid != <span class="number">0</span>)</span><br><span class="line">                <span class="keyword">return</span> child_pid;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">                execvp (program, arg_list); <span class="comment">//2.子进程通过execvp去运行一个新的程序</span></span><br><span class="line">                <span class="built_in">abort</span> ();</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p># createprocess.c</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// createprocess.c</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">extern</span> <span class="keyword">int</span> <span class="title">create_process</span> <span class="params">(<span class="keyword">char</span>* program, <span class="keyword">char</span>** arg_list)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span> <span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span>* arg_list[] = &#123;</span><br><span class="line">        <span class="string">"ls"</span>,</span><br><span class="line">        <span class="string">"-l"</span>,</span><br><span class="line">        <span class="string">"/etc/yum.repos.d/"</span>,</span><br><span class="line">        <span class="literal">NULL</span></span><br><span class="line">    &#125;;</span><br><span class="line">    create_process (<span class="string">"ls"</span>, arg_list);    <span class="comment">//让子进程执行ls命令</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p># 编译</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">#### 第一种方式 ####</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 编译成.o文件</span></span><br><span class="line">gcc -c -fPIC process.c</span><br><span class="line">gcc -c -fPIC createprocess.c</span><br><span class="line"><span class="comment"># 生成库文件</span></span><br><span class="line">ar cr libstaticprocess.a process.o <span class="comment"># process.o编译成静态库</span></span><br><span class="line"><span class="comment"># 链接为可执行文件</span></span><br><span class="line">gcc -o staticcreateprocess createprocess.o -L. -lstaticprocess</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#### 第二种方式 ####</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 编译成.o文件</span></span><br><span class="line">gcc -c -fPIC process.c</span><br><span class="line">gcc -c -fPIC createprocess.c</span><br><span class="line"><span class="comment"># 生成库文件</span></span><br><span class="line">gcc -shared -fPIC -o libdynamicprocess.so process.o  <span class="comment"># process.o编译成共享库</span></span><br><span class="line"><span class="comment"># 链接为可执行文件</span></span><br><span class="line">gcc -o dynamiccreateprocess createprocess.o -L. -ldynamicprocess</span><br></pre></td></tr></table></figure>
+<p># 运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#### 第一种方式 ####</span></span><br><span class="line">$ ./staticcreateprocess</span><br><span class="line">$ total 40</span><br><span class="line">-rw-r--r--. 1 root root 1572 Oct 24 18:38 CentOS-Base.repo</span><br><span class="line">......</span><br><span class="line"></span><br><span class="line"><span class="comment">#### 第二种方式 ####</span></span><br><span class="line">$ <span class="built_in">export</span> LD_LIBRARY_PATH=.</span><br><span class="line">$ ./dynamiccreateprocess</span><br><span class="line">$ total 40</span><br><span class="line">-rw-r--r--. 1 root root 1572 Oct 24 18:38 CentOS-Base.repo</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+<p><strong>3、 总体框图</strong><br>
+<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zdGF0aWMwMDEuZ2Vla2Jhbmcub3JnL3Jlc291cmNlL2ltYWdlL2RiL2E5L2RiZDg3ODVkYTZjM2NlM2ZlMWFiYjdiYjU5MzRiN2E5LmpwZWc?x-oss-process=image/format,png" alt><br>
+图右边的文件编译过程，生成 so 文件和可执行文件,后面对部分内容整理。<br>
+图左边对刚才的代码进行补充:用户态的进程 A 执行 fork，创建进程 B，在进程 B 的处理逻辑中，执行 exec 系列系统调用。这个系统调用会通过 load_elf_binary 方法，将刚才生成的可执行文件，加载到进程 B 的内存中执行。</p>
+<h3 id="编译和链接">编译和链接</h3>
+<p><strong>1、文本文件转换到二进制文件</strong><br>
+编译工具链将我们写好的代码转换成二进制文件，在Linux系统中识别的是elf格式的二进制文件。大致流程为<br>
+<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zdGF0aWMwMDEuZ2Vla2Jhbmcub3JnL3Jlc291cmNlL2ltYWdlLzg1L2RlLzg1MzIwMjQ1Y2Q4MGNlNjFlNjljODM5MTk1ODI0MGRlLmpwZWc?x-oss-process=image/format,png" alt></p>
+<p>elf格式有<code>可重定位文件</code>、<code>可执行文件</code>、<code>动态链接库</code>几种类型。</p>
+<h3 id="运行程序为进程">运行程序为进程</h3>
+<p>如何将elf格式的二进制程序加载到内存运行的呢？<br>
+<strong>1、 内核源码</strong><br>
+内核中定义加载二进制文件的方法</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">linux_binfmt</span> &#123;</span></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> <span class="title">lh</span>;</span></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">module</span> *<span class="title">module</span>;</span></span><br><span class="line">        <span class="keyword">int</span> (*load_binary)(struct linux_binprm *);</span><br><span class="line">        <span class="keyword">int</span> (*load_shlib)(struct file *);</span><br><span class="line">        <span class="keyword">int</span> (*core_dump)(struct coredump_params *cprm);</span><br><span class="line">        <span class="keyword">unsigned</span> <span class="keyword">long</span> min_coredump;     <span class="comment">/* minimal dump size */</span></span><br><span class="line">&#125; __randomize_layout;</span><br></pre></td></tr></table></figure>
+<p>对于 ELF 文件格式，有对应的实现</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">struct</span> <span class="title">linux_binfmt</span> <span class="title">elf_format</span> = &#123;</span></span><br><span class="line">        .<span class="keyword">module</span>         = THIS_MODULE,</span><br><span class="line">        .load_binary    = load_elf_binary,</span><br><span class="line">        .load_shlib     = load_elf_library,</span><br><span class="line">        .core_dump      = elf_core_dump,</span><br><span class="line">        .min_coredump   = ELF_EXEC_PAGESIZE,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>对于方法<code>load_elf_binary </code>，源码中有调用链: do_execve-&gt;do_execveat_common-&gt;exec_binprm-&gt;search_binary_handler。<br>
+而<code>do_execve </code>其实被一组exec的系统调用实现</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SYSCALL_DEFINE3(execve,</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> __user *, filename,</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> __user *<span class="keyword">const</span> __user *, argv,</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> __user *<span class="keyword">const</span> __user *, envp)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">return</span> do_execve(getname(filename), argv, envp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>2、 理解</strong><br>
+之前子进程代码中执行了方法<code>exec</code>，运行一个elf文件。其实通过命令行执行一个程序的时候，也有类似的实现。通过<code>strace</code>命令查看其中一个命令执行了哪些系统调用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_16_8_centos demo]# strace ls</span><br><span class="line">execve(&quot;/usr/bin/ls&quot;, [&quot;ls&quot;], [/* 28 vars */]) = 0</span><br><span class="line">brk(NULL)                               = 0xb87000</span><br><span class="line">....</span><br></pre></td></tr></table></figure>
+<h3 id="fork-产生新进程">fork()产生新进程</h3>
+<p>所有进程都是从父进程fork过来的，那总归有一个祖宗进程，这就是咱们系统启动的<code>init</code>进程。下面是linux进程树，也可以通过<code>ps -ef</code>命令查看<br>
+<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zdGF0aWMwMDEuZ2Vla2Jhbmcub3JnL3Jlc291cmNlL2ltYWdlLzRkLzE2LzRkZTc0MGMxMDY3MGE5MmJiYWE1ODM0OGU2NmI3YjE2LmpwZWc?x-oss-process=image/format,png" alt="进程树"></p>
+<h3 id="补充知识">补充知识</h3>
+<p><strong>1、 了解ELF文件格式</strong><br>
+ELF格式有<code>可重定位文件</code>、<code>可执行文件</code>、<code>动态链接库</code>几种类型。</p>
+<ul>
+<li>第一种是<code>可重定位文件</code>，也就是代码编译后生成的.o文件，这类文件还没有被链接，所以相当于一个代码片段。</li>
+<li>第二种是<code>可执行文件</code>，链接后的程序，可直接加载到虚拟内存上运行的一类文件。</li>
+<li>第三种是<code>动态链接库</code>,生成的库文件，动态库能被多个程序共享。程序并没有将动态库的代码包含进去(静态库的方式)，相当于仅仅包括对动态链接库的引用。</li>
+</ul>
+<p>文件格式<br>
+(了解后在补充)</p>
+<p><strong>2、 了解Linux系统中的进程，如查看进程</strong><br>
+命令<code>ps -ef</code>查看Linux系统中的进程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_16_8_centos demo]# ps -ef</span><br><span class="line">UID        PID  PPID  C STIME TTY          TIME CMD</span><br><span class="line">root         1     0  0 Mar01 ?        00:05:19 /usr/lib/systemd/systemd --switched-root --system --deserialize 22</span><br><span class="line">root         2     0  0 Mar01 ?        00:00:00 [kthreadd]</span><br><span class="line">root         3     2  0 Mar01 ?        00:01:40 [ksoftirqd/0]</span><br><span class="line">root         5     2  0 Mar01 ?        00:00:00 [kworker/0:0H]</span><br><span class="line">root         7     2  0 Mar01 ?        00:00:00 [migration/0]</span><br><span class="line">root         8     2  0 Mar01 ?        00:00:00 [rcu_bh]</span><br><span class="line">root         9     2  0 Mar01 ?        00:04:46 [rcu_sched]</span><br><span class="line">root        10     2  0 Mar01 ?        00:00:00 [lru-add-drain]</span><br><span class="line">root        11     2  0 Mar01 ?        00:00:16 [watchdog/0]</span><br><span class="line">root        13     2  0 Mar01 ?        00:00:00 [kdevtmpfs]</span><br><span class="line">....</span><br></pre></td></tr></table></figure>
+<p><strong>3、 几种查看文件格式的工具</strong></p>
+<ul>
+<li><code>readelf</code> 工具用于分析 ELF 的信息，</li>
+<li><code>objdump</code> 工具用来显示二进制文件的信息，</li>
+<li><code>hexdump</code> 工具用来查看文件的十六进制编码，</li>
+<li><code>nm</code> 工具用来显示关于指定文件中符号的信息。</li>
+</ul>
+<h3 id="参考资料">参考资料</h3>
+<blockquote>
+<ul>
+<li><a href="https://time.geekbang.org/column/article/90855" rel="external nofollow noopener noreferrer" target="_blank">极客时间专栏 - 进程：公司接这么多项目，如何管？</a></li>
+</ul>
+</blockquote>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/计算机基础/开发平台/Linux系统学习/09 了解与创建线程/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    09 了解与创建线程
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/计算机基础/开发平台/Android系统开发/08 Android-bp条件编译/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">08 Android-bp条件编译</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            hinzer &copy; 2020 
+            <a rel="external nofollow noopener noreferrer" href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme - <a href="https://github.com/zthxxx/hexo-theme-Wikitten" rel="external nofollow noopener noreferrer" target="_blank">wikitten</a>
+            
+                <br><span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i><span id="busuanzi_value_site_pv"></span></span> | 
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"><span id="busuanzi_value_site_uv"></span></i></span>
+            
+        </div>
+    </div>
+</footer>
+        
+
+    
+        <script src="/wiki/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/wiki/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/wiki/js/main.js"></script>
+
+    </div>
+</body>

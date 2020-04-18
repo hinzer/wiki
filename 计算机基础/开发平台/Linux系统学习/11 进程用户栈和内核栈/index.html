@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    
+    <title>11 进程用户栈和内核栈 | hinzer&#39;s Wiki</title>
+    
+    
+        <meta name="keywords" content="note,Linux">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="介绍&amp;amp;目的 1、 介绍 在程序执行过程中，一旦调用到系统调用，就需要进入内核继续执行。无论是进程还是线程，对应到内核里面，我们统一都叫任务（Task），由一个统一的结构 task_struct 进行管理。 其中，内核栈是和进程运行有关系的。相关的成员变量有 12struct thread_info    thread_info;void  *stack; 嗯，先上图  2、 目的 以下整理">
+<meta name="keywords" content="note,Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="11 进程用户栈和内核栈">
+<meta property="og:url" content="https://hinzer.github.io/wiki/计算机基础/开发平台/Linux系统学习/11 进程用户栈和内核栈/index.html">
+<meta property="og:site_name" content="hinzer&#39;s Wiki">
+<meta property="og:description" content="介绍&amp;amp;目的 1、 介绍 在程序执行过程中，一旦调用到系统调用，就需要进入内核继续执行。无论是进程还是线程，对应到内核里面，我们统一都叫任务（Task），由一个统一的结构 task_struct 进行管理。 其中，内核栈是和进程运行有关系的。相关的成员变量有 12struct thread_info    thread_info;void  *stack; 嗯，先上图  2、 目的 以下整理">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zdGF0aWMwMDEuZ2Vla2Jhbmcub3JnL3Jlc291cmNlL2ltYWdlLzgyLzVjLzgyYmE2NjNhYWQ0ZjZiZDk0NmQ0ODQyNDE5NmU1MTVjLmpwZWc?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zdGF0aWMwMDEuZ2Vla2Jhbmcub3JnL3Jlc291cmNlL2ltYWdlL2FlLzJlL2FlYzg2NWFiY2NmMDMwODE1NWY0MTM4Y2M5MDU5NzJlLmpwZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zdGF0aWMwMDEuZ2Vla2Jhbmcub3JnL3Jlc291cmNlL2ltYWdlLzc3L2MwLzc3MGIwMDM2YThiMjY5NTQ2M2NkOTU4NjlmNWFkZWMwLmpwZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zdGF0aWMwMDEuZ2Vla2Jhbmcub3JnL3Jlc291cmNlL2ltYWdlLzMxLzJkLzMxZDE1YmNkMmEwNTMyMzViNTU5MDk3N2QxMmZmYTJkLmpwZWc?x-oss-process=image/format,png">
+<meta property="og:updated_time" content="2020-04-18T22:22:26.388Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="11 进程用户栈和内核栈">
+<meta name="twitter:description" content="介绍&amp;amp;目的 1、 介绍 在程序执行过程中，一旦调用到系统调用，就需要进入内核继续执行。无论是进程还是线程，对应到内核里面，我们统一都叫任务（Task），由一个统一的结构 task_struct 进行管理。 其中，内核栈是和进程运行有关系的。相关的成员变量有 12struct thread_info    thread_info;void  *stack; 嗯，先上图  2、 目的 以下整理">
+<meta name="twitter:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zdGF0aWMwMDEuZ2Vla2Jhbmcub3JnL3Jlc291cmNlL2ltYWdlLzgyLzVjLzgyYmE2NjNhYWQ0ZjZiZDk0NmQ0ODQyNDE5NmU1MTVjLmpwZWc?x-oss-process=image/format,png">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="hinzer&#39;s Wiki" type="application/atom+xml">
+    
+
+    
+        <link rel="icon" href="/wiki/favicon.ico">
+    
+
+    <link rel="stylesheet" href="/wiki/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/wiki/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/wiki/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/wiki/css/style.css">
+    <script src="/wiki/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/wiki/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+    
+    
+        <link rel="stylesheet" href="/wiki/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/wiki/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+    
+        <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+</head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/wiki/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">hinzer&#39;s Wiki</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/wiki/">首页</a>
+                
+                    <a class="main-nav-link" href="/wiki/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/wiki/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/wiki/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/wiki/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/wiki/',
+        CONTENT_URL: '/wiki/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/wiki/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/wiki/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id="categories">
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id="allExpand" href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            技术开发
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            测试方法
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/测试方法/bugreport/">bugreport</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/ctags/">ctags</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/logcat/">bugreport</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/如何编写一个好的测试用例/">理解测试用例</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/理解单元测试/">理解单元测试</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            源码管理
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/源码管理/2020-03-20-bug-for-git/">git merge失败</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/android源码工具/">android源码管理工具</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-fetch/">git fetch</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-log/">git log</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-rebase/">git rebase</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-merge/">git log</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-reset_git-checkout/">git reset、git checkout</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-revert/">git revert</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git-stash_git-clean/">git stash、git clean</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/github搜索开源项目/">github搜索开源项目</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git对象/">git 对象</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git引用/">git 引用</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/git调试/">git 调试</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/push代码/">push代码</a></li>  <li class="file"><a href="/wiki/技术开发/源码管理/打patch/">打patch</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            生活学习
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            方法习惯
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/方法习惯/关于提问/">提问</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            读书笔记
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/读书笔记/小狗钱钱/">《小狗钱钱》</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            随笔记录
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/生活学习/随笔记录/年度总结2019/">年度总结2019</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            计算机基础
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            开发平台
+                        </a>
+                         <ul class="unstyled" id="tree"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Android系统开发
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/01 添加Product/">01 添加Product</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/00 配置开发环境/">00 配置开发环境</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/03 添加自定义模块/">03 添加自定义模块</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/02 添加系统属性/">02 添加系统属性</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/04 添加预编译模块/">04 添加预定义模块</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/05 删除Android原生内置APK/">05 删除android内置apk</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/07 编译android goldfish内核(x86_64)/">07 编译android kernel</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/08 Android-bp条件编译/">08 Android-bp条件编译</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/06 添加java层系统服务/">06 添加java层系统服务</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Linux系统学习
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/01 操作系统/">01 操作系统</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/02 Linux命令/">02 Linux命令</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/03 系统调用/">03 系统调用</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/04 x86架构/">04 x86架构</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/05 BIOS到BootLoader/">05 BIOS到BootLoader</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/06 kernel初始化/">06 kernel初始化</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/07 深入系统调用/">07 深入系统调用</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/09 了解与创建线程/">09 了解与创建线程</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/08 进程的出生过程/">08 进程的出生过程</a></li>  <li class="file active"><a href="/wiki/计算机基础/开发平台/Linux系统学习/11 进程用户栈和内核栈/">11 进程用户栈和内核栈</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Linux系统学习/10 进程数据结构task_struct/">10 进程数据结构task_struct</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            编程语言
+                        </a>
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/计算机基础/编程语言/typedef理解/">「转」详谈typedef的用法</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/index/">Welcome hinzer's Wiki Site</a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-计算机基础/开发平台/Linux系统学习/11 进程用户栈和内核栈" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/wiki/categories/计算机基础/">计算机基础</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki/categories/计算机基础/开发平台/">开发平台</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki/categories/计算机基础/开发平台/Linux系统学习/">Linux系统学习</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/wiki/tags/Linux/">Linux</a>, <a class="tag-link" href="/wiki/tags/note/">note</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/计算机基础/开发平台/Linux系统学习/11 进程用户栈和内核栈/">
+            <time datetime="2020-04-18T22:21:14.654Z" itemprop="datePublished">2020-04-19</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a href="https://github.com/hinzer/wiki/raw/master/source/_posts/计算机基础/开发平台/Linux系统学习/11 进程用户栈和内核栈.md" rel="external nofollow noopener noreferrer" target="_blank"> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/hinzer/wiki/edit/master/source/_posts/计算机基础/开发平台/Linux系统学习/11 进程用户栈和内核栈.md" rel="external nofollow noopener noreferrer" target="_blank"> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/hinzer/wiki/commits/master/source/_posts/计算机基础/开发平台/Linux系统学习/11 进程用户栈和内核栈.md" rel="external nofollow noopener noreferrer" target="_blank"> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            11 进程用户栈和内核栈
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+        
+        
+            <h3 id="介绍-目的">介绍&amp;目的</h3>
+<p>1、 介绍<br>
+在程序执行过程中，一旦调用到系统调用，就需要进入内核继续执行。无论是进程还是线程，对应到内核里面，我们统一都叫任务（Task），由一个统一的结构 task_struct 进行管理。<br>
+其中，内核栈是和进程运行有关系的。相关的成员变量有</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">thread_info</span>    <span class="title">thread_info</span>;</span></span><br><span class="line"><span class="keyword">void</span>  *<span class="built_in">stack</span>;</span><br></pre></td></tr></table></figure>
+<p>嗯，先上图<br>
+<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zdGF0aWMwMDEuZ2Vla2Jhbmcub3JnL3Jlc291cmNlL2ltYWdlLzgyLzVjLzgyYmE2NjNhYWQ0ZjZiZDk0NmQ0ODQyNDE5NmU1MTVjLmpwZWc?x-oss-process=image/format,png" alt></p>
+<p>2、 目的<br>
+以下整理的资料大致包括</p>
+<ul>
+<li>用户态函数栈，内核态函数栈栈的组成</li>
+<li>进程从用户态到内核态的上下文切换</li>
+<li>内核态中通过stask_struct管理内核栈</li>
+</ul>
+<h3 id="用户态函数栈">用户态函数栈</h3>
+<p>在数据结构中学过的栈模型，是一种高度抽象的设计。函数调用和返回也是按照栈的思想来设计的，在虚拟内存空间中自上而下分配。具体在32系统和64系统的实现方式，略微不同<br>
+<strong>1、 32位系统</strong><br>
+<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zdGF0aWMwMDEuZ2Vla2Jhbmcub3JnL3Jlc291cmNlL2ltYWdlL2FlLzJlL2FlYzg2NWFiY2NmMDMwODE1NWY0MTM4Y2M5MDU5NzJlLmpwZw?x-oss-process=image/format,png" alt></p>
+<blockquote>
+<p>我们先来看 32 位操作系统的情况。在 CPU 里，ESP（Extended Stack Pointer）是栈顶指针寄存器，入栈操作 Push 和出栈操作 Pop 指令，会自动调整 ESP 的值。另外有一个寄存器 EBP（Extended Base Pointer），是栈基地址指针寄存器，指向当前栈帧的最底部。<br>
+.<br>
+例如，A 调用 B，A 的栈里面包含 A 函数的局部变量，然后是调用 B 的时候要传给它的参数，然后返回 A 的地址，这个地址也应该入栈，这就形成了 A 的栈帧。接下来就是 B 的栈帧部分了，先保存的是 A 栈帧的栈底位置，也就是 EBP。因为在 B 函数里面获取 A 传进来的参数，就是通过这个指针获取的，接下来保存的是 B 的局部变量等等。<br>
+.<br>
+当 B 返回的时候，返回值会保存在 EAX 寄存器中，从栈中弹出返回地址，将指令跳转回去，参数也从栈中弹出，然后继续执行 A。</p>
+</blockquote>
+<p><strong>2、 64位系统</strong><br>
+<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zdGF0aWMwMDEuZ2Vla2Jhbmcub3JnL3Jlc291cmNlL2ltYWdlLzc3L2MwLzc3MGIwMDM2YThiMjY5NTQ2M2NkOTU4NjlmNWFkZWMwLmpwZw?x-oss-process=image/format,png" alt></p>
+<blockquote>
+<p>64 位操作系统的寄存器数目比较多。rax 用于保存函数调用的返回结果。栈顶指针寄存器变成了 rsp，指向栈顶位置。堆栈的 Pop 和 Push 操作会自动调整 rsp，栈基指针寄存器变成了 rbp，指向当前栈帧的起始位置。<br>
+.<br>
+改变比较多的是参数传递。rdi、rsi、rdx、rcx、r8、r9 这 6 个寄存器，用于传递存储函数调用时的 6 个参数。如果超过 6 的时候，还是需要放到栈里面。<br>
+.<br>
+然而，前 6 个参数有时候需要进行寻址，但是如果在寄存器里面，是没有地址的，因而还是会放到栈里面，只不过放到栈里面的操作是被调用函数做的。</p>
+</blockquote>
+<h3 id="内核态函数栈">内核态函数栈</h3>
+<p><strong>0、 函数栈模型</strong><br>
+进程通过函数调用进入内核态，内核中也有函数调用，也有一个内核栈。<br>
+<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zdGF0aWMwMDEuZ2Vla2Jhbmcub3JnL3Jlc291cmNlL2ltYWdlLzMxLzJkLzMxZDE1YmNkMmEwNTMyMzViNTU5MDk3N2QxMmZmYTJkLmpwZWc?x-oss-process=image/format,png" alt></p>
+<p><em>ps: 在<code>arch/x86/include/asm/page_32_types.h</code>或者<code>arch/x86/include/asm/page_64_types.h</code>定义了内核栈大小<code>THREAD_SIZE</code>。</em></p>
+<ul>
+<li>thread_info结构是对 task_struct 结构的补充，往往与体系结构有关的，都放在 thread_info 里面。</li>
+<li>在内核代码里面有这样一个 union，将 thread_info 和 stack 放在一起，在<code>include/linux/sched.h</code>文件中就有。</li>
+<li>pt_regs结构，在系统从用户态切换到内核态的时候，将用户态上下文信息保存到这里。在32系统和64系统中的定义不一样。</li>
+</ul>
+<p><strong>1、 通过 task_struct 找内核栈</strong></p>
+<p><strong>2、 通过内核栈找 task_struct</strong></p>
+<h3 id="参考资料">参考资料</h3>
+<blockquote>
+<ul>
+<li><a href="https://time.geekbang.org/column/article/93014" rel="external nofollow noopener noreferrer" target="_blank">极客时间专栏 - 进程数据结构（下）：项目多了就需要项目管理系统</a></li>
+</ul>
+</blockquote>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+    
+        <a href="/wiki/计算机基础/开发平台/Linux系统学习/10 进程数据结构task_struct/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">10 进程数据结构task_struct</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            hinzer &copy; 2020 
+            <a rel="external nofollow noopener noreferrer" href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme - <a href="https://github.com/zthxxx/hexo-theme-Wikitten" rel="external nofollow noopener noreferrer" target="_blank">wikitten</a>
+            
+                <br><span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i><span id="busuanzi_value_site_pv"></span></span> | 
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"><span id="busuanzi_value_site_uv"></span></i></span>
+            
+        </div>
+    </div>
+</footer>
+        
+
+    
+        <script src="/wiki/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/wiki/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/wiki/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/wiki/js/main.js"></script>
+
+    </div>
+</body>
