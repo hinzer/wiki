@@ -6,11 +6,11 @@
     <title>08 Android-bp条件编译 | hinzer&#39;s Wiki</title>
     
     
-        <meta name="keywords" content="record,Android">
+        <meta name="keywords" content="Android,record">
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="基本概念 1、 背景 条件编译为我们提供了一种一套代码兼容多个版本的解决方案，提高代码的复用率。 在Android7.0之前使用的是Makefle编译，makefile语法支持条件编译，配置到Android.mk文件。 在那以后，开始使用Ninja编译框架，只需要我们配置Android.bp文件，但是bp文件就是一个配置文件，不支持条件编译。 但条件编译又是强需求，所以 google 还是提供了一">
-<meta name="keywords" content="record,Android">
+<meta name="keywords" content="Android,record">
 <meta property="og:type" content="article">
 <meta property="og:title" content="08 Android-bp条件编译">
 <meta property="og:url" content="https://hinzer.github.io/wiki/计算机基础/开发平台/Android系统开发/08 Android-bp条件编译/index.html">
@@ -174,7 +174,7 @@
                             &nbsp;
                             测试方法
                         </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/测试方法/bugreport/">bugreport</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/ctags/">ctags</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/如何编写一个好的测试用例/">理解测试用例</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/logcat/">bugreport</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/理解单元测试/">理解单元测试</a></li>  </ul> 
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/技术开发/测试方法/bugreport/">bugreport</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/ctags/">ctags</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/logcat/">bugreport</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/如何编写一个好的测试用例/">理解测试用例</a></li>  <li class="file"><a href="/wiki/技术开发/测试方法/理解单元测试/">理解单元测试</a></li>  </ul> 
                     </li> 
                     
                     <li class="directory">
@@ -244,7 +244,7 @@
                             &nbsp;
                             Android系统开发
                         </a>
-                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/00 配置开发环境/">00 配置开发环境</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/02 添加系统属性/">02 添加系统属性</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/03 添加自定义模块/">03 添加自定义模块</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/04 添加预编译模块/">04 添加预定义模块</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/05 删除Android原生内置APK/">05 删除android内置apk</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/06 添加java层系统服务/">06 添加java层系统服务</a></li>  <li class="file active"><a href="/wiki/计算机基础/开发平台/Android系统开发/08 Android-bp条件编译/">08 Android-bp条件编译</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/07 编译android goldfish内核(x86_64)/">07 编译android kernel</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/01 添加Product/">01 添加Product</a></li>  </ul> 
+                         <ul class="unstyled" id="tree">  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/00 配置开发环境/">00 配置开发环境</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/01 添加Product/">01 添加Product</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/02 添加系统属性/">02 添加系统属性</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/03 添加自定义模块/">03 添加自定义模块</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/04 添加预编译模块/">04 添加预定义模块</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/05 删除Android原生内置APK/">05 删除android内置apk</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/07 编译android goldfish内核(x86_64)/">07 编译android kernel</a></li>  <li class="file active"><a href="/wiki/计算机基础/开发平台/Android系统开发/08 Android-bp条件编译/">08 Android-bp条件编译</a></li>  <li class="file"><a href="/wiki/计算机基础/开发平台/Android系统开发/06 添加java层系统服务/">06 添加java层系统服务</a></li>  </ul> 
                     </li> 
                     
                     <li class="directory">

@@ -176,9 +176,9 @@
       <category term="Android系统开发" scheme="https://hinzer.github.io/wiki/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0/Android%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/"/>
     
     
-      <category term="record" scheme="https://hinzer.github.io/wiki/tags/record/"/>
-    
       <category term="Android" scheme="https://hinzer.github.io/wiki/tags/Android/"/>
+    
+      <category term="record" scheme="https://hinzer.github.io/wiki/tags/record/"/>
     
   </entry>
   
@@ -308,9 +308,9 @@
       <category term="Android系统开发" scheme="https://hinzer.github.io/wiki/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0/Android%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/"/>
     
     
-      <category term="record" scheme="https://hinzer.github.io/wiki/tags/record/"/>
-    
       <category term="Android" scheme="https://hinzer.github.io/wiki/tags/Android/"/>
+    
+      <category term="record" scheme="https://hinzer.github.io/wiki/tags/record/"/>
     
   </entry>
   
@@ -377,9 +377,9 @@
       <category term="Android系统开发" scheme="https://hinzer.github.io/wiki/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0/Android%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/"/>
     
     
-      <category term="record" scheme="https://hinzer.github.io/wiki/tags/record/"/>
-    
       <category term="Android" scheme="https://hinzer.github.io/wiki/tags/Android/"/>
+    
+      <category term="record" scheme="https://hinzer.github.io/wiki/tags/record/"/>
     
   </entry>
   
@@ -411,9 +411,9 @@
       <category term="Android系统开发" scheme="https://hinzer.github.io/wiki/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0/Android%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/"/>
     
     
-      <category term="record" scheme="https://hinzer.github.io/wiki/tags/record/"/>
-    
       <category term="Android" scheme="https://hinzer.github.io/wiki/tags/Android/"/>
+    
+      <category term="record" scheme="https://hinzer.github.io/wiki/tags/record/"/>
     
   </entry>
   
@@ -446,9 +446,9 @@
       <category term="Android系统开发" scheme="https://hinzer.github.io/wiki/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0/Android%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/"/>
     
     
-      <category term="record" scheme="https://hinzer.github.io/wiki/tags/record/"/>
-    
       <category term="Android" scheme="https://hinzer.github.io/wiki/tags/Android/"/>
+    
+      <category term="record" scheme="https://hinzer.github.io/wiki/tags/record/"/>
     
   </entry>
   
@@ -478,42 +478,9 @@
       <category term="Android系统开发" scheme="https://hinzer.github.io/wiki/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0/Android%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/"/>
     
     
-      <category term="record" scheme="https://hinzer.github.io/wiki/tags/record/"/>
-    
       <category term="Android" scheme="https://hinzer.github.io/wiki/tags/Android/"/>
     
-  </entry>
-  
-  <entry>
-    <title>02 添加系统属性</title>
-    <link href="https://hinzer.github.io/wiki/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0/Android%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/02%20%E6%B7%BB%E5%8A%A0%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7/"/>
-    <id>https://hinzer.github.io/wiki/计算机基础/开发平台/Android系统开发/02 添加系统属性/</id>
-    <published>2020-04-05T00:03:10.000Z</published>
-    <updated>2020-04-05T00:25:13.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="理解概念">理解概念</h3><p>1、基本描述<br>系统属性可以简单的理解为系统层级的全局变量，以<code>key-value</code>的形式保存， <code>key-value</code> 都是字符串。这些属性可能是有些资源的使用状态，进程的执行状态，系统的特有属性等。</p><p>2、命名规则<br>几种特殊前缀的属性</p><ul><li>ro ：只读属性，不能修改。</li><li>persist ：修改属性后，重启依然有效。数据会保存到 /data/property 目录。其他前缀的属性被设置后，只是保存在内在中而已，并没有保存到磁盘，所以重启后就恢复默认值了。</li><li>ctrl ：用来启动和停止服务。每一项服务必须在 init.rc 中定义。init 一旦收到设置 ctrl.start 属性的请求，属性服务将使用该属性值作为服务名找到该服务，启动该服务。这项服务的启动结果将会放入 init.svc.&lt;服务名&gt; 属性中。</li></ul><p>3、读写方法<br>在 Android 系统中有一个 Property Service 服务， 这个服务对外提供了两个接口：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SystemProperties.get(String key, String def) <span class="comment"># 读取系统属性</span></span><br><span class="line">SystemProperties.set(String key, String val) <span class="comment"># 设置系统属性</span></span><br></pre></td></tr></table></figure><p>有两个命令行对这两个接口进行了封装，我们可以直接在adb shell 中输入：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">getprop key <span class="comment"># 读取系统属性</span></span><br><span class="line">setprop key val <span class="comment"># 设置系统属性</span></span><br></pre></td></tr></table></figure><p>4、组织结构<br>系统启动的时候会从几个配置文件中加载属性的默认值，大概有以下几个文件， 在不同<code>Android版本系统</code>上可能不一样：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/default.prop 或者是 /prop.default，</span><br><span class="line">/vendor/default.prop</span><br><span class="line">/system/build.prop</span><br><span class="line">/vendor/build.prop</span><br><span class="line">/data/local.prop</span><br><span class="line">/data/property/*</span><br></pre></td></tr></table></figure><p>系统会按先后顺序依次加载以上文件，后加载的属性将覆盖原先的值。<br>default.prop 的值是通过 build/tools 目录下的 <a href="http://buildinfo.sh" rel="external nofollow noopener noreferrer" target="_blank">buildinfo.sh</a> 和 vendor_buildinfo.sh 生成的。</p><h3 id="源码中添加系统属性定义">源码中添加系统属性定义</h3><p>在我们之前配置的product中添加自定义属性,在源码根目录<code>device/mi/pure</code>下,对应Build规则在<code>build/make/core/Makefile</code>,编译后输出到<code>out/target/product/pure</code>下，最终随系统启动加载对应的文件。<br>下面记录了添加属性过程<br>1、添加到<code>/system/build.prop</code></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">hinzer@ubuntu:pure$ pwd</span><br><span class="line">/home/hinzer/source/android-10/device/mi/pure</span><br><span class="line">hinzer@ubuntu:pure$ cat system.prop</span><br><span class="line">ro.pure.version=1.0 # 定义属性</span><br><span class="line">hinzer@ubuntu:pure$ cat BoardConfig.mk</span><br><span class="line">include $(SRC_TARGET_DIR)/board/generic_x86_64/BoardConfig.mk</span><br><span class="line"></span><br><span class="line">TARGET_SYSTEM_PROP += device/mi/pure/system.prop   # 添加到 TARGET_SYSTEM_PROP 变量</span><br></pre></td></tr></table></figure><p>2、添加到<code>/vendor/build.prop</code></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">hinzer@ubuntu:pure$ pwd</span><br><span class="line">/home/hinzer/source/android-10/device/mi/pure</span><br><span class="line">hinzer@ubuntu:pure$ cat product01.mk</span><br><span class="line">$(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_x86_64.mk)</span><br><span class="line"></span><br><span class="line">PRODUCT_NAME   := product01 # product名(与文件保持一致)</span><br><span class="line">PRODUCT_DEVICE := pure      # device名，BoardConfig.mk相关</span><br><span class="line"></span><br><span class="line"># 配置属性</span><br><span class="line">PRODUCT_PROPERTY_OVERRIDES += \</span><br><span class="line">    ro.vendor.pure.name=qiushao \</span><br><span class="line">    persist.vendor.pure.name=qiushao \</span><br><span class="line">    vendor.pure.name=qiushao</span><br></pre></td></tr></table></figure><h3 id="编译">编译</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hinzer@ubuntu:android-10$ <span class="built_in">source</span> ./build/envsetup.sh</span><br><span class="line">hinzer@ubuntu:android-10$ lunch product01-eng</span><br><span class="line">hinzer@ubuntu:android-10$ make -j4</span><br></pre></td></tr></table></figure><h3 id="验证">验证</h3><p>1、查看<code>out/target</code>目录</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 验证 `/system/build.prop`</span><br><span class="line">hinzer@ubuntu:android-10$ cat out/target/product/pure/system/build.prop  | grep ro.pure</span><br><span class="line">ro.pure.version=1.0</span><br><span class="line"></span><br><span class="line"># 验证 `/vendor/build.prop`</span><br><span class="line">hinzer@ubuntu:android-10$ cat out/target/product/pure/vendor/build.prop | grep pure.name</span><br><span class="line">ro.vendor.pure.name=qiushao</span><br><span class="line">persist.vendor.pure.name=qiushao</span><br><span class="line">vendor.pure.name=qiushao</span><br></pre></td></tr></table></figure><p>2、启动虚拟机系统查看属性</p><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:android-</span><span class="number">10</span><span class="variable">$ </span>emulator</span><br><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:android-</span><span class="number">10</span><span class="variable">$ </span>adb devices</span><br><span class="line">List of devices attached</span><br><span class="line">emulator<span class="number">-5554</span>device</span><br><span class="line"></span><br><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:android-</span><span class="number">10</span><span class="variable">$ </span>adb reboot  <span class="comment"># 重启一下，重置系统属性</span></span><br><span class="line"></span><br><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:android-</span><span class="number">10</span><span class="variable">$ </span>adb shell getprop ro.pure.version</span><br><span class="line"><span class="number">1.0</span></span><br><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:android-</span><span class="number">10</span><span class="variable">$ </span>adb shell getprop ro.vendor.pure.name</span><br><span class="line">qiushao</span><br><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:android-</span><span class="number">10</span><span class="variable">$ </span>adb shell getprop persist.vendor.pure.name </span><br><span class="line">qiushao</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只读属性不可改</span></span><br><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:android-</span><span class="number">10</span><span class="variable">$ </span>adb shell getprop ro.vendor.pure.name</span><br><span class="line">qiushao</span><br><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:android-</span><span class="number">10</span><span class="variable">$ </span>adb shell setprop ro.vendor.pure.name hinzer</span><br><span class="line"><span class="symbol">setprop:</span> failed to set property <span class="string">'ro.vendor.pure.name'</span> to <span class="string">'hinzer'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改属性，重启后恢复原属性值</span></span><br><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:android-</span><span class="number">10</span><span class="variable">$ </span>adb shell setprop persist.vendor.pure.name hinzer</span><br><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:android-</span><span class="number">10</span><span class="variable">$ </span>adb shell getprop persist.vendor.pure.name </span><br><span class="line">hinzer</span><br></pre></td></tr></table></figure><h3 id="参考资料">参考资料</h3><blockquote><ul><li><a href="http://qiushao.net/2019/11/20/Android%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E5%85%A5%E9%97%A8/3-%E6%B7%BB%E5%8A%A0%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7/" rel="external nofollow noopener noreferrer" target="_blank">Android系统开发入门-3.添加系统属性</a></li></ul></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;理解概念&quot;&gt;理解概念&lt;/h3&gt;
-&lt;p&gt;1、基本描述&lt;br&gt;
-系统属性可以简单的理解为系统层级的全局变量，以&lt;code&gt;key-value&lt;/code&gt;的形式保存， &lt;code&gt;key-value&lt;/code&gt; 都是字符串。这些属性可能是有些资源的使用状态，进程的执
-      
-    
-    </summary>
-    
-      <category term="计算机基础" scheme="https://hinzer.github.io/wiki/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/"/>
-    
-      <category term="开发平台" scheme="https://hinzer.github.io/wiki/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0/"/>
-    
-      <category term="Android系统开发" scheme="https://hinzer.github.io/wiki/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0/Android%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/"/>
-    
-    
       <category term="record" scheme="https://hinzer.github.io/wiki/tags/record/"/>
-    
-      <category term="Android" scheme="https://hinzer.github.io/wiki/tags/Android/"/>
     
   </entry>
   
@@ -544,9 +511,42 @@
       <category term="Android系统开发" scheme="https://hinzer.github.io/wiki/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0/Android%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/"/>
     
     
+      <category term="Android" scheme="https://hinzer.github.io/wiki/tags/Android/"/>
+    
       <category term="record" scheme="https://hinzer.github.io/wiki/tags/record/"/>
     
+  </entry>
+  
+  <entry>
+    <title>02 添加系统属性</title>
+    <link href="https://hinzer.github.io/wiki/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0/Android%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/02%20%E6%B7%BB%E5%8A%A0%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7/"/>
+    <id>https://hinzer.github.io/wiki/计算机基础/开发平台/Android系统开发/02 添加系统属性/</id>
+    <published>2020-04-05T00:03:10.000Z</published>
+    <updated>2020-04-05T00:25:13.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="理解概念">理解概念</h3><p>1、基本描述<br>系统属性可以简单的理解为系统层级的全局变量，以<code>key-value</code>的形式保存， <code>key-value</code> 都是字符串。这些属性可能是有些资源的使用状态，进程的执行状态，系统的特有属性等。</p><p>2、命名规则<br>几种特殊前缀的属性</p><ul><li>ro ：只读属性，不能修改。</li><li>persist ：修改属性后，重启依然有效。数据会保存到 /data/property 目录。其他前缀的属性被设置后，只是保存在内在中而已，并没有保存到磁盘，所以重启后就恢复默认值了。</li><li>ctrl ：用来启动和停止服务。每一项服务必须在 init.rc 中定义。init 一旦收到设置 ctrl.start 属性的请求，属性服务将使用该属性值作为服务名找到该服务，启动该服务。这项服务的启动结果将会放入 init.svc.&lt;服务名&gt; 属性中。</li></ul><p>3、读写方法<br>在 Android 系统中有一个 Property Service 服务， 这个服务对外提供了两个接口：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SystemProperties.get(String key, String def) <span class="comment"># 读取系统属性</span></span><br><span class="line">SystemProperties.set(String key, String val) <span class="comment"># 设置系统属性</span></span><br></pre></td></tr></table></figure><p>有两个命令行对这两个接口进行了封装，我们可以直接在adb shell 中输入：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">getprop key <span class="comment"># 读取系统属性</span></span><br><span class="line">setprop key val <span class="comment"># 设置系统属性</span></span><br></pre></td></tr></table></figure><p>4、组织结构<br>系统启动的时候会从几个配置文件中加载属性的默认值，大概有以下几个文件， 在不同<code>Android版本系统</code>上可能不一样：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/default.prop 或者是 /prop.default，</span><br><span class="line">/vendor/default.prop</span><br><span class="line">/system/build.prop</span><br><span class="line">/vendor/build.prop</span><br><span class="line">/data/local.prop</span><br><span class="line">/data/property/*</span><br></pre></td></tr></table></figure><p>系统会按先后顺序依次加载以上文件，后加载的属性将覆盖原先的值。<br>default.prop 的值是通过 build/tools 目录下的 <a href="http://buildinfo.sh" rel="external nofollow noopener noreferrer" target="_blank">buildinfo.sh</a> 和 vendor_buildinfo.sh 生成的。</p><h3 id="源码中添加系统属性定义">源码中添加系统属性定义</h3><p>在我们之前配置的product中添加自定义属性,在源码根目录<code>device/mi/pure</code>下,对应Build规则在<code>build/make/core/Makefile</code>,编译后输出到<code>out/target/product/pure</code>下，最终随系统启动加载对应的文件。<br>下面记录了添加属性过程<br>1、添加到<code>/system/build.prop</code></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">hinzer@ubuntu:pure$ pwd</span><br><span class="line">/home/hinzer/source/android-10/device/mi/pure</span><br><span class="line">hinzer@ubuntu:pure$ cat system.prop</span><br><span class="line">ro.pure.version=1.0 # 定义属性</span><br><span class="line">hinzer@ubuntu:pure$ cat BoardConfig.mk</span><br><span class="line">include $(SRC_TARGET_DIR)/board/generic_x86_64/BoardConfig.mk</span><br><span class="line"></span><br><span class="line">TARGET_SYSTEM_PROP += device/mi/pure/system.prop   # 添加到 TARGET_SYSTEM_PROP 变量</span><br></pre></td></tr></table></figure><p>2、添加到<code>/vendor/build.prop</code></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">hinzer@ubuntu:pure$ pwd</span><br><span class="line">/home/hinzer/source/android-10/device/mi/pure</span><br><span class="line">hinzer@ubuntu:pure$ cat product01.mk</span><br><span class="line">$(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_x86_64.mk)</span><br><span class="line"></span><br><span class="line">PRODUCT_NAME   := product01 # product名(与文件保持一致)</span><br><span class="line">PRODUCT_DEVICE := pure      # device名，BoardConfig.mk相关</span><br><span class="line"></span><br><span class="line"># 配置属性</span><br><span class="line">PRODUCT_PROPERTY_OVERRIDES += \</span><br><span class="line">    ro.vendor.pure.name=qiushao \</span><br><span class="line">    persist.vendor.pure.name=qiushao \</span><br><span class="line">    vendor.pure.name=qiushao</span><br></pre></td></tr></table></figure><h3 id="编译">编译</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hinzer@ubuntu:android-10$ <span class="built_in">source</span> ./build/envsetup.sh</span><br><span class="line">hinzer@ubuntu:android-10$ lunch product01-eng</span><br><span class="line">hinzer@ubuntu:android-10$ make -j4</span><br></pre></td></tr></table></figure><h3 id="验证">验证</h3><p>1、查看<code>out/target</code>目录</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 验证 `/system/build.prop`</span><br><span class="line">hinzer@ubuntu:android-10$ cat out/target/product/pure/system/build.prop  | grep ro.pure</span><br><span class="line">ro.pure.version=1.0</span><br><span class="line"></span><br><span class="line"># 验证 `/vendor/build.prop`</span><br><span class="line">hinzer@ubuntu:android-10$ cat out/target/product/pure/vendor/build.prop | grep pure.name</span><br><span class="line">ro.vendor.pure.name=qiushao</span><br><span class="line">persist.vendor.pure.name=qiushao</span><br><span class="line">vendor.pure.name=qiushao</span><br></pre></td></tr></table></figure><p>2、启动虚拟机系统查看属性</p><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:android-</span><span class="number">10</span><span class="variable">$ </span>emulator</span><br><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:android-</span><span class="number">10</span><span class="variable">$ </span>adb devices</span><br><span class="line">List of devices attached</span><br><span class="line">emulator<span class="number">-5554</span>device</span><br><span class="line"></span><br><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:android-</span><span class="number">10</span><span class="variable">$ </span>adb reboot  <span class="comment"># 重启一下，重置系统属性</span></span><br><span class="line"></span><br><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:android-</span><span class="number">10</span><span class="variable">$ </span>adb shell getprop ro.pure.version</span><br><span class="line"><span class="number">1.0</span></span><br><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:android-</span><span class="number">10</span><span class="variable">$ </span>adb shell getprop ro.vendor.pure.name</span><br><span class="line">qiushao</span><br><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:android-</span><span class="number">10</span><span class="variable">$ </span>adb shell getprop persist.vendor.pure.name </span><br><span class="line">qiushao</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只读属性不可改</span></span><br><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:android-</span><span class="number">10</span><span class="variable">$ </span>adb shell getprop ro.vendor.pure.name</span><br><span class="line">qiushao</span><br><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:android-</span><span class="number">10</span><span class="variable">$ </span>adb shell setprop ro.vendor.pure.name hinzer</span><br><span class="line"><span class="symbol">setprop:</span> failed to set property <span class="string">'ro.vendor.pure.name'</span> to <span class="string">'hinzer'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改属性，重启后恢复原属性值</span></span><br><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:android-</span><span class="number">10</span><span class="variable">$ </span>adb shell setprop persist.vendor.pure.name hinzer</span><br><span class="line">hinzer<span class="variable">@ubuntu</span><span class="symbol">:android-</span><span class="number">10</span><span class="variable">$ </span>adb shell getprop persist.vendor.pure.name </span><br><span class="line">hinzer</span><br></pre></td></tr></table></figure><h3 id="参考资料">参考资料</h3><blockquote><ul><li><a href="http://qiushao.net/2019/11/20/Android%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E5%85%A5%E9%97%A8/3-%E6%B7%BB%E5%8A%A0%E7%B3%BB%E7%BB%9F%E5%B1%9E%E6%80%A7/" rel="external nofollow noopener noreferrer" target="_blank">Android系统开发入门-3.添加系统属性</a></li></ul></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;理解概念&quot;&gt;理解概念&lt;/h3&gt;
+&lt;p&gt;1、基本描述&lt;br&gt;
+系统属性可以简单的理解为系统层级的全局变量，以&lt;code&gt;key-value&lt;/code&gt;的形式保存， &lt;code&gt;key-value&lt;/code&gt; 都是字符串。这些属性可能是有些资源的使用状态，进程的执
+      
+    
+    </summary>
+    
+      <category term="计算机基础" scheme="https://hinzer.github.io/wiki/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/"/>
+    
+      <category term="开发平台" scheme="https://hinzer.github.io/wiki/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0/"/>
+    
+      <category term="Android系统开发" scheme="https://hinzer.github.io/wiki/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0/Android%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/"/>
+    
+    
       <category term="Android" scheme="https://hinzer.github.io/wiki/tags/Android/"/>
+    
+      <category term="record" scheme="https://hinzer.github.io/wiki/tags/record/"/>
     
   </entry>
   
@@ -576,9 +576,9 @@
       <category term="Android系统开发" scheme="https://hinzer.github.io/wiki/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0/Android%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91/"/>
     
     
-      <category term="record" scheme="https://hinzer.github.io/wiki/tags/record/"/>
-    
       <category term="Android" scheme="https://hinzer.github.io/wiki/tags/Android/"/>
+    
+      <category term="record" scheme="https://hinzer.github.io/wiki/tags/record/"/>
     
   </entry>
   
@@ -648,21 +648,22 @@ Linux系统上所有的操作由&lt;code&gt;进程&lt;/code&gt;完成，&lt;code
   </entry>
   
   <entry>
-    <title>理解测试用例</title>
-    <link href="https://hinzer.github.io/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99%E4%B8%80%E4%B8%AA%E5%A5%BD%E7%9A%84%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B/"/>
-    <id>https://hinzer.github.io/wiki/技术开发/测试方法/如何编写一个好的测试用例/</id>
+    <title>bugreport</title>
+    <link href="https://hinzer.github.io/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/logcat/"/>
+    <id>https://hinzer.github.io/wiki/技术开发/测试方法/logcat/</id>
     <published>2020-03-28T00:28:37.000Z</published>
-    <updated>2020-03-29T03:38:59.625Z</updated>
+    <updated>2020-03-29T03:38:51.822Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="测试用例设计过程">测试用例设计过程</h3><p>以“用户登录”功能的测试用例设计为例，画了一张图来帮你理清这些概念之间的映射关系。图中的业务需求到软件功能需求、软件功能需求到测试需求，以及测试需求到测试用例的映射关系，<br><img src="https://static001.geekbang.org/resource/image/f1/f7/f1adcc92da9091037ccc022f29911ef7.png" alt="测试用例设计过程"></p><h3 id="什么才算是“好的”测试用例？">什么才算是“好的”测试用例？</h3><p>测试用例的好坏与被测试对象的测试结果无关，好的测试用例必须具备</p><ul><li><code>整体完备性</code>： “好的”测试用例一定是一个完备的整体，是有效测试用例组成的集合，能够完全覆盖测试需求。</li><li><code>等价类划分的准确性</code>： 指的是对于每个等价类都能保证只要其中一个输入测试通过，其他输入也一定测试通过。</li><li><code>等价类集合的完备性</code>： 需要保证所有可能的边界值和边界条件都已经正确识别。</li></ul><h3 id="三种最常用的测试用例设计方法">三种最常用的测试用例设计方法</h3><p>1、等价类划分方法<br>我们只要从每个等价类中任意选取一个值进行测试，就可以用少量具有代表性的测试输入取得较好的测试覆盖结果。<br>一个具体的例子</p><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">学生信息系统中有一个“考试成绩”的输入项，成绩的取值范围是 <span class="number">0</span>~<span class="number">100</span> 之间的整数，考试成绩及格的分数线是 <span class="number">60</span>。</span><br></pre></td></tr></table></figure><p>最终测试用例为</p><ul><li>有效等价类 1：0~59 之间的任意整数；</li><li>有效等价类 2：59~100 之间的任意整数；</li><li>无效等价类 1：小于 0 的负数；</li><li>无效等价类 2：大于 100 的整数；</li><li>无效等价类 3：0~100 之间的任何浮点数；</li><li>无效等价类 4：其他任意非数字字符。</li></ul><p>2、边界值分析方法<br>边界值分析是对等价类划分的补充，你从工程实践经验中可以发现，大量的错误发生在输入输出的边界值上，所以需要对边界值进行重点测试，通常选取正好等于、刚刚大于或刚刚小于边界的值作为测试数据。<br>我们继续看学生信息系统中“考试成绩”的例子，选取的边界值数据应该包括：<br><code>-1，0，1，59，60，61，99，100，101</code>。</p><p>3、错误推测方法<br>错误推测方法是指基于对被测试软件系统设计的理解、过往经验以及个人直觉，推测出软件可能存在的缺陷，从而有针对性地设计测试用例的方法。这个方法强调的是对被测试软件的需求理解以及设计实现的细节把握，当然还有个人的能力。</p><h3 id="如何才能设计出“好的”测试用例？">如何才能设计出“好的”测试用例？</h3><p><a href="(https://time.geekbang.org/column/article/10150)">查看原文</a></p><h3 id="总结">总结</h3><p>首先，理解测试用例是一个完备的集合，好的测试用例从原始业务需求出发进行分析设计。其次，理解三种常用的测试用例设计方法<code>等价类划分方法</code>、<code>边界值分析方法</code>、<code>边界值分析方法</code></p><h3 id="参考">参考</h3><blockquote><ul><li><a href="https://time.geekbang.org/column/article/10150" rel="external nofollow noopener noreferrer" target="_blank">如何设计一个“好的”测试用例？</a></li></ul></blockquote>]]></content>
+    <content type="html"><![CDATA[<h3 id="理解">理解</h3><p>logcat是抓log的工具，从android logging系统抓取日志。</p><p>1、logcat相关目录</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">代码位置：`/system/core/logcat/`</span><br><span class="line">编译生成的可执行文件位于：`out/target/product/umi/system/bin/logcat`(umi是产品名)</span><br><span class="line">对应到设备端的可执行文件：`/system/bin/logcat`</span><br></pre></td></tr></table></figure><p>2、日志缓冲区</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">radio：查看包含无线装置/电话相关消息的缓冲区。</span><br><span class="line">events：查看已经过解译的二进制系统事件缓冲区消息。</span><br><span class="line">main：查看主日志缓冲区（默认），不包含系统和崩溃日志消息。</span><br><span class="line">system：查看系统日志缓冲区（默认）。</span><br><span class="line">crash：查看崩溃日志缓冲区（默认）。</span><br><span class="line">all：查看所有缓冲区。</span><br><span class="line">default：报告 main、system 和 crash 缓冲区。</span><br></pre></td></tr></table></figure><h3 id="使用规范">使用规范</h3><p>1、<a href="https://developer.android.com/studio/command-line/logcat?hl=zh-cn#filteringOutput" rel="external nofollow noopener noreferrer" target="_blank">过滤日志输出</a></p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># tag:priority  标记:优先级</span></span><br><span class="line">$ adb shell logcat ActivityManager:I MyApp:D *:S</span><br></pre></td></tr></table></figure><p>2、<a href="https://developer.android.com/studio/command-line/logcat?hl=zh-cn#outputFormat" rel="external nofollow noopener noreferrer" target="_blank">控制日志输出格式</a></p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -v &lt;format&gt;</span></span><br><span class="line">$ adb shell logcat -v thread</span><br></pre></td></tr></table></figure><p>3、<a href="https://developer.android.com/studio/command-line/logcat?hl=zh-cn#alternativeBuffers" rel="external nofollow noopener noreferrer" target="_blank">查看备用日志缓冲区</a></p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -b &lt;buffer&gt;</span></span><br><span class="line">$ adb shell logcat -b radio</span><br></pre></td></tr></table></figure><h3 id="命令速查">命令速查</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取help</span></span><br><span class="line">$ adb shell logcat --<span class="built_in">help</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查log</span></span><br><span class="line">$ adb shell logcat -b system &gt; logSystem.txt  <span class="comment">#查询此时system的日志，并且保存在logSystem.txt的文件中</span></span><br><span class="line">^C</span><br></pre></td></tr></table></figure><h3 id="参考链接">参考链接</h3><blockquote><ul><li><a href="https://developer.android.com/studio/command-line/logcat?hl=zh-cn" rel="external nofollow noopener noreferrer" target="_blank">Logcat 命令行工具</a></li><li><a href="https://wiki.n.miui.com/pages/viewpage.action?pageId=181967386" rel="external nofollow noopener noreferrer" target="_blank">Android Log机制、Logcat及MIUI 284日志介绍</a></li></ul></blockquote>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;h3 id=&quot;测试用例设计过程&quot;&gt;测试用例设计过程&lt;/h3&gt;
-&lt;p&gt;以“用户登录”功能的测试用例设计为例，画了一张图来帮你理清这些概念之间的映射关系。图中的业务需求到软件功能需求、软件功能需求到测试需求，以及测试需求到测试用例的映射关系，&lt;br&gt;
-&lt;img src=&quot;https
+        &lt;h3 id=&quot;理解&quot;&gt;理解&lt;/h3&gt;
+&lt;p&gt;logcat是抓log的工具，从android logging系统抓取日志。&lt;/p&gt;
+&lt;p&gt;1、logcat相关目录&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;
       
     
     </summary>
@@ -672,9 +673,9 @@ Linux系统上所有的操作由&lt;code&gt;进程&lt;/code&gt;完成，&lt;code
       <category term="测试方法" scheme="https://hinzer.github.io/wiki/categories/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/"/>
     
     
-      <category term="代码测试" scheme="https://hinzer.github.io/wiki/tags/%E4%BB%A3%E7%A0%81%E6%B5%8B%E8%AF%95/"/>
+      <category term="Android" scheme="https://hinzer.github.io/wiki/tags/Android/"/>
     
-      <category term="笔记" scheme="https://hinzer.github.io/wiki/tags/%E7%AC%94%E8%AE%B0/"/>
+      <category term="Log" scheme="https://hinzer.github.io/wiki/tags/Log/"/>
     
   </entry>
   
